@@ -1,63 +1,13 @@
-# OLFACULATOR website setup
+# OLFACULATOR Mobile-ready project
 
-OLFACULATOR opens directly into the fragrance workspace. Visitors can browse the note database, build Fragrance A and B, mix and match profiles, and calculate compatibility scores without signing in.
+## Deploy
+Upload the contents of this folder to the root of your GitHub repository, preserving the `icons/` folder. Vercel should deploy from the same root.
 
-## Current interface
+## Add to Home Screen
+- **iPhone/iPad:** Open the deployed HTTPS website in Safari, tap Share, then choose **Add to Home Screen**. iOS uses `icons/apple-touch-icon.png` for the installed icon.
+- **Android:** Open the deployed HTTPS website in Chrome and use **Install app** or **Add to Home screen** from the browser menu. Android uses `manifest.webmanifest` and the 192px/512px icons.
 
-- The masthead is a slim, modern banner with the centered OLFACULATOR wordmark. Workspace and account controls remain inside the banner.
-- On desktop, the Note Database rail starts below the masthead and can scroll independently when its content needs more room. The Compatibility Score rail also starts below the masthead, has no internal scrollbar, and keeps the live score, tier, metrics, and **Save this combination and score** button visible together. The bottom-right Theme selector has its own reserved space and will not cover the save button.
-- On smaller screens, both side panels return to normal page flow instead of floating over the masthead or the fragrance workspace.
-- **About** opens one dismissible dialog containing the rationale for subjective note selection and practical layering guidance. Close it with the X, click outside the dialog, or press Escape.
-- **My Library** opens a searchable list of named fragrances. Each fragrance can be dragged onto Fragrance A or B, or loaded with its button.
-- **My Combinations** opens a separate area containing named fragrance pairs, their compatibility scores, and tiers. The collection is sorted by score, highest first.
-- Each saved fragrance stores its note colours in the profile JSON. Loading a fragrance restores those colours. Saved combinations also include both complete fragrance profiles, including their colour maps.
-- Closing buttons use a fixed-size, centered SVG cross so the glyph stays centered regardless of font metrics.
+The web app manifest sets `display: standalone`. A service worker provides a small offline shell and uses network-first navigation so updated deployments are picked up promptly.
 
-## Guest access and account-only areas
-
-- Guests can browse the note database, build profiles, and calculate live compatibility scores without signing in.
-- Saving fragrances or combinations, and opening the private collection panels, requires an account.
-- Saving while signed out opens the sign-in/register dialog. After authentication, the pending save resumes.
-- There is no guest/local persistence for fragrances or combinations. Guest selections remain only in the open browser session.
-
-## Enable real accounts and cloud saving
-
-1. The delivered `index.html` is already configured with the Supabase Project URL and the public publishable key you supplied. The old `window.OLFACTRA_SUPABASE_CONFIG` name remains supported as a backward-compatible alias. Do not replace the configured values with placeholder text when copying this file to GitHub.
-2. In Supabase, open SQL Editor and run `supabase-schema.sql` only if the `fragrances` and `saved_combinations` tables, RLS ownership policies, and authenticated table grants have not already been created. The schema is safe to re-run and does not delete existing rows.
-3. In Supabase Authentication > Providers, enable Email. Set the Site URL and allowed redirect URLs to include your deployed website URL.
-4. For Google login, enable the Google provider in Supabase and add the Google OAuth Client ID and Client Secret from Google Cloud Console. Set the authorized redirect URI in Google Cloud to the Supabase callback URL shown in the Google provider configuration page. Add your deployed URL to Supabase's allowed redirect URLs.
-5. Replace the repository's root `index.html` with the configured `index.html` from this package, commit, push, and let Vercel redeploy.
-
-When Supabase is not configured, guests can still use the calculator. Account-only actions explain that the owner must configure Supabase before sign-in or registration can work.
-
-## GitHub + Vercel
-
-Upload `index.html` to the root of a GitHub repository and import that repository into Vercel as a static site. Use Framework Preset `Other`, no build command, and `./` as the output directory. Vercel will redeploy when you push commits to the connected GitHub repository.
-
-## Security
-
-The browser uses only the Supabase public anon/publishable key. Never add a Supabase service-role key to the HTML file. Keep RLS enabled on both tables. Each row is associated with `auth.uid()` and policies check ownership for select, insert, update, and delete.
-
-## Troubleshooting: permission denied for a saved table
-
-If the website reports `permission denied for table fragrances` or `permission denied for table saved_combinations`, open **Supabase → SQL Editor**, paste and run the contents of `supabase-permissions-fix.sql`.
-
-These grants are for signed-in users only. Keep RLS enabled and keep the ownership policies from `supabase-schema.sql`. Do not grant table access to `anon` and do not disable RLS to work around this error.
-
-
-## Saved-pair and library UI update
-
-This build restores saved fragrance pairs across both the current nested profile format and older flat profile records, recalculates the live compatibility score after loading both slots, and keeps the score breakdown visible in the desktop score panel. The save-combination name prompt is now a styled dialog. Load from Library and Reset Fragrance are grouped together, and the Delete action is anchored at the lower-right of each fragrance card.
-
-
-## Theme and library controls update
-
-This build includes:
-- A rounded S-tier score-card edge with a separate rectangular gold backlight.
-- Save to My Library, Load from Library, and Reset Fragrance aligned in one row.
-- Single-row actions on My Library and My Combinations cards.
-- A theme-coloured X delete control on the upper-right of each saved card.
-- A reusable in-app themed confirmation dialog for deletes and a themed input dialog for renaming.
-- Theme-aware styling for the account, collection, About, and save-combination dialogs.
-
-The Supabase project URL and publishable key from the existing configured build are retained. No database schema migration is required for this visual and interaction update.
+## Supabase
+The current HTML preserves the existing Supabase browser configuration. Keep the public publishable/anon key in the browser config; never put a service-role/secret key in the HTML. Existing tables and user data are not modified by this mobile update.

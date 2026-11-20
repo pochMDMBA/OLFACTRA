@@ -2,7 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101b23">
+<meta name="application-name" content="OLFACULATOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="OLFACULATOR">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" type="image/svg+xml" href="./icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>OLFACULATOR | Subjective Layering Assistant</title>
 <style>
 :root{
@@ -1665,6 +1676,202 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 }
 </style>
 
+
+<style id="olfaculator-mobile-pwa-and-premium-tier-fix">
+/* Mobile-first overflow safety across iOS Safari, Android Chrome and installed mode. */
+html,body{
+  width:100%;max-width:100%;min-width:0;margin:0;
+  overflow-x:hidden;overflow-x:clip;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body{min-height:100vh;min-height:100dvh;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);}
+img,svg,canvas,video{max-width:100%;}
+button,input,select,textarea{font:inherit;touch-action:manipulation;}
+button{-webkit-tap-highlight-color:transparent;}
+.fragrance-panel,.interaction-sticky,.olfactra-right-rail,.score-sticky,.library-card,
+.collection-dialog,.auth-card,.about-card,.saved-fragrance,.saved-combination{min-width:0;max-width:100%;}
+
+/* The mobile masthead is a two-row control grid with the logo on its own row.
+   This removes the overlapping absolute toolbar that caused the banner overflow. */
+@media(max-width:760px){
+  :root{--of-masthead-height:auto;}
+  .olfactra-header{
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;
+    width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+    padding:calc(9px + env(safe-area-inset-top)) 12px 11px!important;margin:0!important;
+    gap:9px!important;overflow:hidden!important;
+  }
+  .olfactra-header .brand-banner{
+    width:100%!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;
+    gap:9px!important;overflow:visible!important;
+  }
+  .olfactra-header .workspace-toolbar{
+    position:relative!important;inset:auto!important;z-index:5!important;
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-areas:"library about" "combinations account"!important;
+    width:100%!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+    gap:6px!important;align-items:stretch!important;justify-content:stretch!important;pointer-events:auto!important;
+  }
+  .olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{display:contents!important;}
+  #libraryButton{grid-area:library!important;}
+  #combinationsButton{grid-area:combinations!important;}
+  #aboutButton{grid-area:about!important;}
+  #accountButton{grid-area:account!important;}
+  .olfactra-header .workspace-nav-button,.olfactra-header .account-button{
+    box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;
+    width:100%!important;min-width:0!important;max-width:100%!important;height:auto!important;min-height:34px!important;
+    margin:0!important;padding:7px 6px!important;border-radius:9px!important;font-size:clamp(9px,2.65vw,11px)!important;
+    line-height:1.15!important;letter-spacing:0!important;text-align:center!important;white-space:normal!important;
+    overflow-wrap:break-word!important;
+  }
+  .brand-identity{
+    position:relative!important;inset:auto!important;order:2!important;display:flex!important;flex:0 0 auto!important;
+    justify-content:center!important;align-items:center!important;width:100%!important;min-width:0!important;gap:8px!important;
+    margin:0!important;padding:1px 0!important;pointer-events:none!important;
+  }
+  .brand-identity .olfactra-logo{width:36px!important;height:36px!important;flex:0 0 36px!important;}
+  .brand-identity .brand-copy{min-width:0!important;max-width:calc(100% - 48px)!important;gap:3px!important;}
+  .brand-identity .brand-name{font-size:clamp(17px,5.1vw,22px)!important;line-height:1!important;letter-spacing:.10em!important;white-space:nowrap!important;}
+  .brand-identity .brand-tagline{font-size:clamp(6px,1.7vw,8px)!important;letter-spacing:.10em!important;white-space:nowrap!important;}
+
+  header:not(.olfactra-header),main{
+    box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;
+    margin:0!important;padding-left:12px!important;padding-right:12px!important;
+  }
+  main{padding-top:12px!important;padding-bottom:calc(30px + env(safe-area-inset-bottom))!important;}
+  main>.grid,.grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important;width:100%!important;min-width:0!important;}
+  main>.grid>* , .fragrance-panel,.olfactra-right-rail,.score-sticky,.interaction-sticky{
+    box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;
+    margin-left:0!important;margin-right:0!important;
+  }
+  .fragrance-panel{padding:clamp(13px,3.7vw,19px)!important;border-radius:15px!important;overflow:hidden!important;}
+  .interaction-sticky{position:relative!important;top:auto!important;left:auto!important;right:auto!important;max-height:none!important;overflow:visible!important;}
+  .olfactra-right-rail{position:relative!important;inset:auto!important;display:flex!important;flex-direction:column!important;gap:0!important;overflow:visible!important;}
+  .olfactra-right-rail>.score-sticky{
+    position:relative!important;inset:auto!important;top:auto!important;right:auto!important;left:auto!important;
+    display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+    margin:0!important;padding:clamp(14px,4vw,20px)!important;overflow:hidden!important;
+  }
+  .score-sticky .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;}
+  .score-sticky .score-breakdown{width:100%!important;max-width:100%!important;overflow-wrap:anywhere!important;}
+  .score-breakdown-row{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:8px!important;}
+  .score-breakdown-row span{min-width:0!important;overflow-wrap:anywhere!important;}
+  .score-breakdown-row b{flex:0 0 auto!important;max-width:45%!important;text-align:right!important;white-space:normal!important;overflow-wrap:anywhere!important;}
+  .score-sticky .save-combination-btn{width:100%!important;min-height:44px!important;font-size:12px!important;}
+  .axis-grid{grid-template-columns:minmax(0,1fr)!important;}
+  .note-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .options{gap:6px!important;}
+  .pill,.note{min-width:0!important;max-width:100%!important;}
+  .pill span,.note span{height:auto!important;min-width:0!important;max-width:100%!important;overflow-wrap:anywhere!important;}
+  .slider-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr) 42px!important;gap:7px!important;min-width:0!important;}
+  .slider-name{min-width:0!important;overflow-wrap:anywhere!important;font-size:11px!important;}
+  .slider-wrap{min-width:0!important;}
+  .range{min-width:0!important;}
+  .rank-note{grid-template-columns:28px minmax(0,1fr) auto!important;min-width:0!important;}
+  .rank-note-name{min-width:0!important;overflow-wrap:anywhere!important;}
+  .interaction-row{grid-template-columns:minmax(0,1fr) auto!important;min-width:0!important;}
+  .interaction-reason{overflow-wrap:anywhere!important;}
+  .top-code{grid-template-columns:minmax(0,1fr)!important;}
+  .global-code-row,.library-tools,.collection-tools{width:100%!important;max-width:100%!important;min-width:0!important;}
+  .theme-dock{
+    position:relative!important;right:auto!important;bottom:auto!important;left:auto!important;
+    width:100%!important;margin:14px 0 calc(14px + env(safe-area-inset-bottom))!important;padding:0 12px!important;
+  }
+  .theme-dock .theme-control{box-sizing:border-box!important;width:min(100%,430px)!important;min-width:0!important;margin:0 auto!important;}
+  .theme-dock .theme-control select{min-width:0!important;max-width:100%!important;}
+  .collection-screen,.about-screen,.auth-screen{
+    box-sizing:border-box!important;align-items:flex-start!important;justify-content:center!important;
+    overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;
+    padding:calc(10px + env(safe-area-inset-top)) 10px calc(10px + env(safe-area-inset-bottom))!important;
+  }
+  .collection-dialog,.about-card,.auth-card{
+    width:100%!important;max-width:560px!important;max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+    overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+  }
+  .collection-dialog-head{gap:8px!important;}
+  .collection-dialog-head h2{overflow-wrap:anywhere!important;}
+  .library-heading{align-items:stretch!important;flex-direction:column!important;}
+  .library-tools{max-width:none!important;}
+  .library-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))!important;width:100%!important;}
+  .saved-fragrance,.saved-combination{min-width:0!important;width:100%!important;overflow:hidden!important;}
+  .saved-fragrance-actions,.combination-actions{display:flex!important;flex-wrap:nowrap!important;gap:5px!important;min-width:0!important;}
+  .saved-fragrance-actions button,.combination-actions button{min-width:0!important;padding:7px 4px!important;font-size:9px!important;overflow-wrap:anywhere!important;}
+  input[type=text],input[type=email],input[type=password],input[type=search],textarea,select{font-size:16px!important;max-width:100%!important;}
+  .theme-action-buttons{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .theme-action-buttons button{min-width:0!important;width:100%!important;}
+}
+@media(max-width:390px){
+  .olfactra-header{padding-left:9px!important;padding-right:9px!important;}
+  header:not(.olfactra-header),main{padding-left:9px!important;padding-right:9px!important;}
+  .fragrance-panel{padding:12px!important;}
+  .profile-actions{gap:4px!important;}
+  .profile-actions>button,.profile-actions .profile-action-pair button{min-height:43px!important;padding:6px 3px!important;font-size:8px!important;line-height:1.08!important;}
+  .score-sticky .big{font-size:48px!important;}
+  .score-sticky .tier{font-size:22px!important;}
+  .score-sticky #tierText{font-size:10px!important;}
+  .note-grid{gap:5px!important;}
+  .note span{padding:7px 5px!important;font-size:10px!important;}
+  .saved-fragrance-actions button,.combination-actions button{font-size:8px!important;}
+}
+
+/* S-tier: a single rounded premium edge and a contained gold atmosphere.
+   The old rectangular halo element is disabled so no square frame can show. */
+.score-sticky.s-tier-active{
+  position:relative!important;isolation:isolate!important;overflow:hidden!important;
+  border:1.5px solid rgba(255,225,145,.98)!important;border-radius:24px!important;
+  background:
+    radial-gradient(ellipse at 12% 0%,rgba(255,229,150,.19),transparent 42%),
+    radial-gradient(ellipse at 100% 100%,rgba(191,132,30,.18),transparent 48%),
+    linear-gradient(138deg,rgba(43,34,18,.985),rgba(30,27,21,.99) 48%,rgba(53,39,17,.985))!important;
+  box-shadow:
+    0 0 0 1px rgba(255,240,190,.32),
+    0 0 12px rgba(255,215,110,.40),
+    0 0 32px rgba(223,166,54,.27),
+    0 16px 40px rgba(0,0,0,.42)!important;
+  animation:olfPremiumGoldPulse 4.2s ease-in-out infinite!important;
+}
+.score-sticky.s-tier-active>.s-tier-rectangular-halo{display:none!important;}
+.score-sticky.s-tier-active::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:
+    radial-gradient(circle at 13% 15%,rgba(255,248,206,.8) 0 1px,transparent 2px),
+    radial-gradient(circle at 87% 20%,rgba(255,232,171,.7) 0 1px,transparent 2px),
+    radial-gradient(circle at 73% 81%,rgba(255,242,194,.68) 0 1px,transparent 2px),
+    linear-gradient(115deg,rgba(255,232,165,.10),transparent 42%,rgba(255,206,103,.09));
+  background-size:100% 100%;opacity:.72;animation:olfPremiumSparkle 5.5s ease-in-out infinite alternate;
+}
+.score-sticky.s-tier-active::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(108deg,transparent 18%,rgba(255,247,213,.015) 38%,rgba(255,232,169,.14) 50%,rgba(255,248,222,.02) 62%,transparent 82%);
+  background-size:220% 100%;animation:olfPremiumSweep 6.5s ease-in-out infinite;
+}
+.score-sticky.s-tier-active>*{position:relative;z-index:1;}
+.score-sticky.s-tier-active h2{color:#ffebae!important;text-shadow:0 0 9px rgba(255,210,100,.35)!important;}
+@keyframes olfPremiumGoldPulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,240,190,.28),0 0 10px rgba(255,215,110,.34),0 0 26px rgba(223,166,54,.22),0 16px 40px rgba(0,0,0,.42)}
+  50%{box-shadow:0 0 0 1px rgba(255,244,206,.48),0 0 16px rgba(255,220,126,.52),0 0 38px rgba(223,166,54,.31),0 16px 40px rgba(0,0,0,.42)}
+}
+@keyframes olfPremiumSparkle{from{opacity:.48;filter:brightness(.96)}to{opacity:.9;filter:brightness(1.18)}}
+@keyframes olfPremiumSweep{0%,20%{background-position:-130% 0}78%,100%{background-position:130% 0}}
+@media(prefers-reduced-motion:reduce){.score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important;}}
+
+/* Save is intentionally quiet; Reset is clearly destructive and red. */
+.profile-actions .save-fragrance-btn{
+  background:color-mix(in srgb,var(--card2) 92%,var(--theme-primary) 8%)!important;
+  color:var(--ink)!important;border:1px solid color-mix(in srgb,var(--line) 72%,var(--theme-primary) 28%)!important;
+  box-shadow:none!important;filter:none!important;
+}
+.profile-actions .save-fragrance-btn:hover{background:color-mix(in srgb,var(--card2) 82%,var(--theme-primary) 18%)!important;}
+.profile-actions .reset-profile-btn{
+  background:linear-gradient(145deg,#71333a,#3f2028)!important;
+  border:1px solid #bd6670!important;color:#fff1f0!important;
+  box-shadow:inset 0 1px 0 rgba(255,220,220,.12),0 4px 12px rgba(121,31,44,.22)!important;
+}
+.profile-actions .reset-profile-btn:hover{background:linear-gradient(145deg,#873c46,#51232e)!important;border-color:#e38c94!important;}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -2960,6 +3167,9 @@ function applyTheme(theme){
   document.body.dataset.theme=t;
   const picker=document.getElementById('themePicker');
   if(picker) picker.value=t;
+  const themeMeta=document.querySelector('meta[name=\"theme-color\"]');
+  const themeChromeColors={obsidian:'#171513',rosewood:'#1d1418',forest:'#121b17',ocean:'#101b23',lavender:'#181522',nebula:'#1a1230',arctic:'#0e2436'};
+  if(themeMeta) themeMeta.setAttribute('content',themeChromeColors[t]||'#101b23');
   try{localStorage.setItem('fra-theme',t);}catch(e){}
 }
 (function initTheme(){
@@ -3579,6 +3789,19 @@ async function bootOlfactraAccounts(){
 }
 
 bootOlfactraAccounts();
+</script>
+
+
+<script id="olfaculator-pwa-registration">
+(function(){
+  if(!('serviceWorker' in navigator)) return;
+  const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if(!isSecure) return;
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register(new URL('./service-worker.js', location.href), {scope:'./'})
+      .catch(function(err){ console.warn('OLFACULATOR offline support could not be registered:', err); });
+  }, {once:true});
+})();
 </script>
 
 </body>
