@@ -1365,6 +1365,52 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 .auth-close:focus-visible,.collection-close:focus-visible,.about-close:focus-visible{outline:2px solid var(--theme-primary)!important;outline-offset:3px!important;}
 </style>
 
+
+<style id="olfaculator-saved-pair-and-library-polish">
+/* The existing calculator always builds this breakdown; keep it visible in the desktop score panel. */
+@media(min-width:1281px){
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown{
+    display:block!important;flex:0 1 auto!important;min-height:0!important;max-height:none!important;
+    overflow:visible!important;margin:9px 0 0!important;padding:8px 9px!important;
+  }
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-title{font-size:9px!important;margin-bottom:5px!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-row{font-size:9px!important;line-height:1.18!important;padding:3px 0!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-row b{font-size:9px!important;}
+}
+
+/* Keep Load from Library and Reset Fragrance paired at every workspace width. */
+.profile-action-pair{display:inline-flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0;}
+.profile-actions .profile-action-pair button{flex:0 0 auto;}
+.fragrance-panel .reset-profile-btn{border-color:color-mix(in srgb,var(--theme-primary) 42%,var(--line));}
+@media(max-width:520px){
+  .profile-actions{gap:7px!important;}
+  .profile-action-pair{gap:6px;}
+  .profile-action-pair button{padding-left:8px!important;padding-right:8px!important;font-size:9px!important;}
+}
+
+/* Library cards stretch as a column so the destructive action sits in the lower-right corner. */
+.saved-fragrance{display:flex!important;flex-direction:column!important;min-height:185px;}
+.saved-fragrance-actions{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important;margin-top:10px!important;}
+.saved-fragrance-footer{display:flex;justify-content:flex-end;align-items:flex-end;margin-top:auto;padding-top:11px;}
+.saved-fragrance-footer .delete-saved{font-size:9px;min-height:29px;padding:5px 10px;border-radius:7px;background:transparent;border:1px solid color-mix(in srgb,var(--bad) 60%,var(--line));color:var(--bad);}
+.saved-fragrance-footer .delete-saved:hover{background:color-mix(in srgb,var(--bad) 10%,transparent);}
+
+/* Save-combination window follows the same dialog language as My Library and About. */
+.save-combination-dialog{width:min(510px,100%);max-height:min(82vh,620px);}
+.save-combination-label{display:block;margin:0 0 7px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;}
+.save-combination-name{box-sizing:border-box;width:100%;min-height:43px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;outline:none;}
+.save-combination-name:focus{border-color:var(--theme-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--theme-primary) 17%,transparent);}
+.save-combination-summary{display:flex;flex-direction:column;gap:5px;margin-top:13px;padding:11px 12px;border:1px solid color-mix(in srgb,var(--theme-primary) 24%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--theme-primary) 6%,var(--card2));color:var(--muted);font-size:10px;line-height:1.45;}
+.save-combination-summary b{color:var(--ink);font-size:11px;}
+.save-combination-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px;}
+.save-combination-actions button{min-height:38px;padding:9px 15px;border-radius:9px;font-size:10px;}
+@media(max-width:520px){
+  .save-combination-dialog{padding:17px!important;}
+  .save-combination-actions{justify-content:stretch;}
+  .save-combination-actions button{flex:1 1 0;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -1472,6 +1518,27 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
     <div id="combinationGrid" class="library-grid"><div class="library-empty">Your saved combinations will appear here.</div></div>
   </section>
 </div>
+<div class="collection-screen" id="saveCombinationScreen" hidden onclick="if(event.target===this)closeSaveCombinationDialog()">
+  <section class="collection-dialog save-combination-dialog" role="dialog" aria-modal="true" aria-labelledby="saveCombinationDialogTitle">
+    <div class="collection-dialog-head">
+      <div>
+        <div class="eyebrow">PRESERVE THIS PAIRING</div>
+        <h2 id="saveCombinationDialogTitle">Save combination</h2>
+        <p class="library-subtitle">Give this pairing a name. Its two fragrance profiles and the current live compatibility score will be saved together.</p>
+      </div>
+      <button type="button" class="collection-close" aria-label="Close save dialog" title="Close" onclick="closeSaveCombinationDialog()"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
+    </div>
+    <form id="saveCombinationForm" onsubmit="confirmSaveCurrentCombination(event)">
+      <label class="save-combination-label" for="saveCombinationName">Combination name</label>
+      <input id="saveCombinationName" class="save-combination-name" type="text" maxlength="80" autocomplete="off" required placeholder="e.g. Evening signature">
+      <div class="save-combination-summary" id="saveCombinationSummary"></div>
+      <div class="save-combination-actions">
+        <button type="button" class="secondary" onclick="closeSaveCombinationDialog()">Cancel</button>
+        <button type="submit">Save combination</button>
+      </div>
+    </form>
+  </section>
+</div>
 <div class="grid">
 
 <section class="card fragrance-panel" id="fragranceA">
@@ -1480,7 +1547,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="aCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('a')">Copy</button></div></div>
 </div>
-<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Library</button><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary" onclick="resetFragrance('a')">Reset Fragrance A</button></div>
+<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Library</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('a')">Reset Fragrance A</button></div></div>
 <div id="aChars"></div><div id="aNotes"></div>
 </section>
 
@@ -1490,7 +1557,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="bCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('b')">Copy</button></div></div>
 </div>
-<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Library</button><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary" onclick="resetFragrance('b')">Reset Fragrance B</button></div>
+<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Library</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('b')">Reset Fragrance B</button></div></div>
 <div id="bChars"></div><div id="bNotes"></div>
 </section>
 
@@ -2610,6 +2677,7 @@ function calculate(){
   renderTheoreticalNoteDatabase();
   updateCodes();
   positionOlfactraGuide();
+  return {score,tier,general,noteDelta,penalties:noteNegative.length};
 }/* ---------- THEME PREFERENCES ---------- */
 function applyTheme(theme){
   const allowed=['obsidian','rosewood','forest','ocean','lavender','nebula','arctic'];
@@ -2925,7 +2993,8 @@ function renderFragranceLibrary(){
       ${colorway}
       <div class="saved-fragrance-meta">${esc(noteText)}</div>
       <div class="saved-fragrance-tags">${tags||'<span>Custom profile</span>'}</div>
-      <div class="saved-fragrance-actions">${loadButtons}<button type="button" class="secondary" onclick="renameLibraryFragrance('${esc(item.id)}')">Rename</button><button type="button" class="delete-saved" onclick="deleteLibraryFragrance('${esc(item.id)}')">Delete</button></div>
+      <div class="saved-fragrance-actions">${loadButtons}<button type="button" class="secondary" onclick="renameLibraryFragrance('${esc(item.id)}')">Rename</button></div>
+      <div class="saved-fragrance-footer"><button type="button" class="delete-saved" onclick="deleteLibraryFragrance('${esc(item.id)}')">Delete</button></div>
     </article>`;
   }).join('');
 }
@@ -2952,6 +3021,25 @@ function renderSavedCombinations(){
     </article>`;
   }).join('');
 }
+let pendingCombinationSave=false;
+function openSaveCombinationDialog(defaultName,a,b){
+  const screen=document.getElementById('saveCombinationScreen');
+  const nameInput=document.getElementById('saveCombinationName');
+  const summary=document.getElementById('saveCombinationSummary');
+  if(!screen||!nameInput||!summary)return;
+  nameInput.value=defaultName;
+  const score=document.getElementById('score')?.textContent||'0';
+  const tier=document.getElementById('tier')?.textContent||'F-tier';
+  summary.innerHTML=`<span>${esc(a.name||'Fragrance A')} + ${esc(b.name||'Fragrance B')}</span><b>Current score: ${esc(score)}/100 · ${esc(tier)}</b>`;
+  pendingCombinationSave=true;
+  screen.hidden=false;
+  requestAnimationFrame(()=>{nameInput.focus();nameInput.select();});
+}
+function closeSaveCombinationDialog(){
+  const screen=document.getElementById('saveCombinationScreen');
+  if(screen)screen.hidden=true;
+  pendingCombinationSave=false;
+}
 async function saveCurrentCombination(){
   if(!requireAccount('Saving combinations and their compatibility scores requires a free OLFACULATOR account. Sign in or create one to preserve both fragrances and the score.',saveCurrentCombination,'save-combination'))return;
   const a=profileForSave('a'),b=profileForSave('b');
@@ -2959,9 +3047,18 @@ async function saveCurrentCombination(){
   if(!b.profile.notes.length&&!Object.keys(b.profile.chars).length){showToast('Add at least one characteristic or note to Fragrance B first.','bad');return;}
   calculate();
   const suggested=[a.name||'Fragrance A',b.name||'Fragrance B'].join(' + ');
-  const entered=prompt('Name this saved combination:',suggested);
-  if(entered===null)return;
-  const name=entered.trim();if(!name){showToast('Enter a name for this combination.','bad');return;}
+  openSaveCombinationDialog(suggested,a,b);
+}
+async function confirmSaveCurrentCombination(event){
+  if(event)event.preventDefault();
+  if(!pendingCombinationSave||!olfactraSession||!olfactraSupabase)return;
+  const name=String(document.getElementById('saveCombinationName')?.value||'').trim();
+  if(!name){showToast('Enter a name for this combination.','bad');document.getElementById('saveCombinationName')?.focus();return;}
+  // Read the current fields and calculate again immediately before persisting.
+  const a=profileForSave('a'),b=profileForSave('b');
+  if(!a.profile.notes.length&&!Object.keys(a.profile.chars).length){showToast('Add at least one characteristic or note to Fragrance A first.','bad');return;}
+  if(!b.profile.notes.length&&!Object.keys(b.profile.chars).length){showToast('Add at least one characteristic or note to Fragrance B first.','bad');return;}
+  calculate();
   const score=Math.max(0,Math.min(100,parseInt(document.getElementById('score')?.textContent||'0',10)||0));
   const tier=(document.getElementById('tier')?.textContent||'F-tier').replace(/-tier/i,'').trim().toUpperCase();
   const now=new Date().toISOString();
@@ -2969,24 +3066,67 @@ async function saveCurrentCombination(){
   const {data,error}=await olfactraSupabase.from('saved_combinations').insert(payload).select('id,name,fragrance_a,fragrance_b,score,tier,created_at,updated_at').single();
   if(error){showToast('Could not save combination: '+error.message,'bad');return;}
   olfactraCombinations.unshift(data);renderSavedCombinations();
+  closeSaveCombinationDialog();
   showToast(`Saved “${name}” with a score of ${score}/100 (${tier}-tier).`,'good');
 }
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!document.getElementById('saveCombinationScreen')?.hidden)closeSaveCombinationDialog();
+});
 function beginLibraryDrag(event,id){event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('text/plain',id);}
-function applyProfileToSlot(prefix,item){
-  const profile=item.profile||{};const chars=profile.chars||{};const notes=Array.isArray(profile.notes)?profile.notes:[];
-  document.getElementById(prefix+'Name').value=item.name||'';
+function normalizeSavedFragrancePayload(raw){
+  let item=raw;
+  if(typeof item==='string'){try{item=JSON.parse(item);}catch(e){item={};}}
+  if(!item||typeof item!=='object'||Array.isArray(item))item={};
+  let profile=item.profile;
+  if(typeof profile==='string'){try{profile=JSON.parse(profile);}catch(e){profile={};}}
+  if(!profile||typeof profile!=='object'||Array.isArray(profile))profile=item;
+  const sourceChars=(profile.chars&&typeof profile.chars==='object'&&!Array.isArray(profile.chars))?profile.chars:
+    ((profile.c&&typeof profile.c==='object'&&!Array.isArray(profile.c))?profile.c:
+    ((item.chars&&typeof item.chars==='object'&&!Array.isArray(item.chars))?item.chars:{}));
+  const sourceNotes=Array.isArray(profile.notes)?profile.notes:
+    (Array.isArray(profile.n)?profile.n:(Array.isArray(item.notes)?item.notes:[]));
+  const chars={};
+  axes.forEach(axis=>{
+    const rawValue=sourceChars[axis.id]??sourceChars[axis.title]??'';
+    const match=axis.pairs.find(([value,label])=>norm(value)===norm(rawValue)||norm(label)===norm(rawValue));
+    if(match)chars[axis.id]=match[0];
+  });
+  const noteInputs=[...document.querySelectorAll('input[name="a-note"]')];
+  const availableNotes=new Map(noteInputs.map(el=>[norm(el.value),el.value]));
+  const legacyNoteAliases={musk:'White musk'};
+  const notes=[];
+  sourceNotes.forEach(note=>{
+    const canonical=availableNotes.get(norm(note))||availableNotes.get(norm(legacyNoteAliases[norm(note)]||''));
+    if(canonical&&!notes.includes(canonical)&&notes.length<3)notes.push(canonical);
+  });
+  const sourceColors=(profile.colors&&typeof profile.colors==='object'&&!Array.isArray(profile.colors))?profile.colors:
+    ((item.colors&&typeof item.colors==='object'&&!Array.isArray(item.colors))?item.colors:{});
+  const colors={};
+  Object.entries(sourceColors).forEach(([note,color])=>{
+    const canonical=availableNotes.get(norm(note))||availableNotes.get(norm(legacyNoteAliases[norm(note)]||''));
+    if(canonical&&/^#[0-9a-f]{6}$/i.test(String(color||'')))colors[canonical]=String(color);
+  });
+  return {name:String(item.name||item.fragrance_name||item.title||''),profile:{chars,notes,colors}};
+}
+function applyProfileToSlot(prefix,rawItem){
+  const item=normalizeSavedFragrancePayload(rawItem);
+  const profile=item.profile;const chars=profile.chars;const notes=profile.notes;
+  const nameField=document.getElementById(prefix+'Name');
+  if(nameField)nameField.value=item.name;
   axes.forEach(axis=>{
     document.querySelectorAll(`input[name="${prefix}-${axis.id}"]`).forEach(el=>el.checked=false);
-    const value=chars[axis.id];if(value){const selected=document.querySelector(`input[name="${prefix}-${axis.id}"][value="${CSS.escape(value)}"]`);if(selected)selected.checked=true;}
+    const value=chars[axis.id];
+    if(value){const selected=document.querySelector(`input[name="${prefix}-${axis.id}"][value="${CSS.escape(value)}"]`);if(selected)selected.checked=true;}
   });
-  document.querySelectorAll(`input[name="${prefix}-note"]`).forEach(el=>el.checked=notes.includes(el.value));
-  noteOrder[prefix]=notes.filter(note=>getSelectedNotes(prefix).includes(note)).slice(0,3);
-  const storedColors=profile.colors&&typeof profile.colors==='object'?profile.colors:{};
+  const selectedNotes=new Set(notes.map(norm));
+  document.querySelectorAll(`input[name="${prefix}-note"]`).forEach(el=>el.checked=selectedNotes.has(norm(el.value)));
+  noteOrder[prefix]=notes.filter(note=>getSelectedNotes(prefix).some(selected=>norm(selected)===norm(note))).slice(0,3);
   fragranceColorOverrides[prefix]={};
-  Object.entries(storedColors).forEach(([note,color])=>{
+  Object.entries(profile.colors||{}).forEach(([note,color])=>{
     if(/^#[0-9a-f]{6}$/i.test(String(color||'')))fragranceColorOverrides[prefix][norm(note)]=String(color);
   });
   renderRankedNotes(prefix);updateNoteReminder(prefix);
+  return item;
 }
 function loadLibraryIntoSlot(prefix,id){
   if(!olfactraSession){showAuthScreen('Sign in is required to access saved fragrances. You can still create and mix profiles manually without an account.');return;}
@@ -3000,11 +3140,23 @@ function loadLibraryIntoSlot(prefix,id){
 function loadSavedCombination(id){
   if(!olfactraSession){showAuthScreen('Sign in is required to access saved combinations. You can still calculate new pairings as a guest.');return;}
   const item=olfactraCombinations.find(x=>x.id===id);if(!item)return;
-  applyProfileToSlot('a',item.fragrance_a||{});applyProfileToSlot('b',item.fragrance_b||{});
-  closeCollectionPanels();
-  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
-  adjustTheorySliderForSelectionChange(totalSelected);calculate();
-  showToast(`Loaded “${item.name}”. Live compatibility is recalculated from the saved profiles.`,'good');
+  try{
+    const loadedA=applyProfileToSlot('a',item.fragrance_a||{});
+    const loadedB=applyProfileToSlot('b',item.fragrance_b||{});
+    closeCollectionPanels();
+    const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+    adjustTheorySliderForSelectionChange(totalSelected);
+    // Refresh the visible calculation, score breakdown, note map and code fields after both profiles are applied.
+    const result=calculate();
+    if(!loadedA.profile.notes.length&&!Object.keys(loadedA.profile.chars).length||!loadedB.profile.notes.length&&!Object.keys(loadedB.profile.chars).length){
+      showToast('Pair loaded, but one saved fragrance profile has no readable characteristics or notes. Check the original saved record.','bad');
+      return;
+    }
+    showToast(`Loaded “${item.name}”. Live compatibility: ${result?.score??document.getElementById('score')?.textContent??0}/100 (${result?.tier??document.getElementById('tier')?.textContent??'F-tier'}).`,'good');
+  }catch(error){
+    console.error('Could not restore saved OLFACULATOR combination',error);
+    showToast('This saved pair could not be restored. One of its stored fragrance profiles may be malformed.','bad');
+  }
 }
 function renameLibraryFragrance(id){
   if(!olfactraSession){showAuthScreen('Sign in is required to manage your saved fragrance library.');return;}

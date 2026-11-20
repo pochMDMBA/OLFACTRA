@@ -43,3 +43,8 @@ The browser uses only the Supabase public anon/publishable key. Never add a Supa
 If the website reports `permission denied for table fragrances` or `permission denied for table saved_combinations`, open **Supabase → SQL Editor**, paste and run the contents of `supabase-permissions-fix.sql`.
 
 These grants are for signed-in users only. Keep RLS enabled and keep the ownership policies from `supabase-schema.sql`. Do not grant table access to `anon` and do not disable RLS to work around this error.
+
+
+## Saved-pair and library UI update
+
+This build restores saved fragrance pairs across both the current nested profile format and older flat profile records, recalculates the live compatibility score after loading both slots, and keeps the score breakdown visible in the desktop score panel. The save-combination name prompt is now a styled dialog. Load from Library and Reset Fragrance are grouped together, and the Delete action is anchored at the lower-right of each fragrance card.
