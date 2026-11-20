@@ -883,20 +883,210 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 }
 </style>
 
+
+<style>
+/* OLFACTRA account and fragrance-library interface */
+.legacy-code-ui{display:none!important}
+.account-strip{max-width:1180px;margin:0 auto;height:42px;padding:0 330px 0 20px;display:flex;align-items:center;justify-content:flex-end;position:relative;z-index:60}
+.account-controls{position:static;display:flex;align-items:center;gap:10px}
+.account-status{font-size:11px;color:var(--muted);max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-button{padding:9px 13px;min-height:36px;border:1px solid color-mix(in srgb,var(--accent) 55%,var(--line));background:color-mix(in srgb,var(--card) 86%,transparent);color:var(--ink);font-size:11px;border-radius:999px}
+.profile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 4px}
+.profile-actions button{min-height:38px;font-size:11px}
+.save-fragrance-btn{background:var(--accent);color:#1a1510}
+.library-card{margin:18px 0 20px;padding:18px 20px}
+.library-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.library-heading h2{margin:2px 0 4px;font-size:20px}
+.eyebrow,.auth-kicker{font-size:9px;letter-spacing:.16em;font-weight:900;color:var(--accent);text-transform:uppercase}
+.library-subtitle{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+.library-tools{display:flex;gap:7px;min-width:260px;max-width:390px;width:38%}
+.library-tools input{font-size:11px;padding:9px 10px;min-width:0}
+.library-tools button{font-size:10px;min-height:36px;padding:8px 11px}
+.library-mode-notice{font-size:10px;color:var(--muted);margin:12px 0 9px;padding:8px 10px;border-radius:8px;background:color-mix(in srgb,var(--card2) 70%,transparent);border:1px solid var(--line)}
+.library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:9px}
+.library-empty{padding:18px 12px;border:1px dashed var(--line);border-radius:10px;text-align:center;color:var(--muted);font-size:11px;grid-column:1/-1}
+.saved-fragrance{border:1px solid var(--line);border-radius:12px;padding:12px;background:linear-gradient(145deg,color-mix(in srgb,var(--card2) 78%,transparent),color-mix(in srgb,var(--bg) 50%,transparent));min-width:0;cursor:grab;transition:border-color .15s,transform .15s,background .15s}
+.saved-fragrance:hover{border-color:var(--accent);transform:translateY(-1px)}
+.saved-fragrance:active{cursor:grabbing}
+.saved-fragrance-title{font-size:13px;font-weight:850;overflow-wrap:anywhere;margin-bottom:5px}
+.saved-fragrance-meta{font-size:10px;color:var(--muted);line-height:1.45;min-height:29px}
+.saved-fragrance-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.saved-fragrance-tags span{font-size:9px;padding:3px 6px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.saved-fragrance-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.saved-fragrance-actions button{font-size:9px;min-height:29px;padding:5px 8px;border-radius:7px}
+.saved-fragrance-actions .delete-saved{background:transparent;border:1px solid color-mix(in srgb,var(--bad) 60%,var(--line));color:var(--bad)}
+.library-subsection{margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}
+.library-subsection-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.library-subsection-head h3{margin:0;font:500 18px Georgia,serif}
+.saved-combination{border:1px solid var(--line);border-radius:12px;padding:12px;background:linear-gradient(145deg,color-mix(in srgb,var(--card2) 78%,transparent),color-mix(in srgb,var(--bg) 50%,transparent));min-width:0}
+.saved-combination-title{font-size:12px;font-weight:850;margin-bottom:5px;overflow-wrap:anywhere}
+.saved-combination-meta{font-size:10px;color:var(--muted);line-height:1.5}
+.saved-combination-score{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 7px;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:999px;color:var(--accent);font-size:10px;font-weight:900}
+.combination-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.combination-actions button{font-size:9px;min-height:29px;padding:5px 8px;border-radius:7px}
+.combination-actions .delete-saved{background:transparent;border:1px solid color-mix(in srgb,var(--bad) 60%,var(--line));color:var(--bad)}
+.library-gate{padding:16px;border:1px dashed var(--line);border-radius:10px;text-align:center;color:var(--muted);font-size:11px;line-height:1.6;grid-column:1/-1}
+.library-gate button{margin-top:9px;font-size:10px;min-height:32px;padding:7px 11px}
+.save-combination-btn{width:100%;margin-top:13px;min-height:38px;font-size:11px}
+.fragrance-panel.library-drop-target{outline:2px dashed var(--accent);outline-offset:3px;background:color-mix(in srgb,var(--accent) 5%,var(--card))}
+.auth-screen{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at 50% 0%,rgba(199,170,136,.15),transparent 42%),rgba(8,7,6,.96);backdrop-filter:blur(16px)}
+.auth-screen[hidden]{display:none}
+.auth-card{width:min(440px,100%);max-height:calc(100vh - 44px);overflow:auto;padding:32px;border-radius:22px;border:1px solid #4a4035;background:linear-gradient(150deg,#211d19,#141210);box-shadow:0 28px 90px #000b}
+.auth-brand{font:500 30px Georgia,serif;letter-spacing:.2em;color:#e5c99f;text-align:center}
+.auth-kicker{text-align:center;margin:6px 0 23px;color:#ac9475;font-size:8px}
+.auth-card h1{font:500 27px Georgia,serif;text-align:center;margin:0 0 8px;color:#f2e9df}
+.auth-intro{text-align:center;font-size:11px;line-height:1.6;color:#aaa096;margin:0 auto 20px;max-width:320px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#100f0e;padding:4px;border-radius:10px;margin-bottom:18px}
+.auth-tab{background:transparent;color:#aaa096;font-size:11px;min-height:34px;padding:7px;border-radius:7px}
+.auth-tab.active{background:#392f25;color:#f0dfc9}
+.auth-field{margin:0 0 12px}
+.auth-field label{display:block;font-size:9px;color:#c8b8a6;text-transform:uppercase;letter-spacing:.09em;margin:0 0 6px;font-weight:800}
+.auth-field input{width:100%;background:#100f0e;border:1px solid #41382f;border-radius:9px;color:#eee9e2;padding:12px;font:inherit;font-size:12px;min-height:42px}
+.auth-primary,.google-button{width:100%;min-height:43px;font-size:11px}
+.auth-primary{margin-top:4px}
+.auth-separator{display:flex;align-items:center;gap:12px;color:#81776c;font-size:10px;margin:16px 0}
+.auth-separator:before,.auth-separator:after{content:"";height:1px;background:#39332d;flex:1}
+.google-button{background:#f1eee9;color:#292521;display:flex;align-items:center;justify-content:center;gap:10px}
+.google-g{font-weight:950;font-size:16px;color:#4285f4}
+.auth-feedback{font-size:10px;line-height:1.5;min-height:16px;margin-top:11px;color:#d0b18b;text-align:center}
+.auth-local{margin-top:16px;text-align:center;border-top:1px solid #39332d;padding-top:15px}
+.auth-local button{background:transparent;color:#d6c2a8;text-decoration:underline;text-underline-offset:3px;padding:4px;font-size:10px;min-height:28px}
+.auth-local p{font-size:9px;line-height:1.5;color:#81776c;margin:6px auto 0;max-width:310px}
+@media(max-width:1280px){.account-strip{max-width:100%;height:40px;padding:0 20px}}
+@media(max-width:700px){.account-strip{justify-content:center}.account-controls{justify-content:center}.account-status{max-width:120px}.library-heading{align-items:stretch;flex-direction:column}.library-tools{width:100%;max-width:none;min-width:0}.library-card{padding:14px}.auth-card{padding:25px 20px}}
+</style>
+
+
+<style>
+/* Compact account controls and private collection panels */
+.workspace-toolbar{
+  width:min(1480px,calc(100% - 36px));margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  position:relative;z-index:80;min-height:42px;
+}
+.workspace-nav-left,.workspace-nav-right{display:flex;align-items:center;gap:8px;min-width:0}
+.workspace-nav-button,.account-button{
+  min-height:36px;padding:8px 14px;border-radius:999px;font-size:10px;
+  letter-spacing:.025em;white-space:nowrap;
+}
+.workspace-nav-button{border:1px solid color-mix(in srgb,var(--accent) 52%,var(--line));background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--ink)}
+.workspace-nav-button:hover,.account-button:hover{border-color:var(--accent);filter:brightness(1.06)}
+.account-button{min-width:92px}
+.profile-actions .load-library-btn{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.collection-screen{position:fixed;inset:0;z-index:2500;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(7,6,5,.84);backdrop-filter:blur(12px)}
+.collection-screen[hidden]{display:none!important}
+.collection-dialog{width:min(980px,100%);max-height:min(82vh,900px);overflow:auto;padding:22px;border-radius:18px;border:1px solid var(--line);background:var(--card);box-shadow:0 28px 90px #0009}
+.combinations-dialog{width:min(820px,100%)}
+.collection-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}
+.collection-dialog-head h2{margin:3px 0 5px;font:500 23px Georgia,serif}
+.collection-close{flex:0 0 34px;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:1;background:transparent;border:1px solid var(--line);color:var(--ink)}
+.collection-tools{width:min(470px,100%);max-width:none;min-width:0;margin:0 0 13px}
+.collection-dialog .library-grid{margin-top:8px}
+.collection-dialog .library-empty{grid-column:1/-1}
+.collection-dialog .library-gate{grid-column:1/-1}
+.saved-fragrance[draggable="true"]{user-select:none;-webkit-user-select:none}
+.saved-fragrance:focus-within{outline:1px solid var(--accent);outline-offset:2px}
+@media(max-width:700px){
+ .workspace-toolbar{width:calc(100% - 22px);margin-bottom:10px;gap:8px}
+ .workspace-nav-left{gap:6px}
+ .workspace-nav-button,.account-button{min-height:34px;padding:7px 10px;font-size:9px}
+ .collection-screen{padding:10px}
+ .collection-dialog{max-height:88vh;padding:15px;border-radius:14px}
+ .collection-dialog-head h2{font-size:20px}
+ .collection-tools{width:100%}
+ .collection-tools input{flex:1;width:100%}
+}
+@media(max-width:390px){.workspace-nav-button,.account-button{padding:7px 8px;font-size:8px}.workspace-toolbar{width:calc(100% - 14px)}}
+</style>
+
+
+<style id="olfactra-banner-auth-and-character-alignment">
+/* Keep account and collection controls inside the actual masthead banner. */
+.olfactra-header{height:148px!important;min-height:148px!important;padding:10px clamp(12px,2.4vw,34px)!important;}
+.olfactra-header .brand-banner{position:relative!important;box-sizing:border-box!important;width:min(1480px,100%)!important;min-height:116px!important;margin:0 auto!important;padding:12px 18px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important;}
+.brand-identity{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:19px;min-width:0;pointer-events:none;}
+.brand-identity .olfactra-logo,.brand-identity .brand-copy{pointer-events:auto;}
+.olfactra-header .workspace-toolbar{
+  position:absolute!important;inset:0!important;z-index:3!important;width:auto!important;min-height:0!important;
+  margin:0!important;padding:0 16px!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px!important;pointer-events:none;
+}
+.olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{display:flex!important;align-items:center!important;gap:8px!important;pointer-events:auto;}
+.olfactra-header .workspace-nav-button,.olfactra-header .account-button{min-height:35px;padding:8px 13px;font-size:10px;box-shadow:0 4px 12px rgba(0,0,0,.16);}
+/* The account window has an explicit close control that behaves like Continue browsing. */
+.auth-card{position:relative!important;padding-top:38px!important;}
+.auth-close{position:absolute;top:12px;right:12px;z-index:2;width:31px;height:31px;min-height:31px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #55493d;border-radius:50%;background:rgba(255,255,255,.035);color:#e7d9c8;font:400 23px/1 Arial,sans-serif;cursor:pointer;}
+.auth-close:hover{background:rgba(208,176,139,.16);border-color:#c9a45f;color:#fff2d8;}
+/* Center the Projection and Complexity headings and their selectable options. */
+.fragrance-panel .axis{text-align:center;}
+.fragrance-panel .axis-title{text-align:center;width:100%;}
+.fragrance-panel .options{justify-content:center;}
+@media(max-width:760px){
+  .olfactra-header{height:132px!important;min-height:132px!important;padding:7px 8px!important;}
+  .olfactra-header .brand-banner{min-height:116px!important;padding:5px 6px!important;align-items:stretch!important;}
+  .olfactra-header .workspace-toolbar{inset:7px 8px auto!important;height:30px!important;padding:0!important;align-items:center!important;}
+  .olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{gap:5px!important;}
+  .olfactra-header .workspace-nav-button,.olfactra-header .account-button{min-height:29px!important;padding:6px 8px!important;font-size:8px!important;letter-spacing:0!important;}
+  .brand-identity{position:absolute!important;inset:37px 5px 5px!important;gap:9px!important;}
+  .brand-identity .olfactra-logo{width:42px!important;height:42px!important;flex:0 0 42px!important;}
+  .brand-identity .brand-name{font-size:23px!important;letter-spacing:.14em!important;}
+  .brand-identity .brand-tagline{font-size:7px!important;letter-spacing:.10em!important;}
+}
+@media(max-width:420px){
+  .olfactra-header .workspace-toolbar{inset:6px 5px auto!important;}
+  .olfactra-header .workspace-nav-button,.olfactra-header .account-button{padding:5px 6px!important;font-size:7.5px!important;}
+  .olfactra-header .workspace-nav-left{gap:4px!important;}
+  .brand-identity .olfactra-logo{width:37px!important;height:37px!important;flex-basis:37px!important;}
+  .brand-identity .brand-name{font-size:20px!important;}
+  .brand-identity .brand-tagline{font-size:6px!important;letter-spacing:.07em!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
+<div class="auth-screen" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+  <div class="auth-card">
+    <button type="button" class="auth-close" aria-label="Close sign-in window" title="Close" onclick="continueBrowsing()">×</button>
+    <div class="auth-brand">OLFACTRA</div>
+    <div class="auth-kicker">YOUR PERSONAL FRAGRANCE WORKSPACE</div>
+    <h1 id="authTitle">Save your OLFACTRA work.</h1>
+    <p class="auth-intro" id="authIntro">Browsing, building fragrance profiles, mixing, and checking compatibility scores are free to use without an account. Sign in is required to save fragrances and combinations.</p>
+    <div class="auth-tabs"><button type="button" id="signInTab" class="auth-tab active" onclick="setAuthMode('signin')">Sign in</button><button type="button" id="registerTab" class="auth-tab" onclick="setAuthMode('register')">Create account</button></div>
+    <form id="authForm" onsubmit="submitAccountForm(event)">
+      <div id="authNameWrap" class="auth-field" hidden><label for="authName">Your name</label><input id="authName" type="text" autocomplete="name" placeholder="Name"></div>
+      <div class="auth-field"><label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+      <div class="auth-field"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required></div>
+      <button class="auth-primary" type="submit" id="authSubmit">Sign in</button>
+    </form>
+    <div class="auth-separator"><span>or</span></div>
+    <button type="button" class="google-button" onclick="signInWithGoogle()"><span class="google-g">G</span> Continue with Google</button>
+    <div id="authFeedback" class="auth-feedback" aria-live="polite"></div>
+    <div class="auth-local"><button type="button" onclick="continueBrowsing()">Continue browsing without an account</button><p>Your current profiles and live score remain available. Saving to a personal library requires a free account.</p></div>
+  </div>
+</div>
 <header class="olfactra-header">
   <div class="brand-banner" aria-label="OLFACTRA fragrance layering analyst">
-    <svg class="olfactra-logo" viewBox="0 0 72 72" role="img" aria-label="OLFACTRA orbital-flower emblem">
-      <defs><linearGradient id="olfactraGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".48" stop-color="#c9a45f"/><stop offset="1" stop-color="#8b642c"/></linearGradient></defs>
-      <circle cx="36" cy="36" r="31" fill="none" stroke="url(#olfactraGold)" stroke-width="1.6"/>
-      <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
-      <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(-45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
-      <circle cx="36" cy="36" r="5.2" fill="#e7c982" stroke="#fff0c0" stroke-width="1"/>
-      <path d="M36 10v8M36 54v8M10 36h8M54 36h8" stroke="#e7c982" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
-    <div class="brand-copy"><div class="brand-name">OLFACTRA</div><div class="brand-tagline">Subjective Layering Assistant</div></div>
+    <div class="brand-identity">
+      <svg class="olfactra-logo" viewBox="0 0 72 72" role="img" aria-label="OLFACTRA orbital-flower emblem">
+        <defs><linearGradient id="olfactraGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".48" stop-color="#c9a45f"/><stop offset="1" stop-color="#8b642c"/></linearGradient></defs>
+        <circle cx="36" cy="36" r="31" fill="none" stroke="url(#olfactraGold)" stroke-width="1.6"/>
+        <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
+        <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(-45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
+        <circle cx="36" cy="36" r="5.2" fill="#e7c982" stroke="#fff0c0" stroke-width="1"/>
+        <path d="M36 10v8M36 54v8M10 36h8M54 36h8" stroke="#e7c982" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-copy"><div class="brand-name">OLFACTRA</div><div class="brand-tagline">Subjective Layering Assistant</div></div>
+    </div>
+    <nav class="workspace-toolbar" aria-label="Account and saved workspaces">
+      <div class="workspace-nav-left">
+        <button type="button" class="workspace-nav-button" id="libraryButton" onclick="openLibraryPanel()">My Library</button>
+        <button type="button" class="workspace-nav-button secondary" id="combinationsButton" onclick="openCombinationsPanel()">My Combinations</button>
+      </div>
+      <div class="workspace-nav-right">
+        <button type="button" class="account-button" id="accountButton" onclick="openAccountAction()">Sign In</button>
+      </div>
+    </nav>
   </div>
 </header>
 <section class="card interaction-sticky">
@@ -908,25 +1098,55 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
   <div id="noteInteractionSticky"><div class="muted">Select notes to see their full theoretical synergy and penalty map.</div></div>
 </section>
 <main>
+<div class="collection-screen" id="libraryScreen" hidden onclick="if(event.target===this)closeCollectionPanels()">
+  <section class="collection-dialog" role="dialog" aria-modal="true" aria-labelledby="libraryDialogTitle">
+    <div class="collection-dialog-head">
+      <div>
+        <div class="eyebrow">YOUR COLLECTION</div>
+        <h2 id="libraryDialogTitle">My Fragrance Library</h2>
+        <p class="library-subtitle" id="libraryDialogSubtitle">Drag a fragrance onto Fragrance A or B, or use its load button.</p>
+      </div>
+      <button type="button" class="collection-close" aria-label="Close library" onclick="closeCollectionPanels()">×</button>
+    </div>
+    <div class="library-tools collection-tools">
+      <input id="librarySearch" type="search" placeholder="Search your fragrances…" aria-label="Search saved fragrances" oninput="renderFragranceLibrary()">
+      <button type="button" class="secondary" onclick="refreshFragranceLibrary()">Refresh</button>
+    </div>
+    <div id="libraryGrid" class="library-grid"><div class="library-empty">Your saved fragrances will appear here.</div></div>
+  </section>
+</div>
+<div class="collection-screen" id="combinationsScreen" hidden onclick="if(event.target===this)closeCollectionPanels()">
+  <section class="collection-dialog combinations-dialog" role="dialog" aria-modal="true" aria-labelledby="combinationsDialogTitle">
+    <div class="collection-dialog-head">
+      <div>
+        <div class="eyebrow">YOUR SAVED PAIRINGS</div>
+        <h2 id="combinationsDialogTitle">My Combinations</h2>
+        <p class="library-subtitle">Named combinations retain both fragrance profiles and the compatibility score recorded when saved.</p>
+      </div>
+      <button type="button" class="collection-close" aria-label="Close combinations" onclick="closeCollectionPanels()">×</button>
+    </div>
+    <div id="combinationGrid" class="library-grid"><div class="library-empty">Your saved combinations will appear here.</div></div>
+  </section>
+</div>
 <div class="grid">
 
 <section class="card fragrance-panel" id="fragranceA">
 <h2 class="fragrance-label">FRAGRANCE A</h2>
-<div class="codebox top-code">
-  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Paste FL6-... code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
+<div class="codebox top-code legacy-code-ui">
+  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="aCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('a')">Copy</button></div></div>
 </div>
-<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="reset-row"><button type="button" class="secondary" onclick="resetFragrance('a')">Reset Fragrance A</button></div>
+<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Library</button><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary" onclick="resetFragrance('a')">Reset Fragrance A</button></div>
 <div id="aChars"></div><div id="aNotes"></div>
 </section>
 
 <section class="card fragrance-panel" id="fragranceB">
 <h2 class="fragrance-label">FRAGRANCE B</h2>
-<div class="codebox top-code">
-  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Paste FL6-... code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
+<div class="codebox top-code legacy-code-ui">
+  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="bCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('b')">Copy</button></div></div>
 </div>
-<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="reset-row"><button type="button" class="secondary" onclick="resetFragrance('b')">Reset Fragrance B</button></div>
+<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Library</button><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary" onclick="resetFragrance('b')">Reset Fragrance B</button></div>
 <div id="bChars"></div><div id="bNotes"></div>
 </section>
 
@@ -945,6 +1165,7 @@ The score is calculated automatically. <b>Projection is the highest-priority cha
 <div class="metric"><strong>Total</strong><b id="totalMetric">0/100</b></div>
 </div>
 <div class="score-breakdown" id="scoreBreakdown"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
+<button type="button" class="save-combination-btn" onclick="saveCurrentCombination()">Save this combination and score</button>
 
 </section>
 
@@ -955,21 +1176,22 @@ The score is calculated automatically. <b>Projection is the highest-priority cha
   </details>
   <details>
     <summary>Suggested use</summary>
-    <p>Build a personal fragrance library in Excel or Google Sheets. Save each fragrance name beside its Fragrance Code, then paste the code into OLFACTRA whenever you want to load it. This makes it easier to save your collection and mix, match, and compare combinations.</p>
+    <p>Explore and score combinations freely. Create an account to save fragrances, preserve complete fragrance pairs with their compatibility scores, and sync your collection across devices.</p>
   </details>
 </section>
 </aside>
 
 <footer class="optional-info">
 <details><summary>Scoring details (optional)</summary>
-<div class="score-breakdown" id="scoreBreakdown"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
+<div class="score-breakdown" id="scoreBreakdownDetails"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
 <p class="smallnote">Projection and complexity contribute up to 35 points. Ranked note relationships contribute up to 65 points. Loud + Soft contributes zero projection points rather than a deduction. Specific note penalties take priority over positive relationships.</p>
 <p class="smallnote">Rank 1 = 1.00×, Rank 2 = 0.70×, Rank 3 = 0.40×. The system evaluates the cross-fragrance note matrix and collapses mirrored relationships.</p>
 </details>
-<span>FL6 · Runs locally · No external libraries or internet connection required.</span></footer>
+<span>OLFACTRA · Your personal fragrance workspace</span></footer>
 </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =========================================================
    FRAGRANCE LAYERING ANALYST v6
@@ -2105,6 +2327,358 @@ calculate();
 
 
 
+
+
+<script>
+/* =========================================================
+   OLFACTRA PERSONAL LIBRARY + OPTIONAL ACCOUNT SYSTEM
+   Guest access: full browsing, profile building, mixing and scoring.
+   Account-only persistence: fragrances + saved combinations and score snapshots.
+   ========================================================= */
+
+// Add your Supabase project URL and anon/public key here after creating a project.
+// The anon key is intended for browser use. Never place a service-role key here.
+window.OLFACTRA_SUPABASE_CONFIG = window.OLFACTRA_SUPABASE_CONFIG || {
+  url: "https://YOUR-PROJECT.supabase.co",
+  anonKey: "YOUR_SUPABASE_ANON_KEY"
+};
+
+let olfactraSupabase = null;
+let olfactraSession = null;
+let olfactraLibrary = [];
+let olfactraCombinations = [];
+let olfactraAuthMode = 'signin';
+let olfactraPendingAccountAction = null;
+let olfactraLibraryLoadTarget=null;
+const OLFACTRA_PENDING_AUTH_KEY = 'olfactra:pending-account-action:v1';
+const OLFACTRA_PENDING_PROFILE_KEY = 'olfactra:pending-profile-snapshot:v1';
+
+function cloudIsConfigured(){
+  const c=window.OLFACTRA_SUPABASE_CONFIG||{};
+  return !!(c.url && c.anonKey && !String(c.url).includes('YOUR-PROJECT') && !String(c.anonKey).includes('YOUR_SUPABASE'));
+}
+function createRecordId(){
+  return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():('olf-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10));
+}
+function authMessage(message,isError=false){
+  const el=document.getElementById('authFeedback');if(!el)return;
+  el.textContent=message;el.style.color=isError?'#d58d86':'#d0b18b';
+}
+function setAuthMode(mode){
+  olfactraAuthMode=mode==='register'?'register':'signin';
+  document.getElementById('signInTab').classList.toggle('active',olfactraAuthMode==='signin');
+  document.getElementById('registerTab').classList.toggle('active',olfactraAuthMode==='register');
+  document.getElementById('authNameWrap').hidden=olfactraAuthMode!=='register';
+  document.getElementById('authSubmit').textContent=olfactraAuthMode==='register'?'Create account':'Sign in';
+  document.getElementById('authPassword').autocomplete=olfactraAuthMode==='register'?'new-password':'current-password';
+  authMessage('');
+}
+function showAuthScreen(reason,action,intent){
+  if(typeof action==='function')olfactraPendingAccountAction=action;
+  if(intent){try{sessionStorage.setItem(OLFACTRA_PENDING_AUTH_KEY,intent);}catch(e){}}
+  const intro=document.getElementById('authIntro');
+  if(intro&&reason)intro.textContent=reason;
+  authMessage(cloudIsConfigured()?'':'Account saving is not connected yet. The site owner must configure Supabase before accounts can be created.');
+  document.getElementById('authScreen').hidden=false;
+  document.getElementById('authScreen').setAttribute('aria-modal','true');
+}
+function hideAuthScreen(){
+  document.getElementById('authScreen').hidden=true;
+  document.getElementById('authScreen').setAttribute('aria-modal','false');
+}
+function continueBrowsing(){
+  olfactraPendingAccountAction=null;
+  try{sessionStorage.removeItem(OLFACTRA_PENDING_AUTH_KEY);sessionStorage.removeItem(OLFACTRA_PENDING_PROFILE_KEY);}catch(e){}
+  hideAuthScreen();
+}
+function requireAccount(reason,action,intent){
+  if(olfactraSession&&olfactraSupabase)return true;
+  showAuthScreen(reason,action,intent);
+  return false;
+}
+function updateAccountControls(){
+  const button=document.getElementById('accountButton');
+  const search=document.getElementById('librarySearch');
+  const refresh=document.querySelector('.collection-tools button');
+  if(button){
+    button.textContent=olfactraSession?'Sign Out':'Sign In';
+    button.setAttribute('aria-label',olfactraSession?'Sign out of OLFACTRA':'Sign in or register');
+    button.title=olfactraSession?(olfactraSession.user.email||'Sign out'):'Sign in or register';
+  }
+  if(search)search.disabled=!olfactraSession;
+  if(refresh)refresh.disabled=!olfactraSession;
+  ['libraryButton','combinationsButton'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.setAttribute('aria-label',olfactraSession?el.textContent.trim():el.textContent.trim()+' (sign-in required)');
+  });
+}
+function closeCollectionPanels(){
+  const library=document.getElementById('libraryScreen');
+  const combinations=document.getElementById('combinationsScreen');
+  if(library)library.hidden=true;
+  if(combinations)combinations.hidden=true;
+  olfactraLibraryLoadTarget=null;
+}
+function openLibraryPanel(target){
+  const intent=target==='a'?'open-library-a':target==='b'?'open-library-b':'open-library';
+  if(!requireAccount('Your personal fragrance library is available after you sign in. Create a free account to save, search, and reuse named fragrances.',()=>openLibraryPanel(target),intent))return;
+  olfactraLibraryLoadTarget=target==='a'||target==='b'?target:null;
+  const subtitle=document.getElementById('libraryDialogSubtitle');
+  if(subtitle)subtitle.textContent=olfactraLibraryLoadTarget?`Choose a saved fragrance for Fragrance ${olfactraLibraryLoadTarget.toUpperCase()}, or drag its name onto the matching profile.`:'Drag a fragrance onto Fragrance A or B, or use its load button.';
+  const screen=document.getElementById('libraryScreen');
+  const combinations=document.getElementById('combinationsScreen');
+  if(combinations)combinations.hidden=true;
+  if(screen)screen.hidden=false;
+  renderFragranceLibrary();
+  refreshFragranceLibrary();
+}
+function openCombinationsPanel(){
+  if(!requireAccount('Your named combinations and saved compatibility scores are available after you sign in. Create a free account to save and revisit your pairings.',openCombinationsPanel,'open-combinations'))return;
+  closeCollectionPanels();
+  const screen=document.getElementById('combinationsScreen');
+  if(screen)screen.hidden=false;
+  renderSavedCombinations();
+  refreshSavedCombinations();
+}
+function openAccountAction(){
+  if(olfactraSession){signOutAccount();return;}
+  showAuthScreen('Sign in or create a free account to access your saved fragrances and combinations. You can keep browsing and testing pairings without signing in.');
+}
+async function submitAccountForm(event){
+  event.preventDefault();
+  if(!cloudIsConfigured()||!olfactraSupabase){authMessage('Account storage is not configured yet. The site owner must connect the Supabase project before sign-in or registration can work.',true);return;}
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value.trim();
+  const submit=document.getElementById('authSubmit');submit.disabled=true;submit.textContent='Please wait…';
+  try{
+    let result;
+    if(olfactraAuthMode==='register'){
+      result=await olfactraSupabase.auth.signUp({email,password,options:{data:{full_name:name}}});
+      if(result.error)throw result.error;
+      if(result.data.session){await activateCloudSession(result.data.session);authMessage('Account created successfully.');}
+      else authMessage('Account created. Check your email for the confirmation link, then sign in.');
+    }else{
+      result=await olfactraSupabase.auth.signInWithPassword({email,password});
+      if(result.error)throw result.error;
+      await activateCloudSession(result.data.session);
+    }
+  }catch(error){authMessage(error.message||'Unable to sign in. Please try again.',true);}
+  finally{submit.disabled=false;submit.textContent=olfactraAuthMode==='register'?'Create account':'Sign in';}
+}
+async function signInWithGoogle(){
+  if(!cloudIsConfigured()||!olfactraSupabase){authMessage('Google sign-in needs a configured Supabase project and Google OAuth provider. See the setup guide.',true);return;}
+  try{
+    try{if(sessionStorage.getItem(OLFACTRA_PENDING_AUTH_KEY)){sessionStorage.setItem(OLFACTRA_PENDING_PROFILE_KEY,JSON.stringify({a:profileForSave('a'),b:profileForSave('b')}));}}catch(e){}
+    const {error}=await olfactraSupabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});
+    if(error)throw error;
+  }catch(error){authMessage(error.message||'Google sign-in could not be started.',true);}
+}
+async function signOutAccount(){
+  if(olfactraSupabase){const {error}=await olfactraSupabase.auth.signOut();if(error){showToast(error.message,'bad');return;}}
+  olfactraSession=null;olfactraLibrary=[];olfactraCombinations=[];olfactraPendingAccountAction=null;
+  hideAuthScreen();closeCollectionPanels();updateAccountControls();renderFragranceLibrary();renderSavedCombinations();
+  showToast('Signed out. You can continue using OLFACTRA as a guest.','good');
+}
+async function activateCloudSession(session){
+  if(!session)return;
+  const isNewUser=olfactraSession?.user?.id!==session.user.id;
+  olfactraSession=session;
+  hideAuthScreen();updateAccountControls();
+  await Promise.all([refreshFragranceLibrary(),refreshSavedCombinations()]);
+  if(isNewUser)showToast('Signed in. Your saved OLFACTRA library is ready.','good');
+  const pending=olfactraPendingAccountAction;
+  olfactraPendingAccountAction=null;
+  let intent='',profileSnapshot=null;try{intent=sessionStorage.getItem(OLFACTRA_PENDING_AUTH_KEY)||'';sessionStorage.removeItem(OLFACTRA_PENDING_AUTH_KEY);if(intent&&!pending){profileSnapshot=JSON.parse(sessionStorage.getItem(OLFACTRA_PENDING_PROFILE_KEY)||'null');}sessionStorage.removeItem(OLFACTRA_PENDING_PROFILE_KEY);}catch(e){}
+  if(profileSnapshot){if(profileSnapshot.a)applyProfileToSlot('a',profileSnapshot.a);if(profileSnapshot.b)applyProfileToSlot('b',profileSnapshot.b);const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;adjustTheorySliderForSelectionChange(totalSelected);calculate();}
+  if(typeof pending==='function')await pending();
+  else if(intent==='save-fragrance:a')await saveCurrentFragrance('a');
+  else if(intent==='save-fragrance:b')await saveCurrentFragrance('b');
+  else if(intent==='save-combination')await saveCurrentCombination();
+  else if(intent==='open-library')openLibraryPanel();
+  else if(intent==='open-library-a')openLibraryPanel('a');
+  else if(intent==='open-library-b')openLibraryPanel('b');
+  else if(intent==='open-combinations')openCombinationsPanel();
+}
+async function refreshFragranceLibrary(){
+  if(!olfactraSession||!olfactraSupabase){olfactraLibrary=[];renderFragranceLibrary();return;}
+  const {data,error}=await olfactraSupabase.from('fragrances').select('id,name,profile,created_at,updated_at').order('name',{ascending:true});
+  if(error){showToast('Could not load cloud library: '+error.message,'bad');return;}
+  olfactraLibrary=(data||[]).map(row=>({...row,profile:row.profile||{chars:{},notes:[]}}));
+  renderFragranceLibrary();
+}
+async function refreshSavedCombinations(){
+  if(!olfactraSession||!olfactraSupabase){olfactraCombinations=[];renderSavedCombinations();return;}
+  const {data,error}=await olfactraSupabase.from('saved_combinations').select('id,name,fragrance_a,fragrance_b,score,tier,created_at,updated_at').order('updated_at',{ascending:false});
+  if(error){showToast('Could not load saved combinations: '+error.message,'bad');return;}
+  olfactraCombinations=data||[];renderSavedCombinations();
+}
+function profileForSave(prefix){
+  const name=titleCaseFragranceName(document.getElementById(prefix+'Name').value);
+  const p=getProfile(prefix);
+  return {name,profile:{chars:p.chars,notes:p.notes}};
+}
+async function saveCurrentFragrance(prefix){
+  if(!requireAccount('Saving fragrances requires a free OLFACTRA account. Sign in or create one to keep this fragrance in your personal library.',()=>saveCurrentFragrance(prefix),'save-fragrance:'+prefix))return;
+  const {name,profile}=profileForSave(prefix);
+  if(!name){showToast('Enter a fragrance name before saving it.','bad');document.getElementById(prefix+'Name').focus();return;}
+  if(!profile.notes.length&&!Object.keys(profile.chars).length){showToast('Add at least one characteristic or note before saving.','bad');return;}
+  const existing=olfactraLibrary.find(item=>norm(item.name)===norm(name));
+  const now=new Date().toISOString();
+  const record={user_id:olfactraSession.user.id,name,profile,updated_at:now};
+  if(existing?.id)record.id=existing.id;
+  const {data,error}=await olfactraSupabase.from('fragrances').upsert(record,{onConflict:'id'}).select('id,name,profile,created_at,updated_at').single();
+  if(error){showToast('Save failed: '+error.message,'bad');return;}
+  const idx=olfactraLibrary.findIndex(x=>x.id===data.id);if(idx>=0)olfactraLibrary[idx]=data;else olfactraLibrary.push(data);
+  renderFragranceLibrary();
+  showToast(existing?`Updated “${name}” in your library.`:`Saved “${name}” to your library.`,'good');
+}
+function renderFragranceLibrary(){
+  const host=document.getElementById('libraryGrid');if(!host)return;
+  if(!olfactraSession){host.innerHTML='<div class="library-gate">Your personal fragrance library is private to your account. Sign in to save, search, rename, and reuse fragrances. You can still build profiles and calculate scores as a guest.<br><button type="button" onclick="showAuthScreen(\'Saving fragrances requires a free OLFACTRA account. Sign in or create one to keep your collection.\')">Sign in to access your library</button></div>';return;}
+  const q=norm(document.getElementById('librarySearch')?.value||'');
+  const items=olfactraLibrary.filter(item=>!q||norm(item.name+' '+(item.profile?.notes||[]).join(' ')+' '+Object.values(item.profile?.chars||{}).join(' ')).includes(q));
+  if(!items.length){host.innerHTML='<div class="library-empty">Your library is empty. Build a profile below and choose <b>Save to My Library</b>.</div>';return;}
+  host.innerHTML=items.map(item=>{
+    const notes=Array.isArray(item.profile?.notes)?item.profile.notes:[];
+    const chars=item.profile?.chars||{};
+    const noteText=notes.length?notes.join(' · '):'No notes selected';
+    const tags=[chars.projection,chars.complexity].filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join('');
+    const loadButtons=olfactraLibraryLoadTarget
+      ? `<button type="button" onclick="loadLibraryIntoSlot('${olfactraLibraryLoadTarget}','${esc(item.id)}')">Load to ${olfactraLibraryLoadTarget.toUpperCase()}</button>`
+      : `<button type="button" onclick="loadLibraryIntoSlot('a','${esc(item.id)}')">Load A</button><button type="button" onclick="loadLibraryIntoSlot('b','${esc(item.id)}')">Load B</button>`;
+    return `<article class="saved-fragrance" draggable="true" data-fragrance-id="${esc(item.id)}" ondragstart="beginLibraryDrag(event,'${esc(item.id)}')" title="Drag this fragrance onto Fragrance A or B">
+      <div class="saved-fragrance-title">${esc(item.name)}</div>
+      <div class="saved-fragrance-meta">${esc(noteText)}</div>
+      <div class="saved-fragrance-tags">${tags||'<span>Custom profile</span>'}</div>
+      <div class="saved-fragrance-actions">${loadButtons}<button type="button" class="secondary" onclick="renameLibraryFragrance('${esc(item.id)}')">Rename</button><button type="button" class="delete-saved" onclick="deleteLibraryFragrance('${esc(item.id)}')">Delete</button></div>
+    </article>`;
+  }).join('');
+}
+function renderSavedCombinations(){
+  const host=document.getElementById('combinationGrid');if(!host)return;
+  if(!olfactraSession){host.innerHTML='<div class="library-gate">Saved combinations and their compatibility score history are available with an account.<br><button type="button" onclick="showAuthScreen(\'Saving combinations and their compatibility scores requires a free OLFACTRA account. Sign in or create one to keep this pairing.\')">Sign in to save combinations</button></div>';return;}
+  if(!olfactraCombinations.length){host.innerHTML='<div class="library-empty">No saved combinations yet. Build a pair and select “Save this combination and score” in the Compatibility Score panel.</div>';return;}
+  host.innerHTML=olfactraCombinations.map(item=>{
+    const a=item.fragrance_a?.name||'Fragrance A';const b=item.fragrance_b?.name||'Fragrance B';
+    return `<article class="saved-combination">
+      <div class="saved-combination-title">${esc(item.name)}</div>
+      <div class="saved-combination-meta">${esc(a)} + ${esc(b)}</div>
+      <div class="saved-combination-score">${Number(item.score)||0}/100 · ${esc(item.tier||'F')}-tier</div>
+      <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load pair</button><button type="button" class="delete-saved" onclick="deleteSavedCombination('${esc(item.id)}')">Delete</button></div>
+    </article>`;
+  }).join('');
+}
+async function saveCurrentCombination(){
+  if(!requireAccount('Saving combinations and their compatibility scores requires a free OLFACTRA account. Sign in or create one to preserve both fragrances and the score.',saveCurrentCombination,'save-combination'))return;
+  const a=profileForSave('a'),b=profileForSave('b');
+  if(!a.profile.notes.length&&!Object.keys(a.profile.chars).length){showToast('Add at least one characteristic or note to Fragrance A first.','bad');return;}
+  if(!b.profile.notes.length&&!Object.keys(b.profile.chars).length){showToast('Add at least one characteristic or note to Fragrance B first.','bad');return;}
+  calculate();
+  const suggested=[a.name||'Fragrance A',b.name||'Fragrance B'].join(' + ');
+  const entered=prompt('Name this saved combination:',suggested);
+  if(entered===null)return;
+  const name=entered.trim();if(!name){showToast('Enter a name for this combination.','bad');return;}
+  const score=Math.max(0,Math.min(100,parseInt(document.getElementById('score')?.textContent||'0',10)||0));
+  const tier=(document.getElementById('tier')?.textContent||'F-tier').replace(/-tier/i,'').trim().toUpperCase();
+  const now=new Date().toISOString();
+  const payload={user_id:olfactraSession.user.id,name,fragrance_a:a,fragrance_b:b,score,tier,updated_at:now};
+  const {data,error}=await olfactraSupabase.from('saved_combinations').insert(payload).select('id,name,fragrance_a,fragrance_b,score,tier,created_at,updated_at').single();
+  if(error){showToast('Could not save combination: '+error.message,'bad');return;}
+  olfactraCombinations.unshift(data);renderSavedCombinations();
+  showToast(`Saved “${name}” with a score of ${score}/100 (${tier}-tier).`,'good');
+}
+function beginLibraryDrag(event,id){event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('text/plain',id);}
+function applyProfileToSlot(prefix,item){
+  const profile=item.profile||{};const chars=profile.chars||{};const notes=Array.isArray(profile.notes)?profile.notes:[];
+  document.getElementById(prefix+'Name').value=item.name||'';
+  axes.forEach(axis=>{
+    document.querySelectorAll(`input[name="${prefix}-${axis.id}"]`).forEach(el=>el.checked=false);
+    const value=chars[axis.id];if(value){const selected=document.querySelector(`input[name="${prefix}-${axis.id}"][value="${CSS.escape(value)}"]`);if(selected)selected.checked=true;}
+  });
+  document.querySelectorAll(`input[name="${prefix}-note"]`).forEach(el=>el.checked=notes.includes(el.value));
+  noteOrder[prefix]=notes.filter(note=>getSelectedNotes(prefix).includes(note)).slice(0,3);
+  renderRankedNotes(prefix);updateNoteReminder(prefix);
+}
+function loadLibraryIntoSlot(prefix,id){
+  if(!olfactraSession){showAuthScreen('Sign in is required to access saved fragrances. You can still create and mix profiles manually without an account.');return;}
+  const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
+  applyProfileToSlot(prefix,item);
+  closeCollectionPanels();
+  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+  adjustTheorySliderForSelectionChange(totalSelected);calculate();
+  showToast(`Loaded “${item.name}” into Fragrance ${prefix.toUpperCase()}.`,'good');
+}
+function loadSavedCombination(id){
+  if(!olfactraSession){showAuthScreen('Sign in is required to access saved combinations. You can still calculate new pairings as a guest.');return;}
+  const item=olfactraCombinations.find(x=>x.id===id);if(!item)return;
+  applyProfileToSlot('a',item.fragrance_a||{});applyProfileToSlot('b',item.fragrance_b||{});
+  closeCollectionPanels();
+  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+  adjustTheorySliderForSelectionChange(totalSelected);calculate();
+  showToast(`Loaded “${item.name}”. Live compatibility is recalculated from the saved profiles.`,'good');
+}
+function renameLibraryFragrance(id){
+  if(!olfactraSession){showAuthScreen('Sign in is required to manage your saved fragrance library.');return;}
+  const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
+  const next=prompt('Rename this fragrance:',item.name);if(next===null)return;
+  const name=titleCaseFragranceName(next);if(!name){showToast('A fragrance name cannot be empty.','bad');return;}
+  if(olfactraLibrary.some(x=>x.id!==id&&norm(x.name)===norm(name))){showToast('A fragrance with that name already exists in your library.','bad');return;}
+  item.name=name;item.updated_at=new Date().toISOString();persistLibraryRecord(item).then(ok=>{if(ok){renderFragranceLibrary();showToast('Fragrance renamed.','good');}});
+}
+async function deleteLibraryFragrance(id){
+  if(!olfactraSession)return;
+  const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
+  if(!confirm(`Delete “${item.name}” from your library?`))return;
+  const {error}=await olfactraSupabase.from('fragrances').delete().eq('id',id);
+  if(error){showToast('Delete failed: '+error.message,'bad');return;}
+  olfactraLibrary=olfactraLibrary.filter(x=>x.id!==id);
+  renderFragranceLibrary();showToast('Fragrance deleted.','good');
+}
+async function deleteSavedCombination(id){
+  if(!olfactraSession)return;
+  const item=olfactraCombinations.find(x=>x.id===id);if(!item)return;
+  if(!confirm(`Delete saved combination “${item.name}”?`))return;
+  const {error}=await olfactraSupabase.from('saved_combinations').delete().eq('id',id);
+  if(error){showToast('Delete failed: '+error.message,'bad');return;}
+  olfactraCombinations=olfactraCombinations.filter(x=>x.id!==id);renderSavedCombinations();
+  showToast('Saved combination deleted.','good');
+}
+async function persistLibraryRecord(item){
+  if(!olfactraSession||!olfactraSupabase)return false;
+  const {error}=await olfactraSupabase.from('fragrances').update({name:item.name,profile:item.profile,updated_at:item.updated_at}).eq('id',item.id);
+  if(error){showToast(error.message,'bad');return false;}return true;
+}
+function installDropTargets(){
+  ['a','b'].forEach(prefix=>{
+    const panel=document.getElementById(prefix==='a'?'fragranceA':'fragranceB');if(!panel)return;
+    panel.addEventListener('dragover',event=>{if(event.dataTransfer.types.includes('text/plain')){event.preventDefault();event.dataTransfer.dropEffect='copy';panel.classList.add('library-drop-target');}});
+    panel.addEventListener('dragleave',event=>{if(!panel.contains(event.relatedTarget))panel.classList.remove('library-drop-target');});
+    panel.addEventListener('drop',event=>{event.preventDefault();panel.classList.remove('library-drop-target');const id=event.dataTransfer.getData('text/plain');if(id)loadLibraryIntoSlot(prefix,id);});
+  });
+}
+async function bootOlfactraAccounts(){
+  const configured=cloudIsConfigured()&&window.supabase?.createClient;
+  if(configured){
+    const config=window.OLFACTRA_SUPABASE_CONFIG;
+    try{
+      olfactraSupabase=window.supabase.createClient(config.url,config.anonKey);
+      const {data,error}=await olfactraSupabase.auth.getSession();
+      if(error)throw error;
+      if(data.session)await activateCloudSession(data.session);
+      olfactraSupabase.auth.onAuthStateChange((event,session)=>{
+        if(session&&(!olfactraSession||olfactraSession.user.id!==session.user.id))setTimeout(()=>activateCloudSession(session),0);
+        else if(!session&&olfactraSession){olfactraSession=null;olfactraLibrary=[];olfactraCombinations=[];hideAuthScreen();updateAccountControls();renderFragranceLibrary();renderSavedCombinations();}
+      });
+    }catch(error){
+      olfactraSupabase=null;showToast('Account service could not be reached: '+error.message,'bad');
+    }
+  }
+  updateAccountControls();renderFragranceLibrary();renderSavedCombinations();installDropTargets();
+}
+
+bootOlfactraAccounts();
+</script>
 
 </body>
 </html>
