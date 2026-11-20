@@ -1,13 +1,14 @@
-# OLFACULATOR Mobile-ready project
+# OLFACULATOR Mobile Navigation + Gold Winner Update
+
+This build continues from MOBILE_READY and includes:
+
+- A complete rounded metallic-gold S-tier winner treatment with an internal moving shine and warm glow. The former rectangular halo is disabled.
+- A collapsible Note Database, closed by default, using native accessible disclosure controls.
+- A mobile hamburger navigation menu containing My Library, My Combinations, About Us, and Sign In / Sign Out. Desktop navigation remains horizontal.
+- Existing Supabase configuration, PWA manifest, service worker, logos, and icons preserved.
 
 ## Deploy
-Upload the contents of this folder to the root of your GitHub repository, preserving the `icons/` folder. Vercel should deploy from the same root.
+Upload the contents of this folder to the root of the GitHub repository, preserving the `icons/` directory, `manifest.webmanifest`, and `service-worker.js`. Commit and deploy.
 
-## Add to Home Screen
-- **iPhone/iPad:** Open the deployed HTTPS website in Safari, tap Share, then choose **Add to Home Screen**. iOS uses `icons/apple-touch-icon.png` for the installed icon.
-- **Android:** Open the deployed HTTPS website in Chrome and use **Install app** or **Add to Home screen** from the browser menu. Android uses `manifest.webmanifest` and the 192px/512px icons.
-
-The web app manifest sets `display: standalone`. A service worker provides a small offline shell and uses network-first navigation so updated deployments are picked up promptly.
-
-## Supabase
-The current HTML preserves the existing Supabase browser configuration. Keep the public publishable/anon key in the browser config; never put a service-role/secret key in the HTML. Existing tables and user data are not modified by this mobile update.
+## Notes
+No database migration is required. The service-worker cache was versioned to v2 so installed browsers replace the previous cached shell. Test the mobile navigation and S-tier animation on a real device after deployment.

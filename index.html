@@ -1872,6 +1872,191 @@ button{-webkit-tap-highlight-color:transparent;}
 .profile-actions .reset-profile-btn:hover{background:linear-gradient(145deg,#873c46,#51232e)!important;border-color:#e38c94!important;}
 </style>
 
+
+<style id="olfaculator-gold-winner-and-mobile-navigation">
+/* ------------------------------------------------------------------
+   S-tier winner treatment: one integrated rounded metallic card.
+   This deliberately replaces the earlier halo/frame experiments.
+------------------------------------------------------------------- */
+.score-sticky.s-tier-active{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  border:1.6px solid transparent!important;
+  border-radius:24px!important;
+  background:
+    linear-gradient(142deg,rgba(46,37,22,.985) 0%,rgba(24,23,20,.99) 36%,rgba(54,42,22,.985) 68%,rgba(24,22,18,.99) 100%) padding-box,
+    linear-gradient(112deg,#fff5cc 0%,#bd9138 10%,#fff0ad 21%,#805b1e 36%,#f7dfa0 49%,#a87524 63%,#fff0b2 78%,#8b6426 90%,#fff4ce 100%) border-box!important;
+  background-clip:padding-box,border-box!important;
+  box-shadow:
+    0 0 0 1px rgba(255,238,184,.26),
+    0 0 12px rgba(255,211,105,.35),
+    0 0 30px rgba(202,145,43,.22),
+    0 16px 42px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,235,.24),
+    inset 0 -1px 0 rgba(133,91,28,.55)!important;
+  animation:olfGoldWinnerBreath 4.6s ease-in-out infinite!important;
+}
+.score-sticky.s-tier-active>.s-tier-rectangular-halo{display:none!important;}
+.score-sticky.s-tier-active::before{
+  content:""!important;
+  position:absolute!important;inset:1px!important;z-index:0!important;
+  border-radius:22px!important;pointer-events:none!important;
+  background:
+    radial-gradient(ellipse at 12% 4%,rgba(255,242,194,.22),transparent 38%),
+    radial-gradient(ellipse at 96% 92%,rgba(219,160,55,.18),transparent 42%),
+    linear-gradient(118deg,rgba(255,246,215,.07),transparent 28%,rgba(240,193,94,.055) 62%,transparent 82%),
+    repeating-linear-gradient(104deg,rgba(255,255,255,.012) 0 1px,transparent 1px 5px)!important;
+  opacity:.92!important;
+  mix-blend-mode:screen;
+  animation:olfGoldInnerLustre 7.5s ease-in-out infinite alternate!important;
+}
+.score-sticky.s-tier-active::after{
+  content:""!important;
+  position:absolute!important;inset:0!important;z-index:0!important;
+  border-radius:inherit!important;pointer-events:none!important;
+  background:linear-gradient(112deg,
+    transparent 0%,
+    rgba(255,246,211,.015) 31%,
+    rgba(255,246,214,.19) 43%,
+    rgba(255,255,240,.30) 47%,
+    rgba(255,228,165,.14) 51%,
+    rgba(255,255,255,.012) 62%,
+    transparent 76%)!important;
+  background-size:250% 100%!important;
+  background-position:-155% 0!important;
+  mix-blend-mode:screen!important;
+  opacity:.78!important;
+  animation:olfGoldMetalSweep 7s cubic-bezier(.4,0,.2,1) infinite!important;
+}
+.score-sticky.s-tier-active>*{position:relative!important;z-index:1!important;}
+.score-sticky.s-tier-active h2{
+  color:#fff0b8!important;
+  text-shadow:0 1px 0 rgba(91,61,16,.9),0 0 10px rgba(255,218,120,.48),0 0 22px rgba(255,194,64,.20)!important;
+}
+.score-sticky.s-tier-active .big,
+.score-sticky.s-tier-active #score{
+  color:#fff3cd!important;
+  text-shadow:0 1px 0 #795622,0 2px 5px rgba(0,0,0,.62),0 0 18px rgba(255,218,130,.34)!important;
+}
+.score-sticky.s-tier-active .tier,
+.score-sticky.s-tier-active #tier{color:#f8dfa0!important;text-shadow:0 1px 0 rgba(74,49,15,.85),0 0 9px rgba(255,220,135,.22)!important;}
+.score-sticky.s-tier-active .bar{background:rgba(19,17,13,.72)!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.55)!important;}
+.score-sticky.s-tier-active .bar>div{
+  background:linear-gradient(90deg,#8d6427 0%,#e4c47d 18%,#fff1bc 37%,#c99b43 55%,#f8e4a8 73%,#a87527 100%)!important;
+  box-shadow:0 0 8px rgba(255,218,131,.46),inset 0 1px 0 rgba(255,255,235,.55)!important;
+}
+.score-sticky.s-tier-active .metric{border-color:rgba(207,168,89,.30)!important;background:linear-gradient(145deg,rgba(29,25,18,.92),rgba(20,19,16,.95))!important;}
+@keyframes olfGoldMetalSweep{
+  0%,14%{background-position:-155% 0;opacity:.2}
+  45%{opacity:.82}
+  76%,100%{background-position:155% 0;opacity:.24}
+}
+@keyframes olfGoldInnerLustre{
+  0%{filter:brightness(.94) saturate(1.02);opacity:.68}
+  100%{filter:brightness(1.13) saturate(1.12);opacity:.98}
+}
+@keyframes olfGoldWinnerBreath{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,238,184,.22),0 0 10px rgba(255,211,105,.29),0 0 25px rgba(202,145,43,.18),0 16px 42px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,235,.22),inset 0 -1px 0 rgba(133,91,28,.50)}
+  50%{box-shadow:0 0 0 1px rgba(255,245,207,.44),0 0 17px rgba(255,219,133,.48),0 0 39px rgba(202,145,43,.29),0 16px 42px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,235,.38),inset 0 -1px 0 rgba(133,91,28,.62)}
+}
+@media(prefers-reduced-motion:reduce){
+  .score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important;}
+  .score-sticky.s-tier-active::after{opacity:.24!important;background-position:50% 0!important;}
+}
+
+/* ------------------------------------------------------------------
+   Collapsible Note Database. Closed on first load; the native details
+   element keeps it keyboard and touch accessible without extra JS.
+------------------------------------------------------------------- */
+.interaction-sticky{padding:0!important;overflow:hidden!important;}
+.note-database-disclosure{border:0!important;padding:0!important;margin:0!important;}
+.note-database-disclosure>summary{
+  display:flex!important;align-items:center!important;gap:10px!important;
+  min-height:48px!important;padding:11px 14px!important;list-style:none!important;
+  border:0!important;color:var(--ink)!important;background:color-mix(in srgb,var(--card) 92%,var(--theme-primary) 8%)!important;
+  cursor:pointer!important;user-select:none!important;-webkit-user-select:none!important;
+}
+.note-database-disclosure>summary::-webkit-details-marker{display:none!important;}
+.note-db-summary-title{font-size:13px!important;font-weight:900!important;letter-spacing:.01em!important;}
+.note-db-summary-hint{margin-left:auto!important;font-size:9px!important;color:var(--muted)!important;font-weight:700!important;}
+.note-db-chevron{width:17px!important;height:17px!important;flex:0 0 17px!important;transition:transform .18s ease!important;}
+.note-db-chevron path{fill:none!important;stroke:var(--theme-primary)!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
+.note-database-disclosure[open]>summary{border-bottom:1px solid var(--line)!important;}
+.note-database-disclosure[open] .note-db-chevron{transform:rotate(180deg)!important;}
+.note-database-content{padding:9px 11px 12px!important;}
+.note-database-content .theory-controls{margin-top:0!important;}
+@media(min-width:1281px){
+  .interaction-sticky{padding:0!important;}
+  .note-database-disclosure[open] .note-database-content{max-height:calc(100dvh - var(--of-masthead-height) - 105px);overflow:auto;overscroll-behavior:contain;}
+}
+
+/* ------------------------------------------------------------------
+   Mobile navigation: compact brand masthead + three-line menu button.
+   Desktop keeps the existing horizontal toolbar.
+------------------------------------------------------------------- */
+.mobile-menu-toggle{display:none;}
+.mobile-nav-panel{display:flex;flex:1 1 auto;align-items:center;justify-content:space-between;gap:10px;min-width:0;}
+@media(max-width:760px){
+  .olfactra-header{height:82px!important;min-height:82px!important;padding:4px 10px!important;overflow:visible!important;}
+  .olfactra-header .brand-banner{height:100%!important;min-height:0!important;overflow:visible!important;}
+  .brand-identity{
+    position:absolute!important;left:50%!important;right:auto!important;top:50%!important;bottom:auto!important;
+    width:max-content!important;max-width:calc(100% - 76px)!important;transform:translate(-50%,-50%)!important;
+    inset:auto!important;gap:7px!important;justify-content:center!important;
+  }
+  .brand-identity .olfactra-logo{width:34px!important;height:34px!important;flex:0 0 34px!important;}
+  .brand-identity .brand-copy{min-width:0!important;}
+  .brand-identity .brand-name{font-size:clamp(14px,4.8vw,19px)!important;letter-spacing:.085em!important;white-space:nowrap!important;}
+  .brand-identity .brand-tagline{font-size:5.5px!important;letter-spacing:.06em!important;white-space:nowrap!important;}
+  .olfactra-header .workspace-toolbar{
+    position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;
+    margin:0!important;padding:0!important;display:block!important;pointer-events:none!important;z-index:8!important;
+  }
+  .mobile-menu-toggle{
+    position:absolute!important;top:50%!important;right:10px!important;transform:translateY(-50%)!important;
+    display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;
+    width:43px!important;height:43px!important;min-width:43px!important;min-height:43px!important;margin:0!important;padding:6px!important;
+    border:1px solid color-mix(in srgb,var(--theme-primary) 44%,var(--line))!important;border-radius:12px!important;
+    background:color-mix(in srgb,var(--card) 94%,transparent)!important;color:var(--ink)!important;
+    box-shadow:0 4px 15px rgba(0,0,0,.22)!important;pointer-events:auto!important;z-index:12!important;
+  }
+  .mobile-menu-toggle svg{display:block!important;width:21px!important;height:21px!important;}
+  .mobile-menu-toggle svg path{fill:none!important;stroke:currentColor!important;stroke-width:1.9!important;stroke-linecap:round!important;}
+  .mobile-menu-toggle span{display:block!important;font-size:7px!important;line-height:1!important;font-weight:850!important;letter-spacing:.07em!important;text-transform:uppercase!important;}
+  .mobile-nav-panel{
+    display:none!important;position:absolute!important;top:calc(100% + 4px)!important;right:10px!important;left:auto!important;
+    width:min(270px,calc(100vw - 20px))!important;min-width:0!important;padding:10px!important;gap:7px!important;
+    flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+    border:1px solid color-mix(in srgb,var(--theme-primary) 36%,var(--line))!important;border-radius:15px!important;
+    background:color-mix(in srgb,var(--card) 96%,var(--bg) 4%)!important;
+    box-shadow:0 18px 45px rgba(0,0,0,.46),0 0 16px color-mix(in srgb,var(--theme-primary) 12%,transparent)!important;
+    backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;pointer-events:auto!important;z-index:11!important;
+  }
+  .workspace-toolbar.mobile-menu-open .mobile-nav-panel{display:flex!important;}
+  .olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:6px!important;width:100%!important;min-width:0!important;
+  }
+  .olfactra-header .workspace-nav-right{padding-top:7px!important;border-top:1px solid var(--line)!important;}
+  .olfactra-header .workspace-nav-button,.olfactra-header .account-button{
+    display:flex!important;align-items:center!important;justify-content:flex-start!important;
+    width:100%!important;min-width:0!important;height:auto!important;min-height:43px!important;
+    padding:10px 12px!important;border-radius:10px!important;font-size:12px!important;line-height:1.2!important;
+    letter-spacing:0!important;white-space:normal!important;text-align:left!important;box-shadow:none!important;
+  }
+  .olfactra-right-rail{margin-left:12px!important;margin-right:12px!important;}
+  .interaction-sticky{margin-left:12px!important;margin-right:12px!important;}
+}
+@media(max-width:380px){
+  .olfactra-header{height:76px!important;min-height:76px!important;}
+  .brand-identity .olfactra-logo{width:30px!important;height:30px!important;flex-basis:30px!important;}
+  .brand-identity .brand-name{font-size:14px!important;letter-spacing:.055em!important;}
+  .brand-identity .brand-tagline{font-size:5px!important;}
+  .mobile-menu-toggle{right:7px!important;width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -1928,25 +2113,39 @@ button{-webkit-tap-highlight-color:transparent;}
       </svg>
       <div class="brand-copy"><div class="brand-name">OLFACULATOR</div><div class="brand-tagline">Subjective Layering Assistant</div></div>
     </div>
-    <nav class="workspace-toolbar" aria-label="Account and saved workspaces">
-      <div class="workspace-nav-left">
-        <button type="button" class="workspace-nav-button" id="libraryButton" onclick="openLibraryPanel()">My Library</button>
-        <button type="button" class="workspace-nav-button secondary" id="combinationsButton" onclick="openCombinationsPanel()">My Combinations</button>
-      </div>
-      <div class="workspace-nav-right">
-        <button type="button" class="workspace-nav-button about-button" id="aboutButton" onclick="openAboutPanel()">About</button>
-        <button type="button" class="account-button" id="accountButton" onclick="openAccountAction()">Sign In</button>
+    <nav class="workspace-toolbar" id="workspaceToolbar" aria-label="Account and saved workspaces">
+      <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Open navigation menu" aria-controls="mobileNavPanel" aria-expanded="false" onclick="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg>
+        <span>Menu</span>
+      </button>
+      <div class="mobile-nav-panel" id="mobileNavPanel">
+        <div class="workspace-nav-left">
+          <button type="button" class="workspace-nav-button" id="libraryButton" onclick="openLibraryPanel()">My Library</button>
+          <button type="button" class="workspace-nav-button secondary" id="combinationsButton" onclick="openCombinationsPanel()">My Combinations</button>
+        </div>
+        <div class="workspace-nav-right">
+          <button type="button" class="workspace-nav-button about-button" id="aboutButton" onclick="openAboutPanel()">About Us</button>
+          <button type="button" class="account-button" id="accountButton" onclick="openAccountAction()">Sign In</button>
+        </div>
       </div>
     </nav>
   </div>
 </header>
-<section class="card interaction-sticky">
-  <h2 style="margin-bottom:8px">Note Database</h2>
-  <div class="theory-controls">
-<label class="theory-toggle" style="flex:1"><span>Minimum matches to show: <b id="minMatchValue">1</b></span><div class="theory-slider-wrap"><input id="minMatchSlider" type="range" min="1" max="1" value="1" step="1" oninput="manualMinMatchChange()"><div id="minMatchLabels" class="theory-slider-labels"><span class="active">1</span></div></div></label>
-<span class="common-key">Green ring = all notes match · red = high risk · enlarged text = already selected</span>
-</div>
-  <div id="noteInteractionSticky"><div class="muted">Select notes to see their full theoretical synergy and penalty map.</div></div>
+<section class="card interaction-sticky" id="noteDatabasePanel">
+  <details class="note-database-disclosure" id="noteDatabaseDisclosure">
+    <summary aria-label="Expand Note Database">
+      <span class="note-db-summary-title">Note Database</span>
+      <span class="note-db-summary-hint">Explore note relationships</span>
+      <svg class="note-db-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg>
+    </summary>
+    <div class="note-database-content">
+      <div class="theory-controls">
+        <label class="theory-toggle" style="flex:1"><span>Minimum matches to show: <b id="minMatchValue">1</b></span><div class="theory-slider-wrap"><input id="minMatchSlider" type="range" min="1" max="1" value="1" step="1" oninput="manualMinMatchChange()"><div id="minMatchLabels" class="theory-slider-labels"><span class="active">1</span></div></div></label>
+        <span class="common-key">Green ring = all notes match · red = high risk · enlarged text = already selected</span>
+      </div>
+      <div id="noteInteractionSticky"><div class="muted">Select notes to see their full theoretical synergy and penalty map.</div></div>
+    </div>
+  </details>
 </section>
 <main>
 <div class="collection-screen" id="libraryScreen" hidden onclick="if(event.target===this)closeCollectionPanels()">
@@ -3801,6 +4000,31 @@ bootOlfactraAccounts();
     navigator.serviceWorker.register(new URL('./service-worker.js', location.href), {scope:'./'})
       .catch(function(err){ console.warn('OLFACULATOR offline support could not be registered:', err); });
   }, {once:true});
+})();
+</script>
+
+
+<script id="olfaculator-mobile-navigation-behavior">
+(function(){
+  function toolbar(){return document.getElementById('workspaceToolbar');}
+  function toggle(open){
+    const nav=toolbar();const button=document.getElementById('mobileMenuToggle');
+    if(!nav||!button)return;
+    const next=typeof open==='boolean'?open:!nav.classList.contains('mobile-menu-open');
+    nav.classList.toggle('mobile-menu-open',next);
+    button.setAttribute('aria-expanded',String(next));
+    button.setAttribute('aria-label',next?'Close navigation menu':'Open navigation menu');
+  }
+  window.toggleMobileMenu=function(){toggle();};
+  window.closeMobileMenu=function(){toggle(false);};
+  document.addEventListener('click',function(event){
+    const nav=toolbar();if(nav&&!nav.contains(event.target))toggle(false);
+  });
+  document.addEventListener('keydown',function(event){if(event.key==='Escape')toggle(false);});
+  ['libraryButton','combinationsButton','aboutButton','accountButton'].forEach(function(id){
+    const el=document.getElementById(id);if(el)el.addEventListener('click',function(){toggle(false);});
+  });
+  window.addEventListener('resize',function(){if(window.innerWidth>760)toggle(false);},{passive:true});
 })();
 </script>
 
