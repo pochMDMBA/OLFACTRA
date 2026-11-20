@@ -86,7 +86,7 @@ body[data-theme="arctic"]{--bg:#081522;--bg2:#0e2436;--card:#132e43;--card2:#1a3
 @media(max-width:900px){.grid,.axis-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.note-grid{grid-template-columns:repeat(2,1fr)}.slider-row{grid-template-columns:130px 1fr 45px}}
 
 /* Accord refinement + feedback + common-highlight controls */
-.toast-host{position:fixed;left:0;top:0;z-index:120;display:flex;flex-direction:column;gap:8px;pointer-events:none}.toast{padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font-size:11px;font-weight:800;box-shadow:0 14px 36px var(--shadow);opacity:0;transform:translateY(8px);transition:opacity .18s,transform .18s}.toast.show{opacity:1;transform:none}.toast.good{border-color:#55744f}.toast.bad{border-color:#765050}.reset-row{display:flex;gap:8px;align-items:center;margin-top:10px}.reset-row button{font-size:11px;padding:8px 11px}.theory-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:8px 9px;border:1px solid var(--line);background:var(--card2);border-radius:9px}.theory-toggle{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;font-size:10px;color:var(--muted);font-weight:800}.theory-toggle>span{display:block}.theory-toggle .theory-slider-wrap{width:100%;min-width:0}.theory-toggle input{accent-color:var(--accent)}.common-key{font-size:9px;color:var(--muted);line-height:1.35;text-align:left}.theory-slider-wrap{display:flex;flex-direction:column;gap:3px;min-width:230px;flex:1}.theory-slider-wrap input[type=range]{width:100%;margin:0}.theory-slider-labels{display:flex;justify-content:space-between;padding:0 2px;font-size:8px;line-height:1;color:var(--muted);font-weight:900}.theory-slider-labels span.active{color:var(--ink)}.theory-chip.common-high{font-weight:900}.theory-chip.common-high-all{box-shadow:0 0 0 2px var(--good),0 0 0 4px color-mix(in srgb,var(--good) 16%,transparent);background:color-mix(in srgb,var(--good) 18%,var(--card2));color:var(--ink);font-weight:950}.theory-chip .common-count{font-size:8px;margin-left:3px;opacity:.82}.theory-section-title.similar{color:var(--accent)}
+.toast-host{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translateX(-50%);z-index:2500;display:flex;flex-direction:column;align-items:center;gap:8px;width:min(420px,calc(100vw - 28px));pointer-events:none}.toast{box-sizing:border-box;width:fit-content;max-width:100%;padding:11px 15px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font-size:12px;font-weight:700;line-height:1.45;text-align:center;overflow-wrap:anywhere;box-shadow:0 10px 28px var(--shadow);opacity:0;transform:translateY(9px);transition:opacity .2s ease,transform .2s ease}.toast.show{opacity:1;transform:translateY(0)}.toast.good{border-color:color-mix(in srgb,var(--theme-secondary) 55%,var(--line))}.toast.bad{border-color:#a85d58}@media(max-width:760px){.toast-host{bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:calc(100vw - 24px)}.toast{width:100%;font-size:11px;padding:10px 13px}}@media(prefers-reduced-motion:reduce){.toast{transition:none}}.reset-row{display:flex;gap:8px;align-items:center;margin-top:10px}.reset-row button{font-size:11px;padding:8px 11px}.theory-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:8px 9px;border:1px solid var(--line);background:var(--card2);border-radius:9px}.theory-toggle{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;font-size:10px;color:var(--muted);font-weight:800}.theory-toggle>span{display:block}.theory-toggle .theory-slider-wrap{width:100%;min-width:0}.theory-toggle input{accent-color:var(--accent)}.common-key{font-size:9px;color:var(--muted);line-height:1.35;text-align:left}.theory-slider-wrap{display:flex;flex-direction:column;gap:3px;min-width:230px;flex:1}.theory-slider-wrap input[type=range]{width:100%;margin:0}.theory-slider-labels{display:flex;justify-content:space-between;padding:0 2px;font-size:8px;line-height:1;color:var(--muted);font-weight:900}.theory-slider-labels span.active{color:var(--ink)}.theory-chip.common-high{font-weight:900}.theory-chip.common-high-all{box-shadow:0 0 0 2px var(--good),0 0 0 4px color-mix(in srgb,var(--good) 16%,transparent);background:color-mix(in srgb,var(--good) 18%,var(--card2));color:var(--ink);font-weight:950}.theory-chip .common-count{font-size:8px;margin-left:3px;opacity:.82}.theory-section-title.similar{color:var(--accent)}
 
 
 /* Fragrance cards carry their own note-family color atmosphere. */
@@ -1645,8 +1645,8 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 .auth-tab{color:var(--muted)!important;}
 .auth-tab.active{
   color:var(--ink)!important;
-  background:color-mix(in srgb,var(--theme-primary) 18%,var(--card2))!important;
-  border:1px solid color-mix(in srgb,var(--theme-primary) 32%,var(--line))!important;
+  background:color-mix(in srgb,var(--theme-primary) 12%,var(--card2))!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 36%,var(--line))!important;
 }
 .auth-field label{color:var(--theme-secondary)!important;}
 .auth-field input{
@@ -1655,9 +1655,14 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
   border:1px solid var(--line)!important;
 }
 .auth-primary{
-  background:linear-gradient(115deg,var(--theme-primary),var(--theme-secondary))!important;
-  color:var(--bg)!important;
+  background:linear-gradient(135deg,var(--card2),color-mix(in srgb,var(--card2) 90%,var(--theme-primary) 10%))!important;
+  color:var(--ink)!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 58%,var(--line))!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 7%,transparent),0 5px 14px var(--shadow)!important;
 }
+.auth-primary:hover:not(:disabled){filter:brightness(1.04);}
+.auth-primary:focus-visible,.auth-tab:focus-visible,.google-button:focus-visible{outline:2px solid var(--theme-primary)!important;outline-offset:3px!important;}
+.auth-primary:disabled{opacity:.68;cursor:wait;}
 .google-button{
   background:color-mix(in srgb,var(--card2) 86%,var(--theme-primary))!important;
   color:var(--ink)!important;
@@ -2348,11 +2353,6 @@ Projection and Complexity contribute up to 35 points; ranked note relationships 
 </aside>
 
 <footer class="optional-info">
-<details><summary>Scoring details (optional)</summary>
-<div class="score-breakdown" id="scoreBreakdownDetails"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
-<p class="smallnote">Projection and complexity contribute up to 35 points. Ranked note relationships contribute up to 65 points. Loud + Soft contributes zero projection points rather than a deduction. Specific note penalties take priority over positive relationships.</p>
-<p class="smallnote">Rank 1 = 1.00×, Rank 2 = 0.70×, Rank 3 = 0.40×. The system evaluates the cross-fragrance note matrix and collapses mirrored relationships.</p>
-</details>
 <span>OLFACULATOR · Your personal fragrance workspace</span></footer>
 </div>
 </main>
@@ -2430,7 +2430,7 @@ function renderNotes(container,prefix){
   <div class="note-search"><input id="${prefix}NoteSearch" type="text" placeholder="Search notes..." oninput="filterNotes('${prefix}',this.value)"><div class="note-search-hint">Search by note name or family.</div></div>
   <div class="selected-notes"><div class="selected-notes-title">Ranked note strength</div><div class="smallnote">Rank 1 = strongest contribution · Rank 2 = moderate · Rank 3 = lightest. Drag to reorder.</div><div id="${prefix}RankedNotes"></div></div>`+
   `<details class="note-family-disclosure" id="${prefix}NoteFamilies" ${window.matchMedia && window.matchMedia('(max-width:760px)').matches ? '' : 'open'}>
-    <summary><span class="note-family-disclosure-title">Browse notes by family</span><span class="note-family-disclosure-hint">${Object.keys(families).length} fragrance families</span><svg class="note-family-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg></summary>
+    <summary><span class="note-family-disclosure-title">Browse Notes By Family</span><span class="note-family-disclosure-hint">${Object.keys(families).length} fragrance families</span><svg class="note-family-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg></summary>
     <div class="note-family-content">${Object.entries(families).map(([family,notes])=>{
       const common=commonNotes[family]||[]; const other=notes.filter(n=>!common.includes(n));
       return `<div class="family" data-family="${esc(family)}"><div class="family-title">${esc(family)}</div><div class="note-grid">${common.map(n=>noteHTML(prefix,n)).join("")}</div>${other.length?`<details><summary>Others (${other.length})</summary><div class="note-grid other-grid">${other.map(n=>noteHTML(prefix,n)).join("")}</div></details>`:""}</div>`;
@@ -2792,22 +2792,16 @@ function loadCode(prefix,code){
 }
 async function copyCode(prefix){const value=document.getElementById(prefix+'Code').value;if(!value)return showToast('No profile code to copy.','bad');try{await navigator.clipboard.writeText(value);showToast(`Copied ${prefix==='a'?'Fragrance A':'Fragrance B'} code.`,'good');}catch(e){const el=document.getElementById(prefix+'Code');el.focus();el.select();try{document.execCommand('copy');showToast(`Copied ${prefix==='a'?'Fragrance A':'Fragrance B'} code.`,'good');}catch(err){showToast('Copy failed. Select the code manually.','bad');}}}
 
-let lastPointerX=window.innerWidth/2,lastPointerY=window.innerHeight/2;
-document.addEventListener('pointermove',e=>{lastPointerX=e.clientX;lastPointerY=e.clientY;},{passive:true});
 function showToast(message,type='good'){
   const host=document.getElementById('toastHost');if(!host)return;
-  const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=message;host.appendChild(t);
-  t.style.position='fixed';
-  const gap=12,pad=10;
-  let left=lastPointerX+gap,top=lastPointerY+gap;
-  requestAnimationFrame(()=>{
-    const r=t.getBoundingClientRect();
-    if(left+r.width>window.innerWidth-pad)left=Math.max(pad,lastPointerX-r.width-gap);
-    if(top+r.height>window.innerHeight-pad)top=Math.max(pad,lastPointerY-r.height-gap);
-    t.style.left=left+'px';t.style.top=top+'px';t.style.right='auto';t.style.bottom='auto';
-    t.classList.add('show');
-  });
-  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),220)},1800);
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.setAttribute('role',type==='bad'?'alert':'status');
+  t.textContent=String(message||'');
+  host.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  const lifetime=type==='bad'?3200:2600;
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),240)},lifetime);
 }
 function resetFragrance(prefix){
   document.getElementById(prefix+'Name').value='';
@@ -3446,8 +3440,6 @@ function calculate(){
   rows.push(`<div class="score-breakdown-row"><span><b>Final</b></span><b>${score}/100</b></div>`);
   const breakdownMarkup=`<div class="score-breakdown-title">How this score was built</div>${rows.join('')}`;
   document.getElementById('scoreBreakdown').innerHTML=breakdownMarkup;
-  const optionalBreakdown=document.getElementById('scoreBreakdownDetails');
-  if(optionalBreakdown)optionalBreakdown.innerHTML=breakdownMarkup;
 
 
 
@@ -3663,10 +3655,10 @@ async function submitAccountForm(event){
   try{
     let result;
     if(olfactraAuthMode==='register'){
-      result=await olfactraSupabase.auth.signUp({email,password,options:{data:{full_name:name}}});
+      result=await olfactraSupabase.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:getAuthRedirectUrl()}});
       if(result.error)throw result.error;
       if(result.data.session){await activateCloudSession(result.data.session);authMessage('Account created successfully.');}
-      else authMessage('Account created. Check your email for the confirmation link, then sign in.');
+      else authMessage('Account created. Open the confirmation link in this browser to finish setup and return here signed in.');
     }else{
       result=await olfactraSupabase.auth.signInWithPassword({email,password});
       if(result.error)throw result.error;
@@ -3687,7 +3679,7 @@ async function signOutAccount(){
   if(olfactraSupabase){const {error}=await olfactraSupabase.auth.signOut();if(error){showToast(error.message,'bad');return;}}
   olfactraSession=null;olfactraLibrary=[];olfactraCombinations=[];olfactraPendingAccountAction=null;
   hideAuthScreen();closeCollectionPanels();updateAccountControls();renderFragranceLibrary();renderSavedCombinations();
-  showToast('Signed out. You can continue using OLFACULATOR as a guest.','good');
+  showToast('Signed out.','good');
 }
 async function activateCloudSession(session){
   if(!session)return;
@@ -3695,7 +3687,7 @@ async function activateCloudSession(session){
   olfactraSession=session;
   hideAuthScreen();updateAccountControls();
   await Promise.all([refreshFragranceLibrary(),refreshSavedCombinations()]);
-  if(isNewUser)showToast('Signed in. Your saved OLFACULATOR library is ready.','good');
+  if(isNewUser)showToast('Signed in.','good');
   const pending=olfactraPendingAccountAction;
   olfactraPendingAccountAction=null;
   let intent='',profileSnapshot=null;try{intent=sessionStorage.getItem(OLFACTRA_PENDING_AUTH_KEY)||'';sessionStorage.removeItem(OLFACTRA_PENDING_AUTH_KEY);if(intent&&!pending){profileSnapshot=JSON.parse(sessionStorage.getItem(OLFACTRA_PENDING_PROFILE_KEY)||'null');}sessionStorage.removeItem(OLFACTRA_PENDING_PROFILE_KEY);}catch(e){}
@@ -4063,15 +4055,39 @@ function installDropTargets(){
     panel.addEventListener('drop',event=>{event.preventDefault();panel.classList.remove('library-drop-target');const id=event.dataTransfer.getData('text/plain');if(id)loadLibraryIntoSlot(prefix,id);});
   });
 }
+function getAuthRedirectUrl(){
+  // Return to the currently deployed client-only app path after email confirmation.
+  return window.location.origin + window.location.pathname;
+}
+function cleanAuthCallbackUrl(){
+  try{
+    const url=new URL(window.location.href);
+    ['code','token_hash','type','error','error_code','error_description'].forEach(key=>url.searchParams.delete(key));
+    // Supabase implicit callbacks may place access/refresh tokens in the fragment.
+    if(/(?:^|[&#])(access_token|refresh_token|token_type|expires_at|provider_token|type)=/.test(url.hash))url.hash='';
+    window.history.replaceState({},document.title,url.pathname+url.search+url.hash);
+  }catch(e){}
+}
+async function verifyEmailCallbackIfPresent(){
+  const url=new URL(window.location.href);
+  const tokenHash=url.searchParams.get('token_hash');
+  const type=url.searchParams.get('type');
+  if(!tokenHash)return false;
+  if(!['signup','email'].includes(type||''))return false;
+  const {error}=await olfactraSupabase.auth.verifyOtp({token_hash:tokenHash,type});
+  if(error)throw error;
+  return true;
+}
 async function bootOlfactraAccounts(){
   const configured=cloudIsConfigured()&&window.supabase?.createClient;
   if(configured){
     const config=window.OLFACULATOR_SUPABASE_CONFIG||window.OLFACTRA_SUPABASE_CONFIG;
     try{
-      olfactraSupabase=window.supabase.createClient(config.url,config.anonKey);
+      olfactraSupabase=window.supabase.createClient(config.url,config.anonKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true,flowType:'implicit'}});
+      await verifyEmailCallbackIfPresent();
       const {data,error}=await olfactraSupabase.auth.getSession();
       if(error)throw error;
-      if(data.session)await activateCloudSession(data.session);
+      if(data.session){await activateCloudSession(data.session);if(/[?&](?:code|token_hash|type|error)=/.test(window.location.search)||/(?:access_token|refresh_token|type)=/.test(window.location.hash))cleanAuthCallbackUrl();}
       olfactraSupabase.auth.onAuthStateChange((event,session)=>{
         if(session&&(!olfactraSession||olfactraSession.user.id!==session.user.id))setTimeout(()=>activateCloudSession(session),0);
         else if(!session&&olfactraSession){olfactraSession=null;olfactraLibrary=[];olfactraCombinations=[];hideAuthScreen();updateAccountControls();renderFragranceLibrary();renderSavedCombinations();}
