@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101b23">
+<meta name="theme-color" content="#111315">
 <meta name="application-name" content="OLFACULATOR">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1406,7 +1406,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 .saved-fragrance-footer .delete-saved{font-size:9px;min-height:29px;padding:5px 10px;border-radius:7px;background:transparent;border:1px solid color-mix(in srgb,var(--bad) 60%,var(--line));color:var(--bad);}
 .saved-fragrance-footer .delete-saved:hover{background:color-mix(in srgb,var(--bad) 10%,transparent);}
 
-/* Save-combination window follows the same dialog language as My Library and About. */
+/* Save-combination window follows the same dialog language as My Shelf and About. */
 .save-combination-dialog{width:min(510px,100%);max-height:min(82vh,620px);}
 .save-combination-label{display:block;margin:0 0 7px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;}
 .save-combination-name{box-sizing:border-box;width:100%;min-height:43px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;outline:none;}
@@ -2208,16 +2208,16 @@ button{-webkit-tap-highlight-color:transparent;}
       </button>
       <div class="mobile-nav-panel" id="mobileNavPanel">
         <div class="workspace-nav-left">
-          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Library" aria-label="My Library" onclick="openLibraryPanel()">
-            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 10.5h8"/></svg><span class="nav-label">My Library</span>
+          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Shelf" aria-label="My Shelf" onclick="openLibraryPanel()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h18M5 17.5V5.5h14v12M5 10h14M5 14h14"/><path d="M8 7.5h2M13.5 7.5H16M8 12h2M13.5 12H16"/></svg><span class="nav-label">My Shelf</span>
           </button>
           <button type="button" class="workspace-nav-button secondary" id="combinationsButton" data-tooltip="My Combinations" aria-label="My Combinations" onclick="openCombinationsPanel()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5-8 4.5-8-4.5z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg><span class="nav-label">My Combinations</span>
           </button>
         </div>
         <div class="workspace-nav-right">
-          <button type="button" class="workspace-nav-button about-button" id="aboutButton" data-tooltip="About Us" aria-label="About Us" onclick="openAboutPanel()">
-            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="nav-label">About Us</span>
+          <button type="button" class="workspace-nav-button about-button" id="aboutButton" data-tooltip="About" aria-label="About" onclick="openAboutPanel()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="nav-label">About</span>
           </button>
           <button type="button" class="account-button" id="accountButton" data-tooltip="Sign In" aria-label="Sign in or register" onclick="openAccountAction()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H3"/></svg><span class="nav-label">Sign In</span>
@@ -2323,7 +2323,7 @@ button{-webkit-tap-highlight-color:transparent;}
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="aCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('a')">Copy</button></div></div>
 </div>
-<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Library</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('a')">Reset Fragrance A</button></div></div>
+<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Shelf</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('a')">Reset Fragrance A</button></div></div>
 <div id="aChars"></div><div id="aNotes"></div>
 </section>
 
@@ -2333,7 +2333,7 @@ button{-webkit-tap-highlight-color:transparent;}
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="bCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('b')">Copy</button></div></div>
 </div>
-<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Library</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('b')">Reset Fragrance B</button></div></div>
+<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Shelf</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('b')">Reset Fragrance B</button></div></div>
 <div id="bChars"></div><div id="bNotes"></div>
 </section>
 
@@ -3456,22 +3456,31 @@ function calculate(){
   return {score,tier,general,noteDelta,penalties:noteNegative.length};
 }/* ---------- THEME PREFERENCES ---------- */
 function applyTheme(theme){
-  const allowed=['obsidian','rosewood','forest','ocean','lavender','nebula','arctic'];
-  const t=allowed.includes(theme)?theme:'ocean';
+  const allowed=['original','obsidian','rosewood','forest','ocean','lavender','nebula','arctic'];
+  const t=allowed.includes(theme)?theme:'original';
   document.body.dataset.theme=t;
   const picker=document.getElementById('themePicker');
   if(picker) picker.value=t;
-  const themeMeta=document.querySelector('meta[name=\"theme-color\"]');
-  const themeChromeColors={obsidian:'#171513',rosewood:'#1d1418',forest:'#121b17',ocean:'#101b23',lavender:'#181522',nebula:'#1a1230',arctic:'#0e2436'};
-  if(themeMeta) themeMeta.setAttribute('content',themeChromeColors[t]||'#101b23');
+  const themeMeta=document.querySelector('meta[name="theme-color"]');
+  const themeChromeColors={original:'#111315',obsidian:'#171513',rosewood:'#1d1418',forest:'#121b17',ocean:'#101b23',lavender:'#181522',nebula:'#1a1230',arctic:'#0e2436'};
+  if(themeMeta) themeMeta.setAttribute('content',themeChromeColors[t]||'#111315');
   try{localStorage.setItem('fra-theme',t);}catch(e){}
 }
 (function initTheme(){
-  let saved='ocean';
-  try{saved=localStorage.getItem('fra-theme')||'ocean';}catch(e){}
+  let saved='original';
+  try{
+    // Migrate the previous automatically-saved Ocean default once so this release
+    // opens in Original. After migration, explicit theme choices remain persistent.
+    const migrationKey='fra-theme-original-default-v1';
+    if(localStorage.getItem(migrationKey)!=='done'){
+      saved='original';
+      localStorage.setItem(migrationKey,'done');
+    }else{
+      saved=localStorage.getItem('fra-theme')||'original';
+    }
+  }catch(e){}
   applyTheme(saved);
 })();
-
 
 function clearLoadCode(inputId){
   const field=document.getElementById(inputId);
@@ -3498,7 +3507,7 @@ calculate();
 
 
 
-<div class="theme-dock"><div class="theme-control"><label for="themePicker">Theme</label><select id="themePicker" aria-label="Interface theme"><option value="obsidian">Obsidian</option><option value="rosewood">Rosewood</option><option value="forest">Forest</option><option value="ocean">Ocean</option><option value="lavender">Lavender</option><option value="nebula">Nebula</option><option value="arctic">Arctic</option></select></div></div>
+<div class="theme-dock"><div class="theme-control"><label for="themePicker">Theme</label><select id="themePicker" aria-label="Interface theme"><option value="original">Original</option><option value="obsidian">Obsidian</option><option value="rosewood">Rosewood</option><option value="forest">Forest</option><option value="ocean">Ocean</option><option value="lavender">Lavender</option><option value="nebula">Nebula</option><option value="arctic">Arctic</option></select></div></div>
 <script>
 // The picker is declared after the main application script, so bind it here once it exists.
 (function bindOlfactraThemePicker(){
@@ -3763,7 +3772,7 @@ function renderFragranceLibrary(){
   if(!olfactraSession){host.innerHTML='<div class="library-gate">Your personal fragrance library is private to your account. Sign in to save, search, rename, and reuse fragrances. You can still build profiles and calculate scores as a guest.<br><button type="button" onclick="showAuthScreen(\'Saving fragrances requires a free OLFACULATOR account. Sign in or create one to keep your collection.\')">Sign in to access your library</button></div>';return;}
   const q=norm(document.getElementById('librarySearch')?.value||'');
   const items=olfactraLibrary.filter(item=>!q||norm(item.name+' '+(item.profile?.notes||[]).join(' ')+' '+Object.values(item.profile?.chars||{}).join(' ')).includes(q));
-  if(!items.length){host.innerHTML='<div class="library-empty">Your library is empty. Build a profile below and choose <b>Save to My Library</b>.</div>';return;}
+  if(!items.length){host.innerHTML='<div class="library-empty">Your library is empty. Build a profile below and choose <b>Save to My Shelf</b>.</div>';return;}
   host.innerHTML=items.map(item=>{
     const notes=Array.isArray(item.profile?.notes)?item.profile.notes:[];
     const chars=item.profile?.chars||{};
@@ -4029,7 +4038,7 @@ function deleteLibraryFragrance(id){
   if(!olfactraSession)return;
   const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
   openThemeActionDialog({
-    eyebrow:'MY LIBRARY',
+    eyebrow:'My Shelf',
     title:'Delete fragrance?',
     message:`“${item.name}” will be permanently removed from your fragrance library. This will not change any fragrance already loaded into the calculator.`,
     confirmLabel:'Delete fragrance',
@@ -4306,6 +4315,174 @@ footer.optional-info>span{
   margin-left:auto!important;
   flex:0 0 16px!important;
 }
+</style>
+
+
+
+<style id="olfaculator-original-theme-and-winner-release">
+/* Original theme: graphite, charcoal and restrained champagne gold, matching the masthead. */
+body[data-theme="original"]{
+  --bg:#0c0e10;
+  --bg2:#131619;
+  --card:#1a1e21;
+  --card2:#23282c;
+  --ink:#f0f0ed;
+  --muted:#aeb4b8;
+  --line:#3d4449;
+  --accent:#c9a45f;
+  --accent2:#917343;
+  --good:#92aa91;
+  --warn:#c7a46a;
+  --bad:#c17777;
+  --track:#2a3034;
+  --glow:rgba(201,164,95,.14);
+  --shadow:rgba(0,0,0,.46);
+  --theme-primary:#c9a45f;
+  --theme-secondary:#8b9297;
+  --theme-tertiary:#59636a;
+}
+
+/* Larger inset masthead frame: a visible, balanced panel around the brand identity. */
+.olfactra-header .brand-banner{
+  box-sizing:border-box!important;
+  width:min(1600px,calc(100% - 8px))!important;
+  height:calc(100% - 8px)!important;
+  min-height:64px!important;
+  margin:0 auto!important;
+  padding:7px 18px!important;
+  border:1px solid #45494d!important;
+  border-radius:15px!important;
+  background:linear-gradient(108deg,#17191c 0%,#272a2e 50%,#191b1e 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.48),0 10px 28px rgba(0,0,0,.34)!important;
+}
+@media(max-width:1280px){
+  .olfactra-header .brand-banner{min-height:70px!important;}
+}
+@media(max-width:760px){
+  .olfactra-header .brand-banner{
+    width:calc(100% - 8px)!important;
+    height:calc(100% - 8px)!important;
+    min-height:78px!important;
+    padding:5px 10px!important;
+    border-radius:14px!important;
+  }
+}
+
+/* One premium S-tier treatment. The old square halo element and stacked effects
+   are fully suppressed; all illumination is clipped to the rounded score panel. */
+.score-sticky.s-tier-active{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  border:1.5px solid transparent!important;
+  border-radius:23px!important;
+  background:
+    linear-gradient(145deg,#242118 0%,#17191a 44%,#252117 100%) padding-box,
+    linear-gradient(116deg,#8c6728 0%,#f4dfa0 13%,#b28636 27%,#fff0b7 42%,#896020 59%,#e8c77d 74%,#9c712b 89%,#f7e9bd 100%) border-box!important;
+  background-size:100% 100%,260% 260%!important;
+  background-position:0 0,0% 50%!important;
+  box-shadow:
+    0 0 17px rgba(220,174,82,.24),
+    0 0 38px rgba(194,143,47,.18),
+    0 17px 42px rgba(0,0,0,.46),
+    inset 0 0 24px rgba(255,220,139,.045)!important;
+  animation:olfOriginalGoldBorder 8.5s ease-in-out infinite,olfOriginalGoldGlow 4.8s ease-in-out infinite!important;
+}
+.score-sticky.s-tier-active>.s-tier-rectangular-halo{display:none!important;}
+.score-sticky.s-tier-active::before{
+  content:""!important;
+  position:absolute!important;
+  inset:1px!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:21px!important;
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(255,232,171,.20),transparent 42%),
+    radial-gradient(ellipse at 100% 100%,rgba(194,139,46,.17),transparent 48%),
+    linear-gradient(118deg,rgba(255,255,240,.055),transparent 34%,rgba(255,218,145,.045) 67%,transparent 86%)!important;
+  opacity:.78!important;
+  animation:olfOriginalGoldLustre 6.8s ease-in-out infinite alternate!important;
+}
+.score-sticky.s-tier-active::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background:linear-gradient(108deg,
+    transparent 0%,
+    rgba(255,248,222,.012) 34%,
+    rgba(255,243,203,.13) 45%,
+    rgba(255,255,244,.25) 49%,
+    rgba(255,230,168,.12) 53%,
+    rgba(255,255,255,.012) 66%,
+    transparent 78%)!important;
+  background-size:245% 100%!important;
+  background-position:-150% 0!important;
+  mix-blend-mode:screen!important;
+  opacity:.66!important;
+  animation:olfOriginalGoldSweep 6.2s cubic-bezier(.4,0,.2,1) infinite!important;
+}
+.score-sticky.s-tier-active>*{position:relative!important;z-index:1!important;}
+.score-sticky.s-tier-active h2{
+  color:#f4e5bd!important;
+  text-shadow:0 0 12px rgba(242,207,133,.22)!important;
+}
+@keyframes olfOriginalGoldBorder{
+  0%,100%{background-position:0 0,0% 48%;}
+  50%{background-position:0 0,100% 52%;}
+}
+@keyframes olfOriginalGoldGlow{
+  0%,100%{box-shadow:0 0 14px rgba(220,174,82,.20),0 0 32px rgba(194,143,47,.14),0 17px 42px rgba(0,0,0,.46),inset 0 0 22px rgba(255,220,139,.035);}
+  50%{box-shadow:0 0 22px rgba(238,195,105,.31),0 0 46px rgba(194,143,47,.23),0 17px 42px rgba(0,0,0,.46),inset 0 0 28px rgba(255,220,139,.075);}
+}
+@keyframes olfOriginalGoldLustre{
+  0%{opacity:.52;filter:brightness(.96) saturate(1);}
+  100%{opacity:.9;filter:brightness(1.08) saturate(1.08);}
+}
+@keyframes olfOriginalGoldSweep{
+  0%,16%{background-position:-150% 0;opacity:.16;}
+  44%{opacity:.66;}
+  78%,100%{background-position:150% 0;opacity:.20;}
+}
+@media(prefers-reduced-motion:reduce){
+  .score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important;}
+  .score-sticky.s-tier-active{background-position:0 0,48% 50%!important;}
+}
+
+/* Consistent, restrained window surfaces and typography across the workspace. */
+.fragrance-panel,.interaction-sticky,.olfactra-right-rail>.score-sticky,
+.collection-dialog,.auth-card,.about-card,.library-card,.saved-fragrance,.saved-combination{
+  border-radius:17px!important;
+  border-color:var(--line)!important;
+}
+.fragrance-panel,.interaction-sticky,.library-card,.saved-fragrance,.saved-combination{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 97%,white 3%),var(--card))!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.20)!important;
+}
+.collection-dialog,.auth-card,.about-card{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 98%,white 2%),var(--card2))!important;
+  box-shadow:0 22px 64px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+.collection-dialog-head h2,.about-card h2,.auth-card h2,.theme-action-dialog h2,
+.library-heading h2,.library-subsection-head h3{
+  font-variant:normal!important;
+  font-feature-settings:normal!important;
+  text-transform:none!important;
+  letter-spacing:.012em!important;
+  font-weight:650!important;
+}
+.collection-dialog button,.auth-card button,.about-card button,.theme-action-dialog button{
+  font-variant:normal!important;
+  text-transform:none!important;
+  letter-spacing:.012em!important;
+}
+
+/* The Shelf button uses a rack icon while preserving the existing action binding. */
+#libraryButton .nav-button-icon{width:19px!important;height:19px!important;}
+#libraryButton .nav-button-icon path{stroke-linecap:round!important;stroke-linejoin:round!important;}
 </style>
 
 </body>

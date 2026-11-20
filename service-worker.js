@@ -1,5 +1,5 @@
 /* OLFACULATOR PWA shell: navigation is network-first so GitHub/Vercel updates appear promptly. */
-const CACHE_NAME = 'olfaculator-shell-v8';
+const CACHE_NAME = 'olfaculator-shell-v9';
 const ROOT = new URL('./', self.registration.scope).toString();
 const SHELL_FILES = [
   ROOT,
