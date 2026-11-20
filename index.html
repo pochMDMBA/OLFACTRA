@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OLFACTRA | Subjective Layering Assistant</title>
+<style>
+:root{
+ --bg:#11100f;--bg2:#181614;--card:#1d1a18;--card2:#24201d;--ink:#eee9e2;
+ --muted:#aaa096;--line:#39332d;--accent:#c7aa88;--accent2:#8d765e;
+ --good:#8fac83;--warn:#c19a6c;--bad:#b87979;--track:#302b27
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 0%,#28211c 0,#11100f 38%,#0d0c0b 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header,main{max-width:none;margin:0} header{padding:34px 405px 22px 360px} main{padding:0 405px 60px 360px}.score-sticky{position:fixed;right:18px;top:18px;width:345px;z-index:50}.score-sticky .card{box-shadow:0 20px 55px #0009} .interaction-sticky{position:fixed;left:18px;top:18px;width:324px;max-height:calc(100vh - 36px);overflow:auto;z-index:49;box-shadow:0 20px 55px #0009}.interaction-sticky .card{box-shadow:none}
+h1,h2{font-family:Georgia,serif;font-weight:500} h1{font-size:44px;letter-spacing:-.02em;margin:0 0 8px} h2{font-size:25px;margin:0 0 16px}
+h3{font-size:16px;margin:20px 0 10px}.sub{color:var(--muted);max-width:900px;line-height:1.6}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}
+.card{background:linear-gradient(145deg,rgba(31,28,25,.97),rgba(24,21,19,.97));border:1px solid #40382f;border-radius:20px;padding:22px;box-shadow:0 14px 38px #0006}.card h2{letter-spacing:-.01em}
+input[type=text],textarea,select{width:100%;background:#141210;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit}
+label.small{display:block;text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:7px}
+.axis-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.axis{background:#171513;border:1px solid var(--line);border-radius:13px;padding:12px}
+.axis-title{font-size:13px;font-weight:800;margin-bottom:8px}.options{display:flex;gap:7px;flex-wrap:wrap}
+.pill{position:relative}.pill input{position:absolute;opacity:0}.pill span{display:block;padding:7px 10px;border:1px solid #484038;border-radius:999px;background:#211e1b;font-size:12px;cursor:pointer}
+.pill input:checked+span{background:#d0b08b;color:#17130f;border-color:#d0b08b}
+.family{border-top:1px solid #312c27;padding:14px 0}.family-title{font-weight:950;font-size:17px;letter-spacing:.01em;margin-bottom:10px;color:#e7d9c8}.note-search{margin:8px 0 14px}.note-search input{background:#141210}.note-search-hint{font-size:11px;color:var(--muted);margin-top:5px}.family.hidden-family{display:none}.note.hidden-note{display:none}
+.note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.note{position:relative}.note input{position:absolute;opacity:0}.note span{display:block;padding:7px 8px;background:#171513;border:1px solid #39332d;border-radius:8px;font-size:11px;cursor:pointer}.note input:checked+span{background:#4a3c30;border-color:#b39470}
+details{border-top:1px solid #312c27;padding:10px 0}summary{cursor:pointer;color:#c8b39a;font-weight:700}.other-grid{margin-top:9px}
+.codebox{margin-top:18px;padding:13px;border:1px solid #39332d;background:#171513;border-radius:12px}.code-row{display:grid;grid-template-columns:1fr auto;gap:8px}.top-code{margin-top:0;margin-bottom:18px;background:#1b1815}.codebox input[readonly]{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px}.codebar{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:16px}.profile-code-help{color:var(--muted);font-size:12px;line-height:1.5}.global-code-row{display:flex;gap:8px;width:min(620px,55%)}.global-code-row input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px}.notice{padding:12px 14px;border:1px solid #493e33;background:#241f1a;border-radius:10px;color:#cfc4b8;line-height:1.5}
+.actions{display:flex;gap:9px;margin-top:14px}button{border:0;border-radius:10px;padding:11px 16px;background:#c7aa88;color:#17130f;font-weight:800;cursor:pointer}button.secondary{background:#302b27;color:#ddd4ca}
+.scoreline{display:flex;align-items:end;gap:14px}.big{font:56px Georgia,serif}.tier{font-size:29px;font-weight:900}.muted{color:var(--muted)}
+.bar{height:9px;background:#302b27;border-radius:99px;overflow:hidden;margin:12px 0 18px}.bar>div{height:100%;background:#b79a78;transition:width .25s}
+.score-sticky .notice{font-size:10px;line-height:1.4;padding:9px 10px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.score-breakdown{margin-top:10px;padding:10px 11px;background:#171513;border:1px solid var(--line);border-radius:10px}.score-breakdown-title{font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#c8b39a;margin-bottom:7px}.score-breakdown-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #2b2723;font-size:10px;line-height:1.25}.score-breakdown-row:last-child{border-bottom:0}.score-breakdown-row b{white-space:nowrap}.score-breakdown .positive{color:var(--good)}.score-breakdown .negative{color:var(--bad)}.metric{background:#171513;border:1px solid var(--line);border-radius:8px;padding:8px}.metric strong{font-size:9px;color:var(--muted);display:block}.metric b{font-size:16px}
+.slider-row{display:grid;grid-template-columns:190px 1fr 55px;gap:12px;align-items:center;border-bottom:1px solid #302b27;padding:11px 0}.slider-name{font-size:13px;font-weight:700}.slider-wrap{display:flex;align-items:center;gap:9px}.range{width:100%;accent-color:#c7aa88}.value{text-align:right;font-weight:800;color:#cbb293}
+.slider-row.dragging{opacity:.45}.drag{cursor:grab;color:#8e8175;font-size:16px}.slider-row[draggable=true]{user-select:none}
+.smallnote{font-size:10px;color:var(--muted)}
+.selected-notes{margin:10px 0 14px;padding:10px;background:#171513;border:1px solid var(--line);border-radius:12px}.selected-notes-title{font-size:12px;font-weight:900;color:#d9c8b4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px}.rank-note{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:7px 8px;margin:5px 0;background:#211e1b;border:1px solid #39332d;border-radius:8px}.rank-badge{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#c7aa88;color:#17130f;font-weight:900;font-size:11px}.rank-note-name{font-size:12px;font-weight:700}.rank-note-actions{display:flex;gap:4px}.rank-note-actions button{padding:5px 7px;font-size:10px}.rank-note-actions .remove-note{padding:4px 7px;font-size:13px;line-height:1;font-weight:900}.rank-note.dragging-rank{opacity:.45}
+.interaction-summary{display:flex;gap:8px;flex-wrap:wrap;padding:8px 9px;margin-bottom:8px;background:#171513;border:1px solid var(--line);border-radius:9px;font-size:10px}.interaction-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:7px 8px;background:#171513;border:1px solid #302b27;border-radius:8px 8px 0 0}.interaction-row.interaction-good{border-left:3px solid var(--good)}.interaction-row.interaction-bad{border-left:3px solid var(--bad)}.interaction-row.interaction-neutral{border-left:3px solid #6f655d}.interaction-score{font-weight:900;font-size:13px}.interaction-reason{font-size:9px;line-height:1.35;color:var(--muted);padding:4px 8px 7px;background:#141210;border:1px solid #302b27;border-top:0;border-radius:0 0 8px 8px;margin-bottom:5px}.theory-note{margin:0 0 10px;padding:9px;background:#171513;border:1px solid #302b27;border-radius:10px}.theory-title{font-size:12px;font-weight:900;color:#e7d9c8;display:flex;justify-content:space-between;gap:8px;align-items:baseline}.theory-family{font-size:9px;color:var(--muted);font-weight:600}.theory-section{margin-top:8px}.theory-section-title{font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:4px}.theory-list{display:flex;flex-wrap:wrap;gap:4px}.theory-chip{font-size:9px;padding:4px 6px;border-radius:999px;border:1px solid #39332d;background:#211e1b;line-height:1.2}.theory-chip.good{border-color:#4e6748;color:#b8c8af}.theory-chip.warn{border-color:#725c43;color:#d6bd9e}.theory-chip.bad{border-color:#674343;color:#d5a3a3}.theory-note-collapsed{margin:0 0 8px;padding:0;background:#171513;border:1px solid #302b27;border-radius:10px;overflow:hidden}.theory-note-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;background:transparent;border:0;box-shadow:none;color:var(--ink);text-align:left;cursor:pointer;font:inherit}.theory-note-toggle:hover{transform:none;filter:none;background:color-mix(in srgb,var(--accent) 6%,transparent)}.theory-note-toggle .theory-title{width:100%}.theory-note-chevron{font-size:11px;color:var(--muted);transition:transform .16s ease}.theory-note-collapsed[open] .theory-note-chevron{transform:rotate(90deg)}.theory-note-content{padding:0 10px 10px}.theory-note-loading{font-size:9px;color:var(--muted);padding:8px 2px}.theory-empty{font-size:9px;color:var(--muted)}.result-list li{margin:6px 0;line-height:1.45}
+footer{color:#766d65;font-size:11px;margin-top:20px}
+
+/* === Elegant theme system === */
+:root{
+ --bg:#0f0e0d;--bg2:#171513;--card:#1c1917;--card2:#241f1c;--ink:#f0ebe4;--muted:#aaa095;--line:#3a342e;
+ --accent:#c8aa84;--accent2:#8e755c;--good:#8faf85;--warn:#c89d6d;--bad:#c17777;--track:#302b27;--glow:rgba(200,170,132,.16);--shadow:rgba(0,0,0,.38)
+}
+body{background:radial-gradient(circle at 20% -10%,var(--glow) 0,transparent 32%),linear-gradient(160deg,var(--bg2),var(--bg));transition:background .25s,color .25s}
+header{position:relative}
+.app-topline{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.app-mark{display:inline-flex;align-items:center;gap:9px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.app-mark-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--glow)}
+.theme-control{display:flex;align-items:center;gap:9px;padding:7px 9px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 86%,transparent);border-radius:12px;box-shadow:0 8px 24px var(--shadow);backdrop-filter:blur(10px)}
+.theme-control label{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.theme-control select{width:auto;min-width:128px;padding:7px 28px 7px 9px;border-radius:9px;background:var(--card2);border-color:var(--line);font-size:12px;color:var(--ink)}
+.card{box-shadow:0 18px 48px var(--shadow);transition:background .2s,border-color .2s,box-shadow .2s}
+.card:hover{box-shadow:0 20px 52px var(--shadow)}
+input[type=text],textarea,select{background:color-mix(in srgb,var(--bg2) 88%,transparent);border-color:var(--line);color:var(--ink)}
+input[type=text]:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.axis,.note,.score-breakdown,.selected-notes,.codebox,.metric,.notice{border-color:var(--line)}
+.family-title{font-size:18px;letter-spacing:.015em;color:var(--ink)}
+.score-sticky .card,.interaction-sticky .card{box-shadow:none}
+button{background:var(--accent);box-shadow:0 8px 18px var(--glow);transition:transform .15s,filter .15s,background .15s}
+button:hover{filter:brightness(1.05);transform:translateY(-1px)}
+button.secondary{background:var(--card2);box-shadow:none;border:1px solid var(--line)}
+
+body[data-theme="rosewood"]{--bg:#130e10;--bg2:#1d1418;--card:#24191d;--card2:#302126;--ink:#f2e9e4;--muted:#b8a5a5;--line:#4b343d;--accent:#d0a07d;--accent2:#9d6e62;--good:#91ae8d;--warn:#c69a72;--bad:#d27c82;--track:#3c292f;--glow:rgba(208,160,125,.14);--shadow:rgba(0,0,0,.45)}
+body[data-theme="forest"]{--bg:#0c1210;--bg2:#121b17;--card:#17231e;--card2:#203029;--ink:#e8efe9;--muted:#9cac9f;--line:#30443a;--accent:#b5b48a;--accent2:#7f916e;--good:#93b18a;--warn:#c1a271;--bad:#c37873;--track:#26352f;--glow:rgba(181,180,138,.13);--shadow:rgba(0,0,0,.46)}
+body[data-theme="ocean"]{--bg:#0a1015;--bg2:#101b23;--card:#14252f;--card2:#1b313d;--ink:#e7f0f4;--muted:#9eafb8;--line:#2d4653;--accent:#9cc7cb;--accent2:#6e9da6;--good:#8eb39e;--warn:#c4a270;--bad:#c47777;--track:#243a46;--glow:rgba(156,199,203,.14);--shadow:rgba(0,0,0,.46)}
+body[data-theme="lavender"]{--bg:#100e16;--bg2:#181522;--card:#201c2e;--card2:#2a2439;--ink:#f0ebf5;--muted:#b0a7bb;--line:#403752;--accent:#c0a7d5;--accent2:#9179a9;--good:#98b298;--warn:#c4a176;--bad:#c27a82;--track:#332b42;--glow:rgba(192,167,213,.14);--shadow:rgba(0,0,0,.46)}
+body[data-theme="nebula"]{--bg:#100b1d;--bg2:#1a1230;--card:#241a3b;--card2:#312449;--ink:#f2ecff;--muted:#b6a7d7;--line:#4b386b;--accent:#d58bff;--accent2:#8d72e8;--good:#8bd6b0;--warn:#e6b86b;--bad:#f08aaf;--track:#34274a;--glow:rgba(190,112,255,.20);--shadow:rgba(0,0,0,.50)}
+body[data-theme="arctic"]{--bg:#081522;--bg2:#0e2436;--card:#132e43;--card2:#1a3a52;--ink:#ebf8ff;--muted:#a8c2d1;--line:#2a536d;--accent:#65e0e6;--accent2:#4a9cb2;--good:#8fd4b0;--warn:#e6b86b;--bad:#f18c95;--track:#254559;--glow:rgba(76,220,228,.19);--shadow:rgba(0,0,0,.48)}
+
+
+@media(max-width:900px){.app-topline{align-items:flex-start;flex-direction:column}.theme-control{width:100%;justify-content:space-between}.theme-control select{flex:1}}
+
+@media(max-width:1280px){header{padding-left:24px;padding-right:24px}.score-sticky,.interaction-sticky{position:static;width:auto;max-height:none;margin:0 24px 16px;box-shadow:none}.interaction-sticky .card,.score-sticky .card{box-shadow:none}main{padding:0 24px 60px}.grid{grid-template-columns:1fr}}
+@media(max-width:900px){.grid,.axis-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.note-grid{grid-template-columns:repeat(2,1fr)}.slider-row{grid-template-columns:130px 1fr 45px}}
+
+/* Accord refinement + feedback + common-highlight controls */
+.toast-host{position:fixed;left:0;top:0;z-index:120;display:flex;flex-direction:column;gap:8px;pointer-events:none}.toast{padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font-size:11px;font-weight:800;box-shadow:0 14px 36px var(--shadow);opacity:0;transform:translateY(8px);transition:opacity .18s,transform .18s}.toast.show{opacity:1;transform:none}.toast.good{border-color:#55744f}.toast.bad{border-color:#765050}.reset-row{display:flex;gap:8px;align-items:center;margin-top:10px}.reset-row button{font-size:11px;padding:8px 11px}.theory-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:8px 9px;border:1px solid var(--line);background:var(--card2);border-radius:9px}.theory-toggle{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;font-size:10px;color:var(--muted);font-weight:800}.theory-toggle>span{display:block}.theory-toggle .theory-slider-wrap{width:100%;min-width:0}.theory-toggle input{accent-color:var(--accent)}.common-key{font-size:9px;color:var(--muted);line-height:1.35;text-align:left}.theory-slider-wrap{display:flex;flex-direction:column;gap:3px;min-width:230px;flex:1}.theory-slider-wrap input[type=range]{width:100%;margin:0}.theory-slider-labels{display:flex;justify-content:space-between;padding:0 2px;font-size:8px;line-height:1;color:var(--muted);font-weight:900}.theory-slider-labels span.active{color:var(--ink)}.theory-chip.common-high{font-weight:900}.theory-chip.common-high-all{box-shadow:0 0 0 2px var(--good),0 0 0 4px color-mix(in srgb,var(--good) 16%,transparent);background:color-mix(in srgb,var(--good) 18%,var(--card2));color:var(--ink);font-weight:950}.theory-chip .common-count{font-size:8px;margin-left:3px;opacity:.82}.theory-section-title.similar{color:var(--accent)}
+
+
+/* Fragrance cards carry their own note-family color atmosphere. */
+.fragrance-panel{position:relative;isolation:isolate;overflow:hidden;transition:background-image .45s ease,border-color .45s ease,box-shadow .45s ease;}
+.fragrance-panel>*{position:relative;z-index:1;}
+.fragrance-panel .fragrance-label{color:var(--muted);}
+</style>
+
+<style>
+.theory-controls{display:flex;flex-direction:column;align-items:stretch;gap:9px;}
+.theory-chip.currently-selected{font-size:12px;font-weight:950;}
+.theory-chip.currently-selected .selected-mark{color:#c8aa84;}
+.theory-chip.common-high-all.currently-selected{box-shadow:0 0 0 2px var(--good),0 0 0 4px color-mix(in srgb,var(--good) 16%,transparent),inset 0 0 0 1px #c8aa84;}
+.selected-mark{margin-left:5px;font-weight:950;color:#c8aa84;}
+</style>
+<style>
+.theory-summary{margin:0 0 10px;padding:8px 9px;border:1px solid color-mix(in srgb,var(--accent) 32%,var(--line));border-radius:10px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 7%,var(--card2)),var(--card2));box-shadow:0 5px 16px var(--shadow);}
+.theory-summary-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.theory-summary-title{font-size:11px;font-weight:950;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+.theory-summary-meta{font-size:8px;font-weight:800;color:var(--muted);text-align:right;}
+.theory-summary-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;}
+.theory-summary-group{min-width:0;padding:6px 7px;border:1px solid #302b27;border-radius:8px;background:color-mix(in srgb,var(--card) 76%,transparent);}
+.theory-summary-group-title{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:5px;font-size:8px;font-weight:950;letter-spacing:.07em;text-transform:uppercase;}
+.theory-summary-group-title.high{color:var(--good);}
+.theory-summary-group-title.bad{color:var(--bad);}
+.theory-summary-note-list{display:flex;flex-wrap:wrap;gap:4px;}
+.theory-summary-note{position:relative;display:inline-flex;align-items:center;gap:4px;padding:4px 6px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:9px;font-weight:900;line-height:1.1;cursor:help;}
+.theory-summary-note.shared{border-color:var(--line);}
+.theory-summary-note.all{box-shadow:0 0 0 1px var(--good),0 0 0 2px color-mix(in srgb,var(--good) 14%,transparent);border-color:var(--good);}
+.theory-summary-note.bad{border-color:color-mix(in srgb,var(--bad) 62%,var(--line));color:#d5a3a3;background:color-mix(in srgb,var(--bad) 5%,var(--card));}
+.theory-summary-count{font-size:8px;font-weight:950;opacity:.78;}
+.theory-summary-badge{font-size:7px;font-weight:950;letter-spacing:.04em;text-transform:uppercase;opacity:.72;}
+.theory-summary-tooltip{position:fixed;z-index:9999;left:0;top:0;bottom:auto;transform:none;width:210px;padding:8px 9px;border:1px solid var(--accent);border-radius:8px;background:#171513;color:var(--ink);box-shadow:0 10px 28px rgba(0,0,0,.42);font-size:9px;font-weight:700;line-height:1.35;text-align:left;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .12s ease;white-space:normal;}
+.theory-summary-note:hover .theory-summary-tooltip,.theory-chip.has-tooltip:hover .theory-summary-tooltip{visibility:visible;opacity:1;}
+.theory-summary-tooltip-title{font-size:9px;font-weight:950;margin-bottom:5px;color:#e7d9c8;}
+.theory-summary-tooltip-row{display:flex;align-items:center;gap:5px;padding:1px 0;color:var(--ink);font-weight:900;}
+.theory-summary-tooltip-row.nonmatch{color:var(--muted);font-weight:700;}
+.theory-summary-tooltip-check{width:12px;text-align:center;font-weight:950;flex:0 0 12px;}
+.theory-summary-tooltip-row.high .theory-summary-tooltip-check{color:var(--good)}
+.theory-summary-tooltip-row.risk .theory-summary-tooltip-check{color:var(--bad)}
+.theory-summary-tooltip-row.neutral .theory-summary-tooltip-check{color:#d49a5f}
+.theory-summary-tooltip-row.none .theory-summary-tooltip-check{visibility:hidden}
+.theory-summary-tooltip-row.nonmatch .tooltip-note-text{color:var(--muted);opacity:.62}
+.theory-summary-tooltip-row.match .tooltip-note-text{color:var(--ink)}
+.theory-summary-empty{font-size:9px;color:var(--muted);line-height:1.35;}
+@media(max-width:620px){.theory-summary-grid{grid-template-columns:1fr}.theory-summary-tooltip{width:200px}}
+</style>
+<style>
+/* === Clarity-first interface refinement === */
+:root{--page-width:1180px}
+body{background:radial-gradient(circle at 50% -18%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 36%),var(--bg);line-height:1.45}
+header{max-width:var(--page-width);margin:0 auto;padding:8px 24px 4px;min-height:0;height:auto}
+main{max-width:var(--page-width);margin:0 auto;padding:0 24px 56px}
+.app-topline{justify-content:flex-end;margin:0;min-height:0}
+.app-mark{display:none}
+.theme-control{padding:6px 8px}
+.grid{gap:18px;align-items:start}
+.card{border-radius:16px;padding:20px;background:linear-gradient(150deg,color-mix(in srgb,var(--card) 98%,white 2%),var(--card));border-color:var(--line);box-shadow:0 10px 30px var(--shadow)}
+.card h2{font-family:Inter,system-ui,sans-serif;font-size:19px;font-weight:750;letter-spacing:-.025em;margin-bottom:14px}
+.card h2.fragrance-label{font-size:11px;letter-spacing:.13em;color:var(--muted);font-weight:850;margin-bottom:12px}
+.fragrance-name{font-size:24px!important;line-height:1.25;font-weight:800!important;letter-spacing:-.035em;padding:14px 15px!important;border-radius:12px!important;background:color-mix(in srgb,var(--card2) 76%,var(--bg))!important;text-transform:capitalize;min-height:58px}
+.fragrance-name::placeholder{font-size:16px;font-weight:500;letter-spacing:0;color:var(--muted);text-transform:none;opacity:.72}
+label.small{font-size:10px;letter-spacing:.09em;margin-bottom:8px}
+.codebox{margin-top:14px;border-radius:12px}
+.score-sticky{width:300px;right:20px;top:20px}
+.score-sticky .card{padding:17px;border-radius:16px}
+.score-sticky .card h2{font-size:15px;margin-bottom:9px}
+.scoreline{align-items:center;gap:12px}
+.big{font-size:50px;font-weight:700;letter-spacing:-.05em}
+.tier{font-size:22px}
+.score-sticky .metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.metric{padding:7px 8px}
+.metric strong{font-size:9px;line-height:1.25}
+.metric b{font-size:14px}
+.score-sticky .bar{margin:9px 0 12px}
+.interaction-sticky{left:20px;top:20px;width:285px;border-radius:16px}
+.interaction-sticky .card{padding:16px}
+.interaction-sticky .card h2{font-size:15px}
+header{padding-left:24px;padding-right:24px}
+main{padding-left:330px;padding-right:330px}
+.optional-info{max-width:760px;margin:24px auto 0;padding-top:14px;border-top:1px solid var(--line);line-height:1.6}
+.optional-info details{border:0;padding:0}
+.optional-info summary{font-size:11px;color:var(--muted);font-weight:750;letter-spacing:.02em}
+.optional-info .score-breakdown{margin-top:10px}
+button,.pill span,.note span,summary,select,input{touch-action:manipulation}
+button{min-height:40px}
+.pill span,.note span{min-height:36px;display:flex;align-items:center;justify-content:center}
+input:focus-visible,button:focus-visible,summary:focus-visible,.pill span:focus-visible,.note span:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 65%,transparent);outline-offset:2px}
+@media(max-width:1280px){header{padding:8px 20px 4px}main{padding:0 20px 42px}.score-sticky,.interaction-sticky{margin:0 20px 14px;width:auto}.score-sticky .metrics{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:900px){.fragrance-name{font-size:21px!important}.card{padding:16px}.score-sticky .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){header{padding:6px 14px 4px}.theme-control{width:100%}.theme-control select{min-width:0}.score-sticky,.interaction-sticky{margin-left:14px;margin-right:14px}main{padding-left:14px;padding-right:14px}.fragrance-name{font-size:19px!important;min-height:54px}}
+
+/* Fragrance A/B labels: centered with a high-contrast dark outline. */
+.fragrance-label{
+  display:block;
+  width:100%;
+  text-align:center !important;
+  -webkit-text-stroke:1px #000;
+  paint-order:stroke fill;
+  text-shadow:0 1px 2px rgba(0,0,0,.95), 0 0 4px rgba(0,0,0,.75);
+}
+</style>
+
+
+
+
+<style id="layout-expansion-and-s-tier">
+/* Use the previously unused horizontal space for the two fragrance workspaces. */
+@media (min-width:1281px){
+  header{max-width:none;width:auto;margin:0 325px 0 325px;padding:8px 16px 4px;}
+  main{max-width:none;width:auto;margin:0 325px;padding:8px 16px 56px;}
+  main>.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch;}
+  main>.grid>.fragrance-panel{width:100%;min-width:0;min-height:calc(100vh - 110px);}
+  .score-sticky{top:66px;right:20px;width:290px;max-height:none;overflow:visible;z-index:60;}
+  .interaction-sticky{left:20px;top:20px;width:285px;}
+  .theme-control{position:relative;z-index:80;}
+}
+/* Keep the theme picker in its own header strip, above and clear of Live Compatibility. */
+@media (min-width:1281px){
+  header{position:relative;z-index:70;min-height:52px;}
+  .app-topline{min-height:38px;justify-content:flex-end;}
+  .score-sticky{top:66px;}
+}
+/* Animated blend of the two fragrances when the pairing reaches S-tier. */
+.score-sticky{isolation:isolate;}
+.score-sticky.s-tier-active{
+  background:linear-gradient(145deg,rgba(22,22,24,.96),rgba(24,20,28,.97));
+  border-color:rgba(225,220,255,.72);
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 24px rgba(180,150,255,.28),0 18px 48px rgba(0,0,0,.55);
+  animation:sTierPanelPulse 3.6s ease-in-out infinite;
+}
+.score-sticky.s-tier-active::before{
+  content:"";position:absolute;inset:-2px;border-radius:18px;z-index:-1;pointer-events:none;
+  background:conic-gradient(from 0deg,rgba(var(--tier-color-a),.96),rgba(255,255,255,.78),rgba(var(--tier-color-b),.98),rgba(150,115,255,.9),rgba(var(--tier-color-a),.96));
+  filter:blur(13px) saturate(1.55);opacity:.78;animation:sTierColorOrbit 7s linear infinite;
+}
+.score-sticky.s-tier-active::after{
+  content:"";position:absolute;inset:0;border-radius:16px;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 8% 12%,rgba(var(--tier-color-a),.34),transparent 48%),radial-gradient(ellipse at 94% 88%,rgba(var(--tier-color-b),.38),transparent 52%),linear-gradient(125deg,rgba(255,255,255,.035),transparent 42%,rgba(255,255,255,.055));
+  background-size:150% 150%;animation:sTierColorFlow 5s ease-in-out infinite alternate;
+}
+.score-sticky.s-tier-active>*{position:relative;z-index:1;}
+@keyframes sTierColorOrbit{to{transform:rotate(360deg)}}
+@keyframes sTierColorFlow{from{background-position:0% 0%,100% 100%,0% 0%}to{background-position:100% 30%,0% 70%,100% 100%}}
+@keyframes sTierPanelPulse{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 22px rgba(180,150,255,.22),0 18px 48px rgba(0,0,0,.55)}50%{box-shadow:0 0 0 1px rgba(255,255,255,.2),0 0 34px rgba(180,150,255,.42),0 18px 48px rgba(0,0,0,.55)}}
+@media(prefers-reduced-motion:reduce){.score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important}}
+/* Smaller screens retain the natural document flow and avoid overlaying controls. */
+@media(max-width:1280px){header{margin:0;padding:8px 20px 4px}main{margin:0;padding:0 20px 42px}.score-sticky,.interaction-sticky{position:static;width:auto;max-height:none;overflow:visible;margin:0 20px 14px}.score-sticky::before,.score-sticky::after{display:none}}
+</style>
+
+
+<style id="stier-contained-and-compact-compatibility">
+/* Keep the S-tier color animation entirely inside the Live Compatibility card. */
+.score-sticky.s-tier-active{
+  position:fixed;
+  isolation:isolate;
+  overflow:hidden;
+  border-color:rgba(235,235,255,.78);
+  background:linear-gradient(135deg,rgba(20,23,31,.98),rgba(28,20,34,.98));
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 24px rgba(180,150,255,.24),0 16px 40px rgba(0,0,0,.42);
+  animation:sTierContainedPulse 3.8s ease-in-out infinite;
+}
+.score-sticky.s-tier-active::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(var(--tier-color-a),.44),transparent 58%),
+    radial-gradient(ellipse at 100% 100%,rgba(var(--tier-color-b),.48),transparent 60%),
+    linear-gradient(115deg,rgba(var(--tier-color-a),.12),rgba(255,255,255,.035) 48%,rgba(var(--tier-color-b),.15));
+  background-size:160% 160%;
+  animation:sTierContainedFlow 7s ease-in-out infinite alternate;
+  filter:saturate(1.25);
+}
+.score-sticky.s-tier-active::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.10) 48%,transparent 72%);
+  background-size:220% 100%;
+  animation:sTierContainedShimmer 5.5s ease-in-out infinite;
+}
+.score-sticky.s-tier-active>*{position:relative;z-index:1;}
+@keyframes sTierContainedFlow{0%{background-position:0% 0%}100%{background-position:100% 100%}}
+@keyframes sTierContainedShimmer{0%,18%{background-position:-120% 0}72%,100%{background-position:120% 0}}
+@keyframes sTierContainedPulse{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 18px rgba(180,150,255,.18),0 16px 40px rgba(0,0,0,.42)}50%{box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 28px rgba(180,150,255,.32),0 16px 40px rgba(0,0,0,.42)}}
+/* Compact the fixed score panel as ranked note interactions are added. */
+@media(min-width:1281px){
+  .score-sticky{box-sizing:border-box;max-height:calc(100vh - 82px);overflow:hidden;padding:11px 12px!important;}
+  .score-sticky h2{font-size:14px!important;line-height:1.15;margin:0 0 6px!important;}
+  .score-sticky .notice{display:none!important;}
+  .score-sticky .scoreline{gap:9px;margin:0;}
+  .score-sticky .big{font-size:40px;line-height:1;}
+  .score-sticky .tier{font-size:19px;line-height:1.05;}
+  .score-sticky #tierText{font-size:9px;line-height:1.2;}
+  .score-sticky .bar{height:6px;margin:7px 0 8px;}
+  .score-sticky .metrics{gap:4px!important;}
+  .score-sticky .metric{padding:5px 6px!important;min-height:0;}
+  .score-sticky .metric strong{font-size:8px;line-height:1.12;}
+  .score-sticky .metric b{font-size:11px;line-height:1.1;}
+  .score-sticky .score-breakdown{margin-top:7px;padding:7px 8px;}
+  .score-sticky .score-breakdown-title{font-size:8px;margin-bottom:4px;}
+  .score-sticky .score-breakdown-row{gap:6px;padding:2px 0;font-size:8px;line-height:1.12;}
+  .score-sticky .score-breakdown-row b{font-size:8px;}
+  .score-sticky .score-breakdown-row .smallnote{font-size:7px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important;}
+}
+</style>
+
+
+
+<style id="olfactra-rail-palettes-and-tier-effects">
+/* The right-side content is one fixed rail. The guidance panel follows Compatibility
+   in normal flow instead of relying on a fragile calculated top coordinate. */
+.olfactra-right-rail{box-sizing:border-box;}
+@media(min-width:1281px){
+  .olfactra-right-rail{
+    position:fixed;right:20px;top:116px;width:290px;z-index:61;
+    display:flex;flex-direction:column;align-items:stretch;gap:10px;
+    max-height:none;overflow:visible;
+    overscroll-behavior:contain;
+  }
+  .olfactra-right-rail>.score-sticky,
+  .olfactra-right-rail>.olfactra-guide-sticky{
+    box-sizing:border-box;position:relative!important;inset:auto!important;
+    width:100%!important;max-height:none!important;overflow:visible!important;
+    margin:0!important;flex:0 0 auto;
+  }
+  .olfactra-right-rail>.score-sticky{z-index:1;}
+  .olfactra-right-rail>.olfactra-guide-sticky{z-index:1;}
+}
+@media(max-width:1280px){
+  .olfactra-right-rail{position:static;display:flex;flex-direction:column;gap:0;width:auto;margin:0 0 14px;}
+  .olfactra-right-rail>.score-sticky,.olfactra-right-rail>.olfactra-guide-sticky{
+    position:static!important;inset:auto!important;width:auto!important;max-height:none!important;
+    overflow:visible!important;margin:0 0 12px!important;
+  }
+}
+@media(max-width:520px){.olfactra-right-rail{margin-left:14px;margin-right:14px;}}
+
+/* The tagline starts directly beneath the first visible letter of the wordmark. */
+.brand-tagline{padding-left:.23em;}
+@media(max-width:520px){.brand-tagline{padding-left:.17em;}}
+
+/* Load is the left control; the generated current code is the right control. */
+.top-code{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;}
+.top-code .code-group:first-child{order:0;}
+.top-code .code-group:last-child{order:1;}
+.top-code .code-group:first-child label{color:var(--theme-secondary,var(--accent2));}
+.top-code .code-group:last-child label{color:var(--theme-primary,var(--accent));}
+@media(max-width:520px){.top-code{grid-template-columns:1fr!important;}}
+
+/* Return fragrance-name fields to the original clean treatment, tinted by the active theme. */
+.fragrance-panel .fragrance-name{
+  color:var(--ink)!important;
+  background:linear-gradient(120deg,
+    color-mix(in srgb,var(--theme-primary) 13%,var(--card2)),
+    color-mix(in srgb,var(--theme-secondary) 10%,var(--bg)))!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 46%,var(--line))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 3px 10px rgba(0,0,0,.16)!important;
+  text-shadow:none!important;
+}
+.fragrance-panel .fragrance-name::placeholder{
+  color:color-mix(in srgb,var(--ink) 65%,var(--muted))!important;
+  opacity:.78;
+  text-shadow:none!important;
+}
+.fragrance-panel .fragrance-name:focus{
+  border-color:var(--theme-secondary)!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--theme-primary) 25%,transparent),0 0 15px color-mix(in srgb,var(--theme-secondary) 17%,transparent)!important;
+}
+
+/* A destructive-looking reset control gives a deliberate warning without a modal. */
+.fragrance-panel .reset-row button.secondary{
+  color:#ffe8e8!important;
+  background:linear-gradient(145deg,#642f38,#3b2028)!important;
+  border:1px solid #a9505d!important;
+  box-shadow:inset 0 1px 0 rgba(255,210,210,.12),0 3px 10px rgba(117,27,42,.24)!important;
+}
+.fragrance-panel .reset-row button.secondary:hover{
+  background:linear-gradient(145deg,#813844,#4a202a)!important;
+  border-color:#dc7680!important;filter:brightness(1.08);
+}
+
+/* Curated multi-colour palettes. Each theme uses three related tones across the
+   page, cards, controls and decorative accents rather than a single accent hue. */
+body{--theme-primary:#c69a58;--theme-secondary:#789b87;--theme-tertiary:#71849d;}
+body[data-theme="obsidian"]{--theme-primary:#d0a15e;--theme-secondary:#799a83;--theme-tertiary:#7188a6;--accent:#d0a15e;--accent2:#799a83;--glow:rgba(208,161,94,.15);}
+body[data-theme="rosewood"]{--theme-primary:#d58f9d;--theme-secondary:#c18a65;--theme-tertiary:#92749e;--accent:#d58f9d;--accent2:#c18a65;--glow:rgba(213,143,157,.15);}
+body[data-theme="forest"]{--theme-primary:#77b28a;--theme-secondary:#b6a56b;--theme-tertiary:#4e8d83;--accent:#77b28a;--accent2:#b6a56b;--glow:rgba(119,178,138,.15);}
+body[data-theme="ocean"]{--theme-primary:#65c7c5;--theme-secondary:#668fca;--theme-tertiary:#8ac7b0;--accent:#65c7c5;--accent2:#668fca;--glow:rgba(101,199,197,.16);}
+body[data-theme="lavender"]{--theme-primary:#b99bdf;--theme-secondary:#d19ab8;--theme-tertiary:#83a9cf;--accent:#b99bdf;--accent2:#d19ab8;--glow:rgba(185,155,223,.16);}
+body[data-theme="nebula"]{--theme-primary:#bd79f2;--theme-secondary:#e16aa9;--theme-tertiary:#58b9dc;--accent:#bd79f2;--accent2:#e16aa9;--glow:rgba(189,121,242,.19);}
+body[data-theme="arctic"]{--theme-primary:#83d8e8;--theme-secondary:#91b7e8;--theme-tertiary:#a1d7c8;--accent:#83d8e8;--accent2:#91b7e8;--glow:rgba(131,216,232,.17);}
+body{
+  background:
+    radial-gradient(ellipse 48% 42% at 3% -5%,color-mix(in srgb,var(--theme-primary) 23%,transparent),transparent 82%),
+    radial-gradient(ellipse 44% 38% at 98% 8%,color-mix(in srgb,var(--theme-secondary) 19%,transparent),transparent 83%),
+    radial-gradient(ellipse 55% 42% at 55% 108%,color-mix(in srgb,var(--theme-tertiary) 14%,transparent),transparent 82%),
+    linear-gradient(155deg,var(--bg2),var(--bg))!important;
+}
+.card:not(.fragrance-panel){
+  background:linear-gradient(138deg,color-mix(in srgb,var(--theme-primary) 7%,var(--card)) 0%,color-mix(in srgb,var(--theme-secondary) 6%,var(--card)) 52%,color-mix(in srgb,var(--theme-tertiary) 7%,var(--card)) 100%);
+  border-color:color-mix(in srgb,var(--theme-primary) 28%,var(--line));
+}
+button:not(.secondary){background:linear-gradient(112deg,var(--theme-primary),var(--theme-secondary) 56%,var(--theme-tertiary));}
+.theme-control::before{content:"";display:block;flex:0 0 25px;width:25px;height:16px;border-radius:5px;background:linear-gradient(90deg,var(--theme-primary),var(--theme-secondary) 52%,var(--theme-tertiary));box-shadow:0 0 9px color-mix(in srgb,var(--theme-primary) 32%,transparent);}
+.theme-dock .theme-control{min-width:228px;}
+
+</style>
+
+<style id="note-contrast-and-premium-gold-s-tier">
+/* Dynamic fragrance fills are vivid; every affected text element retains a dark outline. */
+#fragranceA :not(input):not(textarea):not(button):not(svg),
+#fragranceB :not(input):not(textarea):not(button):not(svg),
+.score-sticky :not(input):not(textarea):not(button):not(svg){
+  -webkit-text-stroke:.42px #000;
+  paint-order:stroke fill;
+  text-shadow:0 1px 2px rgba(0,0,0,.88),0 0 3px rgba(0,0,0,.42);
+}
+#fragranceA .fragrance-label,#fragranceB .fragrance-label{
+  -webkit-text-stroke:1.15px #000;
+  text-shadow:0 2px 3px #000,0 0 5px rgba(0,0,0,.95);
+}
+/* S-tier becomes a contained, premium gold-metal card. No rotating element extends beyond it. */
+.score-sticky.s-tier-active{
+  position:fixed;
+  isolation:isolate;
+  overflow:hidden;
+  border:1.5px solid #FFD65A !important;
+  border-radius:18px;
+  background:
+    linear-gradient(132deg,rgba(31,25,13,.985) 0%,rgba(66,48,17,.985) 19%,rgba(24,22,18,.99) 38%,rgba(83,61,20,.985) 59%,rgba(23,21,17,.99) 78%,rgba(57,43,17,.985) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,229,145,.64),
+    0 0 12px rgba(255,205,65,.86),
+    0 0 30px rgba(255,177,28,.64),
+    0 0 58px rgba(255,194,48,.34),
+    0 16px 42px rgba(0,0,0,.55);
+  animation:goldMetalPulse 2.9s ease-in-out infinite;
+}
+.score-sticky.s-tier-active::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,250,205,.95) 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 14%,rgba(255,225,135,.95) 0 1px,transparent 2.2px),
+    radial-gradient(circle at 66% 72%,rgba(255,245,195,.85) 0 1px,transparent 2px),
+    radial-gradient(circle at 25% 84%,rgba(255,210,95,.92) 0 1px,transparent 2px),
+    radial-gradient(circle at 92% 52%,rgba(255,238,175,.92) 0 1px,transparent 2px),
+    linear-gradient(112deg,rgba(255,229,143,.14),transparent 25%,rgba(255,255,235,.08) 48%,transparent 70%,rgba(255,197,55,.12));
+  background-size:100% 100%;
+  animation:goldSparkle 2.7s ease-in-out infinite alternate;
+}
+.score-sticky.s-tier-active::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:linear-gradient(108deg,transparent 15%,rgba(255,246,202,.02) 34%,rgba(255,229,153,.22) 49%,rgba(255,248,215,.04) 61%,transparent 82%);
+  background-size:230% 100%;
+  animation:goldMetalSweep 4.4s ease-in-out infinite;
+}
+.score-sticky.s-tier-active>*{position:relative;z-index:1;}
+.score-sticky.s-tier-active h2{
+  color:#FFE9A0 !important;
+  text-shadow:0 1px 0 #5C3E08,0 0 7px rgba(255,215,100,.78),0 0 16px rgba(255,190,35,.35) !important;
+}
+@keyframes goldMetalPulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,229,145,.62),0 0 10px rgba(255,205,65,.74),0 0 28px rgba(255,177,28,.48),0 0 50px rgba(255,194,48,.26),0 16px 42px rgba(0,0,0,.55)}
+  50%{box-shadow:0 0 0 1.5px rgba(255,245,190,.96),0 0 17px rgba(255,218,91,1),0 0 40px rgba(255,183,26,.76),0 0 70px rgba(255,194,48,.44),0 16px 42px rgba(0,0,0,.55)}
+}
+@keyframes goldSparkle{0%{opacity:.48;filter:brightness(1) saturate(1.05)}100%{opacity:1;filter:brightness(1.5) saturate(1.3)}}
+@keyframes goldMetalSweep{0%,15%{background-position:-130% 0}78%,100%{background-position:130% 0}}
+@media(prefers-reduced-motion:reduce){.score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important}}
+</style>
+<style id="olfactra-brand-layout-and-controls">
+/* OLFACTRA identity and aligned desktop workspaces. */
+.olfactra-header{
+  box-sizing:border-box;width:100%;height:108px;min-height:108px;margin:0;padding:12px 20px;
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:75;
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 88%,var(--bg)),color-mix(in srgb,var(--bg2) 94%,transparent));
+}
+.brand-banner{display:flex;align-items:center;justify-content:center;gap:15px;min-width:0;text-align:left;}
+.olfactra-logo{display:block;width:58px;height:58px;flex:0 0 58px;filter:drop-shadow(0 2px 8px rgba(201,164,95,.26));}
+.brand-copy{display:flex;flex-direction:column;align-items:flex-start;gap:2px;}
+.brand-name{font-family:Georgia,'Times New Roman',serif;font-size:34px;line-height:1.04;font-weight:500;letter-spacing:.23em;padding-left:.23em;color:var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.38),0 0 18px color-mix(in srgb,var(--accent) 20%,transparent);}
+.brand-tagline{font-size:8px;font-weight:850;letter-spacing:.23em;color:var(--accent);white-space:nowrap;}
+
+/* Keep the two side windows and the A/B panels aligned below the brand banner. */
+@media(min-width:1281px){
+  .olfactra-header{height:108px;min-height:108px;}
+  .interaction-sticky{top:116px!important;left:20px!important;width:285px!important;}
+  .score-sticky{top:116px!important;right:20px!important;width:290px!important;max-height:calc(100vh - 190px)!important;}
+  main{padding-top:8px!important;}
+}
+@media(max-width:1280px){
+  .olfactra-header{height:96px;min-height:96px;padding:10px 16px;}
+  .brand-name{font-size:30px;}
+}
+@media(max-width:520px){
+  .olfactra-header{height:86px;min-height:86px;padding:8px 10px;}
+  .olfactra-logo{width:46px;height:46px;flex-basis:46px;}
+  .brand-banner{gap:9px;}
+  .brand-name{font-size:25px;letter-spacing:.17em;padding-left:.17em;}
+  .brand-tagline{font-size:6px;letter-spacing:.15em;}
+}
+
+/* Theme remains reachable at the lower-right while the page scrolls. */
+.theme-dock{position:fixed;right:20px;bottom:20px;z-index:95;}
+.theme-dock .theme-control{width:auto!important;margin:0;min-width:210px;justify-content:space-between;padding:8px 10px;box-shadow:0 12px 32px var(--shadow);}
+.theme-dock .theme-control select{min-width:138px;}
+@media(max-width:1280px){
+  .theme-dock{right:14px;bottom:14px;}
+  .theme-dock .theme-control{min-width:0;width:auto;gap:8px;}
+}
+@media(max-width:520px){
+  .theme-dock{right:10px;bottom:10px;}
+  .theme-dock .theme-control{padding:6px 8px;}
+  .theme-dock .theme-control select{min-width:104px;}
+}
+
+/* The selected note-rank numerals and characteristic choices should stay clean, without the dark outline. */
+.rank-badge,
+.pill span{
+  -webkit-text-stroke:0!important;
+  text-shadow:none!important;
+  paint-order:normal;
+}
+
+/* Compact profile-code controls into two aligned, low-height groups. */
+.top-code{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 10px;
+  align-items:end;padding:9px 10px;margin:0 0 12px;border-radius:10px;
+}
+.top-code .code-group{min-width:0;display:flex;flex-direction:column;gap:4px;}
+.top-code .code-group label.small{font-size:8px;letter-spacing:.07em;line-height:1.1;margin:0 0 1px;}
+.top-code .code-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px;align-items:center;}
+.top-code input{box-sizing:border-box;min-width:0;width:100%;height:32px;min-height:32px;padding:6px 7px!important;font-size:9px!important;}
+.top-code button{box-sizing:border-box;min-height:32px;height:32px;padding:5px 8px;font-size:9px;line-height:1;white-space:nowrap;}
+.top-code input[readonly]{font-size:9px!important;}
+
+/* Reset is visually aligned to the right edge of each fragrance card. */
+.reset-row{justify-content:flex-end;}
+</style>
+<style id="olfactra-subjective-layout-fixes">
+/* Subjective assistant explainer: compact by default, with an anchored disclosure. */
+.olfactra-header{overflow:visible;}
+.brand-copy{position:relative;}
+.brand-tagline{font-size:9px;letter-spacing:.12em;font-weight:800;text-transform:none;}
+
+/* Optional analytical tools stay collapsed until requested. */
+.optional-tool-card{padding:0!important;overflow:hidden;}
+.optional-tool-disclosure{border:0!important;padding:0!important;}
+.optional-tool-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;padding:13px 16px;color:var(--ink);font-size:12px;font-weight:850;letter-spacing:.01em;}
+.optional-tool-disclosure>summary::-webkit-details-marker{display:none;}
+.optional-tool-disclosure>summary::after{content:"＋";margin-left:auto;color:var(--accent);font-size:14px;}
+.optional-tool-disclosure[open]>summary::after{content:"−";}
+.optional-tool-disclosure>summary span{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
+.optional-tool-content{padding:0 16px 15px;}
+.optional-tool-content>p{margin:0 0 10px;}
+.optional-tool-card .slider-row:first-child{padding-top:7px;}
+.optional-tool-card .result-list{margin-top:4px;}
+
+/* Note Database: compact rows and single-line note labels, with a proper viewport-safe scroll area. */
+.interaction-sticky{box-sizing:border-box;scrollbar-gutter:stable;overscroll-behavior:contain;}
+.interaction-sticky>h2{margin:0 0 7px!important;font-size:15px!important;line-height:1.15;}
+.interaction-sticky .theory-controls{padding:6px 7px;margin-bottom:7px;gap:6px;}
+.interaction-sticky .theory-toggle{font-size:9px;gap:4px;}
+.interaction-sticky .common-key{font-size:8px;line-height:1.2;}
+.interaction-sticky .theory-summary{margin-bottom:7px;}
+.interaction-sticky .theory-summary-head{margin-bottom:5px;}
+.interaction-sticky .theory-summary-title{font-size:9px;}
+.interaction-sticky .theory-summary-meta{font-size:8px;}
+.interaction-sticky .theory-summary-grid{gap:5px;}
+.interaction-sticky .theory-summary-group{padding:5px;}
+.interaction-sticky .theory-summary-group-title{font-size:7px;letter-spacing:.04em;}
+.interaction-sticky .theory-summary-note-list{gap:3px;}
+.interaction-sticky .theory-summary-note{font-size:8px;padding:3px 4px;gap:3px;white-space:nowrap;max-width:100%;}
+.interaction-sticky .theory-summary-count{font-size:7px;}
+.interaction-sticky .theory-note-collapsed{margin-bottom:4px;border-radius:8px;}
+.interaction-sticky .theory-note-toggle{padding:6px 8px;gap:6px;min-height:0;}
+.interaction-sticky .theory-note-toggle .theory-title{min-width:0;gap:5px;}
+.interaction-sticky .theory-note-toggle .theory-title>span:first-child{font-size:9px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.interaction-sticky .theory-note-toggle .theory-family{font-size:7px;line-height:1.1;white-space:nowrap;flex:0 0 auto;}
+.interaction-sticky .theory-note-chevron{font-size:10px;flex:0 0 auto;}
+.interaction-sticky .theory-note-content{padding:0 7px 7px;}
+.interaction-sticky .theory-section{margin-top:6px;}
+.interaction-sticky .theory-section-title{font-size:8px;margin-bottom:3px;}
+.interaction-sticky .theory-list{gap:3px;}
+.interaction-sticky .theory-chip{font-size:8px;line-height:1.1;padding:3px 5px;white-space:nowrap;}
+.interaction-sticky .theory-empty,.interaction-sticky .muted{font-size:9px;line-height:1.35;}
+@media(min-width:1281px){
+  .interaction-sticky{top:116px!important;left:20px!important;width:285px!important;max-height:calc(100vh - 136px)!important;overflow-y:auto!important;overflow-x:hidden!important;}
+}
+@media(max-width:1280px){
+  .interaction-sticky{position:static!important;width:auto!important;max-height:none!important;overflow:visible!important;margin:0 20px 14px!important;}
+}
+
+/* More compact fragrance workspaces while preserving controls and note readability. */
+main>.grid>.fragrance-panel{box-sizing:border-box;padding:14px!important;min-height:0!important;}
+.fragrance-panel>.fragrance-label{font-size:10px!important;margin:0 0 8px!important;line-height:1.15;}
+.fragrance-panel .top-code{padding:7px 8px;margin-bottom:8px;gap:6px 8px;}
+.fragrance-panel label.small{font-size:9px;letter-spacing:.07em;margin-bottom:5px;}
+.fragrance-panel .fragrance-name{font-size:21px!important;min-height:48px;padding:10px 12px!important;border-radius:10px!important;}
+.fragrance-panel .fragrance-name::placeholder{font-size:14px;}
+.fragrance-panel .reset-row{margin-top:6px;}
+.fragrance-panel .reset-row button{min-height:30px;height:30px;padding:5px 9px;font-size:9px;}
+.fragrance-panel .axis-grid{gap:7px;}
+.fragrance-panel .axis{padding:8px;border-radius:10px;}
+.fragrance-panel .axis-title{font-size:11px;margin-bottom:5px;}
+.fragrance-panel .options{gap:4px;}
+.fragrance-panel .pill span{min-height:27px;padding:4px 7px;font-size:10px;line-height:1.1;}
+.fragrance-panel .family{padding:8px 0;}
+.fragrance-panel .family-title{font-size:14px;margin-bottom:6px;}
+.fragrance-panel .note-search{margin:5px 0 8px;}
+.fragrance-panel .note-search input{min-height:32px;padding:7px 9px;font-size:11px;}
+.fragrance-panel .note-search-hint{font-size:9px;margin-top:3px;}
+.fragrance-panel .note-grid{gap:4px;}
+.fragrance-panel .note span{display:flex;align-items:center;justify-content:center;min-height:29px;padding:4px 5px;font-size:9px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fragrance-panel .selected-notes{padding:8px;margin:7px 0 9px;}
+.fragrance-panel .selected-notes-title{font-size:10px;margin-bottom:5px;}
+.fragrance-panel .rank-note{padding:5px 6px;margin:4px 0;gap:6px;}
+.fragrance-panel .rank-note-actions{gap:3px;}
+.fragrance-panel .rank-note-actions button{min-height:26px;height:26px;padding:4px 6px;font-size:9px;}
+.fragrance-panel .rank-note-actions .remove-note{min-height:26px;height:26px;padding:3px 6px;}
+.fragrance-panel .rank-note-name{font-size:10px;line-height:1.2;}
+.fragrance-panel details{padding:7px 0;}
+.fragrance-panel details>summary{font-size:11px;}
+@media(max-width:900px){
+  main>.grid>.fragrance-panel{padding:13px!important;}
+  .fragrance-panel .note-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+</style>
+<style id="olfactra-guidance-facing-gradients-and-theme-refresh">
+/* Guidance now lives directly beneath the fixed Compatibility window. */
+.olfactra-guide-sticky{
+  position:fixed;right:20px;top:430px;width:290px;z-index:55;margin:0;padding:10px 13px;
+  border-radius:14px;background:linear-gradient(145deg,color-mix(in srgb,var(--card) 98%,white 2%),var(--card));
+  box-shadow:0 12px 32px var(--shadow);
+}
+.olfactra-guide-sticky details{border-top:1px solid var(--line);padding:8px 0;}
+.olfactra-guide-sticky details:first-child{border-top:0;padding-top:2px;}
+.olfactra-guide-sticky summary{list-style:none;color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;}
+.olfactra-guide-sticky summary::-webkit-details-marker{display:none;}
+.olfactra-guide-sticky summary::after{content:"＋";float:right;font-size:12px;}
+.olfactra-guide-sticky details[open] summary::after{content:"−";}
+.olfactra-guide-sticky p{margin:7px 0 2px;color:var(--muted);font-size:10px;line-height:1.48;}
+/* Pull the characteristic controls closer to each Reset button. */
+.fragrance-panel .reset-row{margin-top:4px;margin-bottom:-5px;}
+.fragrance-panel #aChars h3,.fragrance-panel #bChars h3{margin-top:7px!important;margin-bottom:7px!important;}
+/* New custom dark palettes: Nebula and Arctic. */
+body[data-theme="nebula"] .pill input:checked+span{background:#b978f0;border-color:#dfb6ff;color:#160e25;}
+body[data-theme="nebula"] .note input:checked+span{background:#543477;border-color:#d58bff;color:#fff;}
+body[data-theme="arctic"] .pill input:checked+span{background:#65e0e6;border-color:#b2fbff;color:#08202a;}
+body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-color:#65e0e6;color:#f4feff;}
+@media(max-width:1280px){
+  .olfactra-guide-sticky{position:static!important;top:auto!important;right:auto!important;width:auto!important;max-height:none!important;overflow:visible!important;margin:0 20px 14px!important;padding:12px 14px;}
+}
+@media(max-width:520px){.olfactra-guide-sticky{margin-left:14px!important;margin-right:14px!important;}}
+
+
+/* OLFACTRA website masthead: a full-width, framed banner with a clear wordmark. */
+.olfactra-header{
+  box-sizing:border-box;width:100%;height:132px;min-height:132px;margin:0;
+  padding:12px clamp(18px,3vw,46px);display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:75;overflow:hidden;
+  border-bottom:1px solid color-mix(in srgb,var(--theme-primary) 38%,var(--line));
+  background:
+    radial-gradient(ellipse 42% 130% at 10% 50%,color-mix(in srgb,var(--theme-primary) 17%,transparent),transparent 78%),
+    radial-gradient(ellipse 32% 120% at 94% 50%,color-mix(in srgb,var(--theme-tertiary) 13%,transparent),transparent 80%),
+    linear-gradient(105deg,color-mix(in srgb,var(--card) 96%,var(--theme-primary)),var(--bg2) 56%,color-mix(in srgb,var(--card) 94%,var(--theme-secondary)));
+  box-shadow:0 12px 34px rgba(0,0,0,.22);
+}
+.olfactra-header::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.48;
+  background:linear-gradient(112deg,transparent 0 68%,color-mix(in srgb,var(--theme-primary) 9%,transparent) 68.2% 68.5%,transparent 68.8% 76%,color-mix(in srgb,var(--theme-secondary) 8%,transparent) 76.2% 76.5%,transparent 76.8%);
+}
+.brand-banner{
+  position:relative;z-index:1;box-sizing:border-box;width:min(1320px,100%);min-height:102px;
+  margin:0 auto;padding:14px 25px;display:flex;align-items:center;justify-content:flex-start;gap:19px;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 32%,var(--line));border-radius:17px;
+  background:linear-gradient(100deg,color-mix(in srgb,var(--card) 92%,var(--theme-primary)),color-mix(in srgb,var(--card2) 93%,var(--theme-secondary)) 72%,color-mix(in srgb,var(--card) 94%,var(--theme-tertiary)));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.2);
+}
+.olfactra-logo{width:64px;height:64px;flex:0 0 64px;}
+.brand-copy{align-items:flex-start!important;gap:5px!important;}
+.brand-name{
+  padding-left:0!important;margin:0;color:var(--ink);font-size:36px;line-height:1.03;
+  letter-spacing:.22em;font-weight:500;
+}
+.brand-tagline{
+  display:block;padding-left:0!important;margin:0;color:var(--theme-secondary)!important;
+  font-size:10px!important;line-height:1.3;letter-spacing:.19em!important;font-weight:850!important;
+  text-transform:uppercase;white-space:nowrap;
+}
+
+/* Align the pinned side panels and the fragrance workspaces just below the masthead. */
+@media(min-width:1281px){
+  .interaction-sticky{top:140px!important;}
+  .olfactra-right-rail{top:140px!important;}
+  main{padding-top:8px!important;}
+}
+@media(max-width:1280px){
+  .olfactra-header{height:112px;min-height:112px;padding:9px 16px;}
+  .brand-banner{min-height:88px;padding:10px 18px;}
+  .olfactra-logo{width:54px;height:54px;flex-basis:54px;}
+  .brand-name{font-size:31px;}
+  .brand-tagline{font-size:9px!important;}
+}
+@media(max-width:520px){
+  .olfactra-header{height:96px;min-height:96px;padding:7px 10px;}
+  .brand-banner{min-height:78px;padding:8px 12px;gap:10px;border-radius:12px;}
+  .olfactra-logo{width:44px;height:44px;flex-basis:44px;}
+  .brand-copy{gap:3px!important;}
+  .brand-name{font-size:24px;letter-spacing:.15em;}
+  .brand-tagline{font-size:7px!important;letter-spacing:.12em!important;}
+}
+
+</style>
+
+<style id="olfactra-guidance-header-family-separator-refinement">
+/* Keep the two collapsed guidance rows comfortably above the pinned Theme dock. */
+.olfactra-guide-sticky{
+  padding:5px 9px!important;
+  gap:0!important;
+}
+.olfactra-guide-sticky details{
+  padding:3px 0!important;
+  margin:0!important;
+  border-top:1px solid color-mix(in srgb,var(--line) 72%,transparent)!important;
+}
+.olfactra-guide-sticky details:first-child{
+  border-top:0!important;
+  padding-top:0!important;
+}
+.olfactra-guide-sticky summary{
+  display:block;
+  padding:1px 0!important;
+  margin:0!important;
+  font-size:8px!important;
+  line-height:1.15!important;
+  letter-spacing:.055em!important;
+}
+.olfactra-guide-sticky summary::after{font-size:10px!important;line-height:1!important;}
+.olfactra-guide-sticky p{
+  margin:5px 0 2px!important;
+  font-size:9px!important;
+  line-height:1.35!important;
+}
+
+/* Re-center the complete OLFACTRA logo + wordmark + tagline as one masthead unit. */
+.olfactra-header{display:flex!important;justify-content:center!important;align-items:center!important;}
+.brand-banner{
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  gap:16px!important;
+}
+.brand-copy{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.brand-name{text-align:center!important;margin-left:0!important;margin-right:0!important;}
+.brand-tagline{
+  display:block!important;
+  width:100%;
+  padding-left:0!important;
+  margin:0!important;
+  text-align:center!important;
+}
+
+/* Stronger separators between fragrance families. The Others disclosure is spaced,
+   but has no rule cutting across the final row of common notes. */
+.fragrance-panel .family{
+  border-top:2px solid color-mix(in srgb,var(--theme-primary) 66%,var(--line))!important;
+  padding:11px 0 9px!important;
+}
+.fragrance-panel .family:first-child{border-top:0!important;padding-top:4px!important;}
+.fragrance-panel .family>details{
+  border-top:0!important;
+  margin-top:12px!important;
+  padding:0!important;
+}
+.fragrance-panel .family>details>summary{padding:0!important;margin:0!important;}
+.fragrance-panel .family>details>.other-grid{margin-top:9px!important;}
+</style>
+
+
+<style id="olfactra-final-code-input-rail-and-seamless-banner">
+/* Load Saved Code: compact clear control, and select-all on every focus/click. */
+.fragrance-panel .load-code-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center;
+  gap:5px!important;
+}
+.fragrance-panel .load-code-input-wrap{position:relative;display:block;min-width:0;width:100%;}
+.fragrance-panel .load-code-input-wrap input{
+  display:block;width:100%;min-width:0;padding-right:27px!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  user-select:all;
+}
+.fragrance-panel .clear-load-code{
+  position:absolute;right:3px;top:50%;transform:translateY(-50%);
+  display:grid;place-items:center;width:20px;height:20px;min-height:20px;
+  padding:0!important;border:0;border-radius:6px;
+  background:transparent!important;color:var(--muted)!important;
+  font-size:17px!important;line-height:1;font-weight:600;cursor:pointer;
+  box-shadow:none!important;opacity:.82;
+}
+.fragrance-panel .clear-load-code:hover{background:color-mix(in srgb,var(--accent) 15%,transparent)!important;color:var(--ink)!important;opacity:1;}
+.fragrance-panel .load-code-row>.secondary{min-width:47px;padding-left:9px!important;padding-right:9px!important;}
+
+/* Reserve the bottom-right Theme dock and keep both guidance disclosures visible.
+   The score breakdown scrolls inside Compatibility rather than pushing guidance off-screen. */
+@media (min-width:1281px){
+  .olfactra-right-rail{
+    position:fixed!important;top:140px!important;right:20px!important;bottom:auto!important;
+    width:290px!important;height:auto!important;max-height:calc(100vh - 216px)!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    gap:7px!important;overflow:visible!important;min-height:0!important;
+  }
+  .olfactra-right-rail>.score-sticky{
+    position:relative!important;inset:auto!important;width:100%!important;
+    flex:0 1 auto!important;min-height:0!important;height:auto!important;
+    max-height:min(560px,calc(100vh - 324px))!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    overscroll-behavior:contain;scrollbar-width:thin;
+    margin:0!important;
+  }
+  .olfactra-right-rail>.score-sticky.s-tier-active{pointer-events:auto!important;}
+  .olfactra-right-rail>.olfactra-guide-sticky{
+    position:relative!important;inset:auto!important;right:auto!important;top:auto!important;
+    width:100%!important;flex:0 0 auto!important;min-height:0!important;
+    max-height:min(100px,20vh)!important;overflow-y:auto!important;overflow-x:hidden!important;
+    margin:0!important;scrollbar-width:thin;
+  }
+  .olfactra-guide-sticky details[open] p{max-height:90px;overflow:auto;}
+}
+
+/* Seamless, full-width masthead. Keep the centered logo and wordmark as one unit,
+   without a second framed card sitting inside the website banner. */
+.olfactra-header{
+  width:100%!important;height:126px!important;min-height:126px!important;
+  margin:0!important;padding:12px clamp(16px,3vw,44px)!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  position:relative!important;z-index:75!important;overflow:hidden!important;
+  border:0!important;border-bottom:1px solid color-mix(in srgb,var(--theme-primary) 38%,var(--line))!important;
+  border-radius:0!important;
+  background:
+    radial-gradient(ellipse 30% 150% at 50% 50%,color-mix(in srgb,var(--theme-primary) 15%,transparent),transparent 82%),
+    radial-gradient(ellipse 52% 160% at 12% 45%,color-mix(in srgb,var(--theme-secondary) 10%,transparent),transparent 82%),
+    radial-gradient(ellipse 48% 150% at 88% 56%,color-mix(in srgb,var(--theme-tertiary) 10%,transparent),transparent 84%),
+    linear-gradient(105deg,var(--bg),color-mix(in srgb,var(--card) 74%,var(--bg)) 50%,var(--bg))!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.16)!important;
+}
+.olfactra-header::after{
+  opacity:.2!important;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--theme-primary) 10%,transparent) 50%,transparent)!important;
+}
+.olfactra-header .brand-banner{
+  width:min(1320px,100%)!important;min-height:0!important;
+  margin:0 auto!important;padding:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:16px!important;text-align:center!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;
+}
+.olfactra-header .brand-copy{
+  display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  text-align:center!important;gap:5px!important;
+}
+.olfactra-header .brand-name{margin:0!important;text-align:center!important;}
+.olfactra-header .brand-tagline{
+  display:block!important;width:100%!important;margin:0!important;padding:0!important;
+  text-align:center!important;white-space:nowrap;
+}
+@media(max-width:1280px){
+  .olfactra-header{height:112px!important;min-height:112px!important;padding:9px 16px!important;}
+}
+@media(max-width:520px){
+  .olfactra-header{height:96px!important;min-height:96px!important;padding:7px 10px!important;}
+  .olfactra-header .brand-banner{gap:10px!important;}
+}
+</style>
+
+</head>
+<body>
+<div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
+<header class="olfactra-header">
+  <div class="brand-banner" aria-label="OLFACTRA fragrance layering analyst">
+    <svg class="olfactra-logo" viewBox="0 0 72 72" role="img" aria-label="OLFACTRA orbital-flower emblem">
+      <defs><linearGradient id="olfactraGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".48" stop-color="#c9a45f"/><stop offset="1" stop-color="#8b642c"/></linearGradient></defs>
+      <circle cx="36" cy="36" r="31" fill="none" stroke="url(#olfactraGold)" stroke-width="1.6"/>
+      <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
+      <ellipse cx="36" cy="36" rx="12" ry="25" transform="rotate(-45 36 36)" fill="none" stroke="url(#olfactraGold)" stroke-width="1.8"/>
+      <circle cx="36" cy="36" r="5.2" fill="#e7c982" stroke="#fff0c0" stroke-width="1"/>
+      <path d="M36 10v8M36 54v8M10 36h8M54 36h8" stroke="#e7c982" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <div class="brand-copy"><div class="brand-name">OLFACTRA</div><div class="brand-tagline">Subjective Layering Assistant</div></div>
+  </div>
+</header>
+<section class="card interaction-sticky">
+  <h2 style="margin-bottom:8px">Note Database</h2>
+  <div class="theory-controls">
+<label class="theory-toggle" style="flex:1"><span>Minimum matches to show: <b id="minMatchValue">1</b></span><div class="theory-slider-wrap"><input id="minMatchSlider" type="range" min="1" max="1" value="1" step="1" oninput="manualMinMatchChange()"><div id="minMatchLabels" class="theory-slider-labels"><span class="active">1</span></div></div></label>
+<span class="common-key">Green ring = all notes match · red = high risk · enlarged text = already selected</span>
+</div>
+  <div id="noteInteractionSticky"><div class="muted">Select notes to see their full theoretical synergy and penalty map.</div></div>
+</section>
+<main>
+<div class="grid">
+
+<section class="card fragrance-panel" id="fragranceA">
+<h2 class="fragrance-label">FRAGRANCE A</h2>
+<div class="codebox top-code">
+  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Paste FL6-... code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
+  <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="aCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('a')">Copy</button></div></div>
+</div>
+<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="reset-row"><button type="button" class="secondary" onclick="resetFragrance('a')">Reset Fragrance A</button></div>
+<div id="aChars"></div><div id="aNotes"></div>
+</section>
+
+<section class="card fragrance-panel" id="fragranceB">
+<h2 class="fragrance-label">FRAGRANCE B</h2>
+<div class="codebox top-code">
+  <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Paste FL6-... code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
+  <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="bCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('b')">Copy</button></div></div>
+</div>
+<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="reset-row"><button type="button" class="secondary" onclick="resetFragrance('b')">Reset Fragrance B</button></div>
+<div id="bChars"></div><div id="bNotes"></div>
+</section>
+
+<aside class="olfactra-right-rail" aria-label="Compatibility and guidance">
+<section class="card full score-sticky">
+<h2>Compatibility Score</h2>
+<div class="notice">
+The score is calculated automatically. <b>Projection is the highest-priority characteristic.</b> Loud + Soft receives <b>0 projection points</b> because the loud fragrance can overpower the soft one; it does not subtract from the score. Only <b>Projection</b> and <b>Complexity</b> are used as general characteristics. Projection is worth 25 points and complexity 10 points. Notes are ranked by strength and every selected note is checked against every selected note in the other fragrance. Specific note penalties take priority over positive relationships.
+</div>
+<div class="scoreline"><div class="big" id="score">0</div><div><div class="tier" id="tier">F-tier</div><div class="muted" id="tierText">Select characteristics and notes</div></div></div>
+<div class="bar"><div id="scorebar" style="width:0%"></div></div>
+<div class="metrics" id="metrics">
+<div class="metric"><strong>General characteristics</strong><b id="charMetric">0/35</b></div>
+<div class="metric"><strong>Notes</strong><b id="noteMetric">0/65</b></div>
+<div class="metric"><strong>Penalties</strong><b id="penaltyMetric">0</b></div>
+<div class="metric"><strong>Total</strong><b id="totalMetric">0/100</b></div>
+</div>
+<div class="score-breakdown" id="scoreBreakdown"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
+
+</section>
+
+<section class="card full olfactra-guide-sticky" id="olfactraGuide" aria-label="OLFACTRA guidance">
+  <details>
+    <summary>Why subjective?</summary>
+    <p>Your nose is the source of truth. Published note pyramids can be incomplete, inconsistent, or different from what you actually smell. You do not need to identify every material by name. Choose the notes and impressions that best describe your experience. Use the database as a vocabulary aid, not as an exam or an authority over your perception.</p>
+  </details>
+  <details>
+    <summary>Suggested use</summary>
+    <p>Build a personal fragrance library in Excel or Google Sheets. Save each fragrance name beside its Fragrance Code, then paste the code into OLFACTRA whenever you want to load it. This makes it easier to save your collection and mix, match, and compare combinations.</p>
+  </details>
+</section>
+</aside>
+
+<footer class="optional-info">
+<details><summary>Scoring details (optional)</summary>
+<div class="score-breakdown" id="scoreBreakdown"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
+<p class="smallnote">Projection and complexity contribute up to 35 points. Ranked note relationships contribute up to 65 points. Loud + Soft contributes zero projection points rather than a deduction. Specific note penalties take priority over positive relationships.</p>
+<p class="smallnote">Rank 1 = 1.00×, Rank 2 = 0.70×, Rank 3 = 0.40×. The system evaluates the cross-fragrance note matrix and collapses mirrored relationships.</p>
+</details>
+<span>FL6 · Runs locally · No external libraries or internet connection required.</span></footer>
+</div>
+</main>
+
+<script>
+/* =========================================================
+   FRAGRANCE LAYERING ANALYST v6
+   General characteristics: 0–35 (Projection 25 + Complexity 10)
+   Notes: 0–65 contribution, with ranked note strength
+   ========================================================= */
+
+const axes=[
+  {id:"projection",title:"Projection",pairs:[["soft","Soft"],["moderate","Moderate"],["loud","Loud"]]},
+  {id:"complexity",title:"Complexity",pairs:[["simple","Simple"],["complex","Complex"]]}
+];
+
+const families={
+"Citrus":["Bergamot","Lemon","Lime","Grapefruit","Orange","Blood orange","Mandarin","Tangerine","Yuzu","Petitgrain","Neroli","Citron","Kumquat","Bitter orange"],
+"Fruits":["Green apple","Red apple","Pear","Blackcurrant","Raspberry","Strawberry","Blackberry","Blueberry","Cranberry","Peach","Apricot","Plum","Nectarine","Cherry","Black cherry","Pineapple","Coconut","Mango","Passionfruit","Guava","Papaya","Banana","Fig","Pomegranate","Melon","Watermelon","Grape","Lychee"],
+"Florals":["Rose","Damask rose","Turkish rose","Jasmine","Sambac jasmine","Tuberose","Gardenia","Orange blossom","Ylang-ylang","Honeysuckle","Iris","Violet","Heliotrope","Lavender","Geranium","Osmanthus","Magnolia","Peony","Lily","Mimosa","Narcissus","Lotus"],
+"Green / Herbal":["Green leaves","Grass","Tea","Green tea","Black tea","Mate","Basil","Mint","Spearmint","Peppermint","Rosemary","Sage","Thyme","Tarragon","Coriander leaf","Shiso","Tomato leaf","Violet leaf","Galbanum","Artemisia","Angelica","Eucalyptus","Juniper","Pine","Fir","Cypress"],
+"Woods":["Cedar","Sandalwood","Guaiac wood","Vetiver","Patchouli","Oak","Oakmoss","Cashmere wood","Palo santo","Birch","Rosewood","Amyris","Hinoki","Oud","Dry woods","Smoky woods","Creamy woods"],
+"Spices":["Cardamom","Cinnamon","Nutmeg","Clove","Black pepper","Pink pepper","Sichuan pepper","Saffron","Ginger","Coriander seed","Star anise","Anise","Cumin","Allspice"],
+"Gourmand":["Vanilla","Tonka bean","Caramel","Toffee","Praline","Honey","Brown sugar","Marshmallow","Chocolate","Cacao","Coffee","Espresso","Hazelnut","Almond","Pistachio","Chestnut","Milk","Cream","Biscuit","Maple","Rum accord","Lactonic notes"],
+"Tobacco / Smoke":["Tobacco","Tobacco leaf","Cigar","Pipe tobacco","Ash","Smoke","Incense smoke","Birch tar","Charcoal","Burnt woods"],
+"Amber / Resinous":["Amber","Ambergris accord","Labdanum","Benzoin","Myrrh","Frankincense","Olibanum","Opoponax","Elemi","Peru balsam","Tolu balsam"],
+"Leather / Animalic":["Leather","Suede","Birch leather","Animalic musk","Castoreum accord","Civet accord","Labdanum leather","Smoky leather","Oud leather"],
+"Musk / Skin":["White musk","Clean musk","Skin musk","Ambrette","Powder musk","Cotton musk","Soapy musk","Laundry musk","Soap"],
+"Aquatic / Marine":["Marine accord","Sea salt","Sea breeze","Oceanic notes","Watery notes","Calone","Mineral notes","Driftwood","Watery melon"],
+"Powdery / Soft":["Talc accord","Cosmetic powder","Orris","Lipstick accord","Rice","Mimosa","Soft woods"],
+"Other / Modern Materials":["Barbershop fougère","Iso E Super","Ambroxan","Cashmeran","Hedione","Galaxolide","Ethylene brassylate","Akigalawood","Norlimbanol","Timberol","Kephalis","Javanol","Muscenone","Methyl ionone","Aldehydes","Metallic accord","Mineral accord","Ozonic accord","Solar accord","Ink accord","Vinyl accord","Paper accord","Petrichor"]
+};
+
+const commonNotes={
+"Citrus":["Bergamot","Lemon","Lime","Grapefruit","Orange","Mandarin","Tangerine"],
+"Fruits":["Green apple","Pear","Peach","Plum","Cherry","Pineapple","Fig","Coconut"],
+"Florals":["Rose","Jasmine","Orange blossom","Iris","Violet","Lavender","Ylang-ylang"],
+"Green / Herbal":["Tea","Green tea","Mint","Basil","Rosemary","Sage","Juniper","Pine"],
+"Woods":["Cedar","Sandalwood","Vetiver","Patchouli","Cashmere wood","Oud","Birch"],
+"Spices":["Cardamom","Cinnamon","Black pepper","Pink pepper","Saffron","Ginger"],
+"Gourmand":["Vanilla","Tonka bean","Caramel","Chocolate","Coffee","Honey","Almond","Coconut"],
+"Tobacco / Smoke":["Tobacco","Smoke","Incense smoke","Birch tar"],
+"Amber / Resinous":["Amber","Labdanum","Benzoin","Myrrh","Frankincense"],
+"Leather / Animalic":["Leather","Suede","Animalic musk","Castoreum accord","Civet accord"],
+"Musk / Skin":["White musk","Clean musk","Skin musk","Ambrette","Powder musk","Cotton musk","Soapy musk","Laundry musk","Soap"],
+"Aquatic / Marine":["Marine accord","Sea salt","Sea breeze","Oceanic notes","Calone","Mineral notes"],
+"Powdery / Soft":["Talc accord","Cosmetic powder","Orris","Lipstick accord","Rice","Mimosa","Soft woods"]
+};
+
+const weights=[
+  {id:"projection",label:"Projection compatibility",value:25,desc:"Highest priority. Loud + Soft is strongly penalized."},
+  {id:"complexity",label:"Complexity compatibility",value:10,desc:"Complex + Simple is complementary; Complex + Complex is penalized."}
+];
+
+/* Note strength multipliers. Rank 1 is strongest. */
+const rankMultipliers=[1.00,0.70,0.40];
+const noteOrder={a:[],b:[]};
+
+function norm(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();}
+function key(a,b){const x=norm(a),y=norm(b);return x<=y?`${x}|${y}`:`${y}|${x}`;}
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function getWeight(id){return weights.find(w=>w.id===id)?.value||0;}
+
+function renderCharacteristics(container,prefix){
+  document.getElementById(container).innerHTML='<h3 style="margin-top:7px">General Characteristics</h3><div class="axis-grid">'+axes.map(axis=>`
+  <div class="axis"><div class="axis-title">${axis.title}</div><div class="options">${axis.pairs.map(([v,l])=>`
+  <label class="pill"><input type="radio" name="${prefix}-${axis.id}" value="${v}" onchange="calculate()"><span>${l}</span></label>`).join("")}</div></div>`).join("")+'</div>';
+}
+
+function renderNotes(container,prefix){
+  document.getElementById(container).innerHTML=`<h3 style="margin-top:22px">Notes <span class="smallnote">(maximum 3 per fragrance)</span> <span class="smallnote" id="${prefix}NoteCount">Pick 3 notes for best accuracy</span></h3>
+  <div class="note-search"><input id="${prefix}NoteSearch" type="text" placeholder="Search notes..." oninput="filterNotes('${prefix}',this.value)"><div class="note-search-hint">Search by note name or family.</div></div>
+  <div class="selected-notes"><div class="selected-notes-title">Ranked note strength</div><div class="smallnote">Rank 1 = strongest contribution · Rank 2 = moderate · Rank 3 = lightest. Drag to reorder.</div><div id="${prefix}RankedNotes"></div></div>`+
+  Object.entries(families).map(([family,notes])=>{
+    const common=commonNotes[family]||[]; const other=notes.filter(n=>!common.includes(n));
+    return `<div class="family" data-family="${esc(family)}"><div class="family-title">${esc(family)}</div><div class="note-grid">${common.map(n=>noteHTML(prefix,n)).join("")}</div>${other.length?`<details><summary>Others (${other.length})</summary><div class="note-grid other-grid">${other.map(n=>noteHTML(prefix,n)).join("")}</div></details>`:""}</div>`;
+  }).join("");
+  renderRankedNotes(prefix);
+}
+function noteHTML(prefix,n){return `<label class="note" data-note="${esc(n.toLowerCase())}"><input type="checkbox" name="${prefix}-note" value="${esc(n)}" onchange="noteChanged('${prefix}',this)"><span>${esc(n)}</span></label>`;}
+
+renderCharacteristics("aChars","a");
+renderCharacteristics("bChars","b");
+renderNotes("aNotes","a");
+renderNotes("bNotes","b");
+
+function getSelectedNotes(prefix){return [...document.querySelectorAll(`input[name="${prefix}-note"]:checked`)].map(x=>x.value);}
+function syncNoteOrder(prefix){
+  const selected=getSelectedNotes(prefix);
+  const existing=noteOrder[prefix].filter(n=>selected.includes(n));
+  selected.forEach(n=>{if(!existing.includes(n))existing.push(n);});
+  noteOrder[prefix]=existing.slice(0,3);
+}
+function renderRankedNotes(prefix){
+  syncNoteOrder(prefix);
+  const box=document.getElementById(prefix+'RankedNotes');
+  if(!box)return;
+  if(!noteOrder[prefix].length){box.innerHTML='<div class="smallnote" style="padding:7px 0">No notes ranked yet.</div>';return;}
+  box.innerHTML=noteOrder[prefix].map((n,i)=>`<div class="rank-note" draggable="true" data-note-rank="${esc(n)}" data-index="${i}">
+    <div class="rank-badge">${i+1}</div><div class="rank-note-name">${esc(n)}${proxyLabel(n)?` <span class="smallnote">↔ ${esc(proxyLabel(n))}</span>`:""} <span class="smallnote">×${rankMultipliers[i].toFixed(2)}</span></div>
+    <div class="rank-note-actions"><button type="button" class="secondary" onclick="moveNote('${prefix}',${i},-1)" ${i===0?'disabled':''}>↑</button><button type="button" class="secondary" onclick="moveNote('${prefix}',${i},1)" ${i===noteOrder[prefix].length-1?'disabled':''}>↓</button><button type="button" class="secondary remove-note" aria-label="Remove ${esc(n)}" title="Remove ${esc(n)}" onclick="removeRankedNote('${prefix}',${i})">×</button></div></div>`).join("");
+  box.querySelectorAll('.rank-note').forEach(row=>{
+    row.addEventListener('dragstart',e=>{row.classList.add('dragging-rank');e.dataTransfer.setData('text/plain',String(row.dataset.index));});
+    row.addEventListener('dragend',()=>row.classList.remove('dragging-rank'));
+    row.addEventListener('dragover',e=>e.preventDefault());
+    row.addEventListener('drop',e=>{e.preventDefault();const from=Number(e.dataTransfer.getData('text/plain')),to=Number(row.dataset.index);if(Number.isInteger(from)&&Number.isInteger(to)&&from!==to){reorderNote(prefix,from,to);}});
+  });
+}
+function reorderNote(prefix,from,to){const arr=noteOrder[prefix];if(from<0||to<0||from>=arr.length||to>=arr.length)return;const [x]=arr.splice(from,1);arr.splice(to,0,x);renderRankedNotes(prefix);calculate();}
+function moveNote(prefix,index,delta){reorderNote(prefix,index,index+delta);}
+function removeRankedNote(prefix,index){
+  const note=noteOrder[prefix][index];
+  if(!note)return;
+  const checkbox=[...document.querySelectorAll(`input[name="${prefix}-note"]`)].find(el=>el.value===note);
+  if(checkbox)checkbox.checked=false;
+  noteOrder[prefix].splice(index,1);
+  renderRankedNotes(prefix);
+  updateNoteReminder(prefix);
+  calculate();
+}
+
+function getProfile(prefix){
+  const chars={};axes.forEach(a=>{const x=document.querySelector(`input[name="${prefix}-${a.id}"]:checked`);if(x)chars[a.id]=x.value;});
+  syncNoteOrder(prefix);
+  return {chars,notes:[...noteOrder[prefix]]};
+}
+
+function projectionValue(a,b){
+  if(!a||!b)return {points:0,penalty:0,label:""};
+  const t={
+    'loud|loud':{points:getWeight('projection'),label:'Loud + Loud: matched projection'},
+    'loud|moderate':{points:Math.round(getWeight('projection')*.93),label:'Loud + Moderate: compatible projection hierarchy'},
+    'moderate|moderate':{points:Math.round(getWeight('projection')*.83),label:'Moderate + Moderate: balanced projection'},
+    'moderate|soft':{points:Math.round(getWeight('projection')*.67),label:'Moderate + Soft: useful modifier relationship'},
+    'soft|soft':{points:Math.round(getWeight('projection')*.50),label:'Soft + Soft: compatible but restrained'},
+    'loud|soft':{points:0,penalty:20,label:'Loud + Soft: loud projection can overpower the soft fragrance'}
+  };
+  return t[key(a,b)]||{points:0,penalty:0,label:""};
+}
+
+const exactHighPairs=[
+  ['bergamot',['cedar','lavender','vetiver','vanilla','woods']],
+  ['lemon',['neroli','vetiver','woods','mint']],
+  ['orange',['vanilla','amber','spices','woods','tobacco']],
+  ['grapefruit',['vetiver','woods','aromatics','musk']],
+  ['green apple',['woods','musk','vanilla','spices','cinnamon']],
+  ['apple',['woods','musk','vanilla','spices','cinnamon']],
+  ['pear',['musk','vanilla','florals','woods']],
+  ['lavender',['vanilla','tonka bean','woods','citrus','musk']],
+  ['mint',['citrus','woods','lavender','aquatic']],
+  ['rose',['oud','amber','vanilla','patchouli','musk']],
+  ['jasmine',['citrus','vanilla','amber','woods']],
+  ['iris',['musk','woods','violet','vanilla','suede']],
+  ['violet',['iris','musk','woods','citrus']],
+  ['vanilla',['woods','amber','tobacco','spices','citrus','musk']],
+  ['tonka bean',['vanilla','tobacco','amber','woods','lavender']],
+  ['amber',['vanilla','woods','spices','musk','citrus']],
+  ['tobacco',['vanilla','cherry','spices','woods','amber']],
+  ['coffee',['vanilla','cacao','woods','amber','spices']],
+  ['cacao',['vanilla','coffee','amber','tobacco']],
+  ['chocolate',['vanilla','coffee','amber','tobacco']],
+  ['cinnamon',['apple','vanilla','tobacco','amber','woods']],
+  ['cardamom',['citrus','woods','vanilla','lavender']],
+  ['black pepper',['citrus','woods','amber','vetiver']],
+  ['sandalwood',['vanilla','iris','musk','amber','spices']],
+  ['cedar',['citrus','vetiver','musk','amber','green notes']],
+  ['vetiver',['citrus','woods','grapefruit','iris','spices']],
+  ['patchouli',['rose','vanilla','amber','woods','citrus']],
+  ['oud',['rose','saffron','amber','vanilla','woods']],
+  ['musk',['citrus','woods','florals']],
+  ['suede',['iris','vanilla','tobacco','oud','woods']],
+  ['leather',['iris','vanilla','tobacco','oud','woods']],
+  ['rice',['paper accord','black pepper','iris','violet','vanilla','sandalwood','cedar','lavender','white musk','clean musk','skin musk','ambrette','soft woods','tea','green tea','pear']],
+  ['ambroxan',['ginger','grapefruit','vanilla','bergamot','cedar','sandalwood','vetiver','musk','amber','woods','citrus','tobacco']]
+];
+
+const exactMediumPairs=[
+  ['aquatic',['vanilla','oud','woods']],['rose',['citrus','gourmand','mint']],['vanilla',['citrus','marine']],
+  ['leather',['citrus','gourmand']],['patchouli',['aquatic']],['tobacco',['citrus']],['oud',['citrus']],
+  ['coffee',['citrus','marine']],['fruits',['oud','tobacco','leather']],['coconut',['woods','aquatic']],
+  ['rose',['citrus']],['mint',['vanilla']],['rose',['mint']],['apple',['oud']],['pear',['tobacco']]
+];
+
+const exactLowPairs=[
+  ['soap',['gourmand']],['soapy musk',['gourmand']],['marine',['heavy tobacco','tobacco']],['mint',['dense oud','oud']],
+  ['laundry musk',['gourmand']],['aquatic',['dense patchouli','patchouli']],['grass',['syrupy vanilla','vanilla']],
+  ['oud',['fruity candy','candy','gourmand']],['heavy leather',['aquatic','marine']],['birch tar',['tropical fruit','fruits']],
+  ['vetiver',['caramel']],['iris',['marine','aquatic']],['camphoraceous',['chocolate']]
+];
+
+
+/* =========================================================
+   PROXY NOTE IDENTITIES — RESEARCH-AUGMENTED LAYER
+   Displayed note names remain unchanged. When an abstract or
+   modern material lacks an established FL6 identity, scoring
+   may inherit the closest established FL6 note identity.
+   Existing explicit FL6 relationships retain priority.
+   ========================================================= */
+const proxyIdentities={
+  "barbershop fougère":"lavender",
+  "iso e super":"cedar",
+  "cashmeran":"cashmere wood",
+  "hedione":"jasmine",
+  "galaxolide":"white musk",
+  "ethylene brassylate":"white musk",
+  "akigalawood":"patchouli",
+  "norlimbanol":"dry woods",
+  "timberol":"dry woods",
+  "kephalis":"tobacco",
+  "javanol":"sandalwood",
+  "muscenone":"musk",
+  "methyl ionone":"violet",
+  "aldehydes":"soap",
+  "metallic accord":"aquatic",
+  "mineral accord":"aquatic",
+  "ozonic accord":"aquatic",
+  "solar accord":"amber",
+  "ink accord":"leather",
+  "vinyl accord":"leather",
+  "paper accord":"rice",
+  "petrichor":"vetiver"
+};
+
+function proxyIdentity(note){
+  const seen=new Set();
+  let current=norm(note);
+  while(proxyIdentities[current] && !seen.has(current)){
+    seen.add(current);
+    current=norm(proxyIdentities[current]);
+  }
+  return current;
+}
+function proxyLabel(note){
+  const raw=norm(note), identity=proxyIdentity(raw);
+  return identity && identity!==raw ? proxyIdentities[raw] : "";
+}
+
+function noteAliases(value){
+  const n=norm(value);
+  const out=new Set([n]);
+  const proxy=proxyIdentity(n);
+  if(proxy) out.add(proxy);
+  if(n.includes('marine')||n.includes('aquatic')||n.includes('oceanic')||n.includes('sea breeze')||n.includes('sea salt')||n.includes('calone')||n.includes('watery')) out.add('aquatic');
+  if(['bergamot','lemon','lime','grapefruit','orange','mandarin','tangerine','yuzu','neroli','citron','kumquat','bitter orange','blood orange','petitgrain'].includes(n)) out.add('citrus');
+  if(['green apple','red apple','pear','peach','apricot','plum','nectarine','cherry','black cherry','pineapple','coconut','mango','passionfruit','guava','papaya','banana','fig','pomegranate','melon','watermelon','grape','lychee','blackcurrant','raspberry','strawberry','blackberry','blueberry','cranberry'].includes(n)) out.add('fruits');
+  if(['rose','damask rose','turkish rose','jasmine','sambac jasmine','tuberose','gardenia','orange blossom','ylang ylang','honeysuckle','iris','violet','heliotrope','lavender','geranium','osmanthus','magnolia','peony','lily','mimosa','narcissus','lotus'].includes(n)) out.add('florals');
+  if(['woods','cedar','sandalwood','guaiac wood','vetiver','patchouli','oak','oakmoss','cashmere wood','palo santo','birch','rosewood','amyris','hinoki','oud','dry woods','smoky woods','creamy woods'].includes(n)) out.add('woods');
+  if(['musk','white musk','clean musk','skin musk','ambrette','powder musk','cotton musk','soapy musk'].includes(n)) out.add('musk');
+  if(n==='green / herbal' || ['green leaves','grass','tea','green tea','black tea','mate','basil','mint','spearmint','peppermint','rosemary','sage','thyme','tarragon','coriander leaf','shiso','tomato leaf','violet leaf','galbanum','artemisia','angelica','eucalyptus','juniper','pine','fir','cypress'].includes(n)) out.add('green');
+  if(['vanilla','tonka bean','caramel','toffee','praline','honey','brown sugar','marshmallow','chocolate','cacao','coffee','espresso','hazelnut','almond','pistachio','chestnut','milk','cream','biscuit','maple','rum accord','lactonic notes'].includes(n)) out.add('gourmand');
+  if(['tobacco','tobacco leaf','cigar','pipe tobacco','ash','smoke','incense smoke','birch tar','charcoal','burnt woods'].includes(n)) out.add('tobacco');
+  if(['amber','ambergris accord','labdanum','benzoin','myrrh','frankincense','olibanum','opoponax','elemi','peru balsam','tolu balsam'].includes(n)) out.add('amber');
+  if(['leather','suede','birch leather','animalic musk','castoreum accord','civet accord','labdanum leather','smoky leather','oud leather'].includes(n)) out.add('leather');
+  if(['cardamom','cinnamon','nutmeg','clove','black pepper','pink pepper','sichuan pepper','saffron','ginger','coriander seed','star anise','anise','cumin','allspice'].includes(n)) out.add('spices');
+  if(n==='fruits') out.add('fruits');
+  if(n==='woods') out.add('woods');
+  if(n==='florals') out.add('florals');
+  return [...out];
+}
+function hasAlias(note, aliases){return noteAliases(note).some(a=>aliases.map(norm).includes(a));}
+function exactRuleMatch(a,b,entry){
+  const [left,rights]=entry;
+  return (hasAlias(a,[left]) && rights.some(r=>hasAlias(b,[r]))) || (hasAlias(b,[left]) && rights.some(r=>hasAlias(a,[r])));
+}
+
+/* Explicit family compatibility from the user's guide. */
+const familyHigh=[
+  ['Citrus',['Woods','Musk / Skin','Amber / Resinous','Green / Herbal']],
+  ['Bergamot',['Woods','Florals']],
+  ['Lemon',['Citrus','Green / Herbal','Woods']],
+  ['Orange',['Gourmand','Amber / Resinous','Spices','Woods','Tobacco / Smoke']],
+  ['Grapefruit',['Woods','Florals','Green / Herbal','Musk / Skin']],
+  ['Fruits',['Woods','Musk / Skin','Gourmand','Spices']],
+  ['Florals',['Woods','Musk / Skin']],
+  ['Green / Herbal',['Citrus','Woods','Musk / Skin']],
+  ['Aquatic / Marine',['Citrus','Musk / Skin','Woods','Florals']],
+  ['Rose',['Oud','Amber / Resinous','Vanilla','Patchouli','Musk / Skin']],
+  ['Vanilla',['Woods','Amber / Resinous','Tobacco / Smoke','Spices','Citrus','Musk / Skin']],
+  ['Amber / Resinous',['Vanilla','Woods','Spices','Musk / Skin','Citrus']],
+  ['Tobacco / Smoke',['Vanilla','Fruits','Spices','Woods','Amber / Resinous']],
+  ['Gourmand',['Vanilla','Coffee','Woods','Amber / Resinous','Tobacco / Smoke','Spices']],
+  ['Woods',['Citrus','Musk / Skin','Amber / Resinous','Spices','Green / Herbal']],
+  ['Spices',['Fruits','Vanilla','Tobacco / Smoke','Amber / Resinous','Woods']],
+  ['Leather / Animalic',['Florals','Vanilla','Tobacco / Smoke','Oud','Woods']],
+  ['Musk / Skin',['Citrus','Woods','Florals']]
+];
+const familyMedium=[
+  ['Aquatic / Marine',['Vanilla','Oud']],['Rose',['Citrus','Gourmand','Green / Herbal']],['Vanilla',['Citrus','Aquatic / Marine']],
+  ['Leather / Animalic',['Citrus','Gourmand']],['Patchouli',['Aquatic / Marine']],['Tobacco / Smoke',['Citrus']],['Oud',['Citrus']],
+  ['Gourmand',['Aquatic / Marine']],['Green / Herbal',['Gourmand']],['Coconut',['Woods','Aquatic / Marine']]
+];
+const familyLow=[
+  ['Aquatic / Marine',['Tobacco / Smoke','Patchouli','Leather / Animalic']],
+  ['Powdery / Soft',['Aquatic / Marine']],
+  ['Tobacco / Smoke',['Aquatic / Marine']]
+];
+
+function noteFamily(note){
+  const raw=norm(note);
+  const n=proxyIdentity(raw);
+  for(const [f,ns] of Object.entries(families)) if(ns.some(x=>norm(x)===n)) return f;
+  return '';
+}
+function familyPairMatch(fa,fb,rule){return (fa===rule[0]&&rule[1].includes(fb))||(fb===rule[0]&&rule[1].includes(fa));}
+function notePairScore(a,b){
+  if(!a||!b)return 0;
+  const na=norm(a),nb=norm(b);
+  const ia=proxyIdentity(na),ib=proxyIdentity(nb);
+  if(na===nb || (ia && ib && ia===ib))return 50; // same note or same proxy identity = maximum similarity
+
+  // Red rules have priority over broader family compatibility.
+  for(const r of exactLowPairs) if(exactRuleMatch(a,b,r)) return -40;
+  for(const r of familyLow) if(familyPairMatch(noteFamily(a),noteFamily(b),r)) return -35;
+
+  // User-guide conditional combinations.
+  for(const r of exactMediumPairs) if(exactRuleMatch(a,b,r)) return 30;
+  for(const r of familyMedium) if(familyPairMatch(noteFamily(a),noteFamily(b),r)) return 30;
+
+  // Highly compatible documented combinations.
+  for(const r of exactHighPairs) if(exactRuleMatch(a,b,r)) return 50;
+  for(const r of familyHigh) if(familyPairMatch(noteFamily(a),noteFamily(b),r)) return 50;
+
+  // Same family = strong similarity, even when no exact pair was listed.
+  const fa=noteFamily(a),fb=noteFamily(b);
+  if(fa&&fa===fb)return 38;
+
+  // Closely related families = moderate positive bridge.
+  const familyBridges={
+    'Citrus|Florals':28,'Citrus|Spices':24,'Citrus|Gourmand':24,'Citrus|Tobacco / Smoke':26,
+    'Florals|Gourmand':27,'Florals|Powdery / Soft':30,'Florals|Spices':22,'Florals|Leather / Animalic':28,
+    'Woods|Tobacco / Smoke':30,'Woods|Gourmand':28,'Woods|Leather / Animalic':28,'Woods|Powdery / Soft':24,
+    'Gourmand|Amber / Resinous':28,'Gourmand|Tobacco / Smoke':30,'Gourmand|Leather / Animalic':25,
+    'Tobacco / Smoke|Amber / Resinous':30,'Tobacco / Smoke|Leather / Animalic':30,
+    'Amber / Resinous|Leather / Animalic':28,'Amber / Resinous|Spices':28,'Musk / Skin|Powdery / Soft':30,
+    'Aquatic / Marine|Citrus':30,'Aquatic / Marine|Woods':26
+  };
+  for(const [pair,val] of Object.entries(familyBridges)){
+    const [x,y]=pair.split('|'); if((fa===x&&fb===y)||(fa===y&&fb===x))return val;
+  }
+  return 0;
+}
+
+function rankMultiplier(noteList,note){
+  const i=noteList.indexOf(note); return i<0?0:rankMultipliers[i];
+}
+
+function calculateNoteScore(A,B){
+  if(!A.notes.length||!B.notes.length) return {score:0,pairs:[],allPairs:[],totalWeighted:0,idealWeight:0,uniqueCount:0};
+
+  // Build every directional cross-fragrance relationship first.
+  const allPairs=[];
+  for(const a of A.notes) for(const b of B.notes){
+    const base=notePairScore(a,b);
+    const ma=rankMultiplier(A.notes,a), mb=rankMultiplier(B.notes,b);
+    const weight=(ma+mb)/2;
+    allPairs.push({a,b,score:base,weight,weighted:base*weight});
+  }
+
+  // Collapse mirrored relationships such as Rice + Paper / Paper + Rice.
+  // A relationship is analyzed once, using the average rank weight of its
+  // mirrored occurrences. This keeps the comprehensive 3x3 database while
+  // preventing directional duplication from diluting the result.
+  const uniqueMap=new Map();
+  for(const p of allPairs){
+    const key=[norm(p.a),norm(p.b)].sort().join('||');
+    if(!uniqueMap.has(key)) uniqueMap.set(key,{a:p.a,b:p.b,score:p.score,weights:[]});
+    const u=uniqueMap.get(key);
+    u.weights.push(p.weight);
+    // Scores are symmetric by construction. Keep the strongest explicit
+    // relationship if a future rule ever differs by direction.
+    if(Math.abs(p.score)>Math.abs(u.score)) u.score=p.score;
+  }
+
+  const pairs=[...uniqueMap.values()].map(u=>{
+    const weight=u.weights.reduce((a,b)=>a+b,0)/u.weights.length;
+    return {a:u.a,b:u.b,score:u.score,weight,weighted:u.score*weight};
+  });
+
+  const totalWeight=pairs.reduce((sum,p)=>sum+p.weight,0);
+  const totalWeighted=pairs.reduce((sum,p)=>sum+p.weighted,0);
+  const normalized=totalWeight ? totalWeighted/(totalWeight*50) : 0;
+  const score=Math.round(Math.max(-65,Math.min(65,normalized*65)));
+
+  return {
+    score,
+    pairs,
+    allPairs,
+    totalWeighted,
+    idealWeight:totalWeight,
+    uniqueCount:pairs.length
+  };
+}
+
+/* ---------- PROFILE CODES ---------- */
+function encodeProfile(prefix){
+  const p=getProfile(prefix);const data={v:6,name:document.getElementById(prefix+'Name').value.trim(),c:p.chars,n:p.notes};
+  const bytes=new TextEncoder().encode(JSON.stringify(data));let bin="";bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return "FL6-"+btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");
+}
+function decodeProfile(code){
+  try{
+    if(!/^FL[23456]-/.test(code))return null;let b64=code.slice(4).replace(/-/g,"+").replace(/_/g,"/");while(b64.length%4)b64+="=";
+    const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return JSON.parse(new TextDecoder().decode(bytes));
+  }catch(e){return null;}
+}
+function updateCodes(){document.getElementById('aCode').value=encodeProfile('a');document.getElementById('bCode').value=encodeProfile('b');}
+function loadCode(prefix,code){
+  const data=decodeProfile(String(code||'').trim());
+  if(!data||!data.c||!Array.isArray(data.n)){showToast(`Could not load ${prefix==='a'?'Fragrance A':'Fragrance B'}: invalid profile code.`,'bad');return false;}
+  document.getElementById(prefix+'Name').value=data.name||'';
+  axes.forEach(ax=>{document.querySelectorAll(`input[name="${prefix}-${ax.id}"]`).forEach(el=>el.checked=false);const v=data.c[ax.id];if(!v)return;const el=document.querySelector(`input[name="${prefix}-${ax.id}"][value="${CSS.escape(v)}"]`);if(el)el.checked=true;});
+  document.querySelectorAll(`input[name="${prefix}-note"]`).forEach(el=>el.checked=data.n.includes(el.value));
+  noteOrder[prefix]=data.n.filter(n=>getSelectedNotes(prefix).includes(n)).slice(0,3);
+  renderRankedNotes(prefix);updateNoteReminder(prefix);
+  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+  adjustTheorySliderForSelectionChange(totalSelected);
+  calculate();
+  const name=data.name?`“${data.name}”`:'saved profile';
+  showToast(`${prefix==='a'?'Fragrance A':'Fragrance B'} loaded: ${name}.`,'good');
+  return true;
+}
+async function copyCode(prefix){const value=document.getElementById(prefix+'Code').value;if(!value)return showToast('No profile code to copy.','bad');try{await navigator.clipboard.writeText(value);showToast(`Copied ${prefix==='a'?'Fragrance A':'Fragrance B'} code.`,'good');}catch(e){const el=document.getElementById(prefix+'Code');el.focus();el.select();try{document.execCommand('copy');showToast(`Copied ${prefix==='a'?'Fragrance A':'Fragrance B'} code.`,'good');}catch(err){showToast('Copy failed. Select the code manually.','bad');}}}
+
+let lastPointerX=window.innerWidth/2,lastPointerY=window.innerHeight/2;
+document.addEventListener('pointermove',e=>{lastPointerX=e.clientX;lastPointerY=e.clientY;},{passive:true});
+function showToast(message,type='good'){
+  const host=document.getElementById('toastHost');if(!host)return;
+  const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=message;host.appendChild(t);
+  t.style.position='fixed';
+  const gap=12,pad=10;
+  let left=lastPointerX+gap,top=lastPointerY+gap;
+  requestAnimationFrame(()=>{
+    const r=t.getBoundingClientRect();
+    if(left+r.width>window.innerWidth-pad)left=Math.max(pad,lastPointerX-r.width-gap);
+    if(top+r.height>window.innerHeight-pad)top=Math.max(pad,lastPointerY-r.height-gap);
+    t.style.left=left+'px';t.style.top=top+'px';t.style.right='auto';t.style.bottom='auto';
+    t.classList.add('show');
+  });
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),220)},1800);
+}
+function resetFragrance(prefix){
+  document.getElementById(prefix+'Name').value='';
+  axes.forEach(ax=>document.querySelectorAll(`input[name="${prefix}-${ax.id}"]`).forEach(el=>el.checked=false));
+  document.querySelectorAll(`input[name="${prefix}-note"]`).forEach(el=>el.checked=false);
+  document.getElementById(prefix+'LoadCode').value='';
+  noteOrder[prefix]=[];
+  renderRankedNotes(prefix);updateNoteReminder(prefix);
+  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+  adjustTheorySliderForSelectionChange(totalSelected);
+  calculate();
+  showToast(`${prefix==='a'?'Fragrance A':'Fragrance B'} cleared.`,'good');
+}
+
+function updateNoteReminder(prefix){
+  syncNoteOrder(prefix);const count=noteOrder[prefix].length,msg=document.getElementById(prefix+'NoteCount');if(!msg)return;
+  const r=3-count;msg.textContent=r===3?'Pick 3 notes for best accuracy':r===2?'Pick 2 more notes for best accuracy':r===1?'Pick 1 more note for best accuracy':'3/3 notes selected';
+}
+function filterNotes(prefix,query){
+  const q=String(query||'').trim().toLowerCase(),root=document.getElementById(prefix+'Notes');if(!root)return;
+  root.querySelectorAll('.family').forEach(fam=>{const familyName=(fam.querySelector('.family-title')?.textContent||'').toLowerCase();let visible=false;
+    fam.querySelectorAll('.note').forEach(note=>{const name=(note.getAttribute('data-note')||note.textContent||'').toLowerCase();const show=!q||name.includes(q)||familyName.includes(q);note.classList.toggle('hidden-note',!show);if(show)visible=true;});
+    fam.classList.toggle('hidden-family',!visible);
+  });
+}
+function noteChanged(prefix,el){
+  const checked=getSelectedNotes(prefix);if(checked.length>3){el.checked=false;return;}
+  syncNoteOrder(prefix);renderRankedNotes(prefix);updateNoteReminder(prefix);
+  const totalSelected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])].length;
+  adjustTheorySliderForSelectionChange(totalSelected);
+  calculate();
+}
+
+let theorySliderFraction=1;
+let theorySliderLastCount=0;
+
+function updateTheorySliderLabels(max,value){
+  const wrap=document.getElementById('minMatchLabels');
+  if(!wrap)return;
+  const m=Math.max(1,Number(max)||1), v=Math.max(1,Math.min(m,Number(value)||1));
+  wrap.innerHTML=Array.from({length:m},(_,i)=>{const n=i+1;return `<span class="${n===v?'active':''}">${n}</span>`}).join('');
+}
+let theorySliderRenderFrame=0;
+function scheduleTheorySliderRender(){
+  cancelAnimationFrame(theorySliderRenderFrame);
+  theorySliderRenderFrame=requestAnimationFrame(()=>renderTheoreticalNoteDatabase());
+}
+function manualMinMatchChange(){
+  const selected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])];
+  const count=selected.length;
+  const slider=document.getElementById('minMatchSlider');
+  if(!slider)return;
+  const value=Math.max(1,Math.min(Number(slider.max)||1,Number(slider.value)||1));
+  slider.value=value;
+  theorySliderFraction=count?value/count:1;
+  theorySliderLastCount=count;
+  document.getElementById('minMatchValue').textContent=value;
+  updateTheorySliderLabels(slider.max,value);
+  scheduleTheorySliderRender();
+}
+
+function adjustTheorySliderForSelectionChange(newCount){
+  const slider=document.getElementById('minMatchSlider');
+  if(!slider)return;
+  const oldCount=theorySliderLastCount;
+  const oldValue=Math.max(1,Number(slider.value)||1);
+  const preservedFraction=oldCount>0 ? oldValue/oldCount : theorySliderFraction;
+  if(!newCount){
+    slider.min=1; slider.max=1; slider.value=1; slider.disabled=true;
+    theorySliderFraction=1; theorySliderLastCount=0;
+    const valueEl=document.getElementById('minMatchValue'); if(valueEl)valueEl.textContent='1';
+    updateTheorySliderLabels(1,1);
+    return;
+  }
+  const target=Math.max(1,Math.min(newCount,Math.round(preservedFraction*newCount)));
+  slider.min=1; slider.max=newCount; slider.step=1; slider.value=target; slider.disabled=false;
+  theorySliderFraction=target/newCount;
+  theorySliderLastCount=newCount;
+  const valueEl=document.getElementById('minMatchValue'); if(valueEl)valueEl.textContent=target;
+  updateTheorySliderLabels(newCount,target);
+}
+
+let theoryDatabaseCache=null;
+function renderTheoreticalNoteDatabase(){
+  const box=document.getElementById('noteInteractionSticky');
+  if(!box)return;
+  const selected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])];
+  if(!selected.length){theoryDatabaseCache=null;box.innerHTML='<div class="muted">Select notes to see their full theoretical synergy and penalty map.</div>';return;}
+  // De-duplicate the theoretical roster by normalized note name so duplicate database entries
+  // cannot inflate match counts or appear twice in the summary. Cache the expensive relationship
+  // matrix so dragging the slider only filters already-computed results.
+  const cacheKey=selected.map(norm).sort().join('\u0001');
+  let cache=theoryDatabaseCache;
+  if(!cache || cache.key!==cacheKey){
+    const allNotes=[...new Map(Object.values(families).flat().map(n=>[norm(n),n])).values()];
+    const selectedSet=new Set(selected.map(norm));
+    const highCounts=new Map(), penaltyCounts=new Map();
+    selected.forEach(src=>{
+      allNotes.forEach(candidate=>{
+        const score=norm(src)===norm(candidate) ? 50 : notePairScore(src,candidate);
+        if(score>=50) highCounts.set(candidate,(highCounts.get(candidate)||0)+1);
+        if(score<0) penaltyCounts.set(candidate,(penaltyCounts.get(candidate)||0)+1);
+      });
+    });
+    // Individual note relationship lists are intentionally lazy. The summary is
+    // computed immediately, but each selected note's full database is only
+    // computed when that note is expanded. This keeps initial rendering fast.
+    const categorized=new Map();
+    cache={key:cacheKey,selected,allNotes,selectedSet,highCounts,penaltyCounts,categorized};
+    theoryDatabaseCache=cache;
+  }
+  const {allNotes,selectedSet,highCounts,penaltyCounts,categorized}=cache;
+  // Single source of truth for every candidate count. Summary badges, individual
+  // database chips, and hover tooltips all use these exact relationship counts.
+  const relationshipStatsCache=new Map();
+  const relationshipStats=(candidate)=>{
+    const key=norm(candidate);
+    if(relationshipStatsCache.has(key)) return relationshipStatsCache.get(key);
+    let high=0, neutral=0, risk=0;
+    selected.forEach(src=>{
+      const score=norm(src)===norm(candidate)?50:notePairScore(src,candidate);
+      if(score>=50) high++;
+      else if(score<0) risk++;
+      else if(score>0) neutral++;
+    });
+    const out={high,neutral,risk,total:selected.length};
+    relationshipStatsCache.set(key,out);
+    return out;
+  };
+  const getCategorized=(src)=>{
+    const key=norm(src);
+    if(cache.categorized.has(key)) return cache.categorized.get(key);
+    let good=[],warn=[],bad=[];
+    allNotes.forEach(candidate=>{
+      if(norm(src)===norm(candidate))return;
+      const score=notePairScore(src,candidate);
+      if(score>=50)good.push(candidate);
+      else if(score>0)warn.push(candidate);
+      else if(score<0)bad.push(candidate);
+    });
+    good.sort((x,y)=>{const cx=relationshipStats(x).high,cy=relationshipStats(y).high;return cy-cx||x.localeCompare(y);});
+    warn.sort((x,y)=>{const cx=relationshipStats(x).neutral,cy=relationshipStats(y).neutral;return cy-cx||x.localeCompare(y);});
+    bad.sort((x,y)=>{const cx=relationshipStats(x).risk,cy=relationshipStats(y).risk;return cy-cx||x.localeCompare(y);});
+    const out={good,warn,bad};
+    cache.categorized.set(key,out);
+    return out;
+  };
+  const slider=document.getElementById('minMatchSlider');
+  const minAllowed=selected.length?1:1;
+  const maxAllowed=Math.max(1,selected.length);
+  if(slider){
+    slider.min=minAllowed; slider.max=maxAllowed; slider.disabled=!selected.length;
+    const safeValue=Math.max(1,Math.min(maxAllowed,Number(slider.value)||1));
+    slider.value=safeValue;
+    const valueEl=document.getElementById('minMatchValue'); if(valueEl)valueEl.textContent=safeValue;
+    updateTheorySliderLabels(maxAllowed,safeValue);
+    theorySliderLastCount=selected.length;
+    theorySliderFraction=selected.length?safeValue/selected.length:1;
+  }
+  const minMatches=Math.max(1,Math.min(maxAllowed,Number(slider?.value)||1));
+  const relationshipTooltip=(candidate,mode='auto')=>{
+    const rows=selected.map(src=>{
+      const score=norm(src)===norm(candidate)?50:notePairScore(src,candidate);
+      let type='high', icon='✓';
+      if(score<0){type='risk';icon='✕';}
+      else if(score>0 && score<50){type='neutral';icon='●';}
+      else if(score===0){type='none';icon='';}
+      const contributing=mode==='high'?score>=50:mode==='neutral'?score>0&&score<50:mode==='bad'?score<0:(score>=50||score<0);
+      return `<div class="theory-summary-tooltip-row ${contributing?'match':'nonmatch'} ${type}"><span class="theory-summary-tooltip-check">${icon}</span><span class="tooltip-note-text">${esc(src)}</span></div>`;
+    }).join('');
+    return `<span class="theory-summary-tooltip"><div class="theory-summary-tooltip-title">Relationship breakdown</div>${rows}</span>`;
+  };
+  const chips=(items,cls,empty)=>{
+    const isBad=cls==='bad', isWarn=cls==='warn';
+    const filtered=items.filter(x=>{
+      const st=relationshipStats(x);
+      return isBad ? st.risk>0 : isWarn ? st.neutral>0 : st.high>=minMatches;
+    });
+    if(!filtered.length)return `<div class="theory-empty">${isBad?'No explicit penalty entries.':`No entries meet the ${minMatches}-match minimum.`}</div>`;
+    const mode=isBad?'bad':isWarn?'neutral':'high';
+    return `<div class="theory-list">${filtered.map(x=>{
+      const st=relationshipStats(x);
+      const count=isBad?st.risk:isWarn?st.neutral:st.high;
+      const all=st.high===selected.length&&selected.length>1;
+      const present=selectedSet.has(norm(x));
+      const risk=st.risk>0;
+      const countLabel=`<span class="common-count">${count}/${selected.length}</span>`;
+      const ring=all?' common-high-all':'';
+      const riskClass=risk?' high-risk-note':'';
+      return `<span class="theory-chip ${cls}${ring}${riskClass}${present?' currently-selected':''} has-tooltip">${esc(x)}${countLabel}${present?'<span class="selected-mark">✓</span>':''}${relationshipTooltip(x,mode)}</span>`;
+    }).join('')}</div>`;
+  };
+    // Compact summary: shared high matches remain slider-dependent; penalties/high-risk are always shown, regardless of slider.
+  const summaryCandidates=allNotes.filter(candidate=>{
+    // Include selected notes too. A selected note can itself be a valid roster-wide
+    // high-match candidate, with its exact self-match counted as a high relationship.
+    const st=relationshipStats(candidate);
+    const fraction=selected.length?st.high/selected.length:0;
+    return st.high>=minMatches && fraction>0.5;
+  }).sort((x,y)=>{
+    const cx=relationshipStats(x).high, cy=relationshipStats(y).high;
+    if(cy!==cx)return cy-cx;
+    return x.localeCompare(y);
+  });
+  const nonCompatible=[...penaltyCounts.keys()].sort((x,y)=>{
+    const cx=relationshipStats(x).risk, cy=relationshipStats(y).risk;
+    if(cy!==cx)return cy-cx;
+    return x.localeCompare(y);
+  });
+  const tooltipFor=(candidate,mode='high')=>{
+    const rows=selected.map(src=>{
+      const score=norm(src)===norm(candidate)?50:notePairScore(src,candidate);
+      let type='high', icon='✓';
+      if(score<0){type='risk';icon='✕';}
+      else if(score>0 && score<50){type='neutral';icon='●';}
+      else if(score===0){type='none';icon='';}
+      const contributing=mode==='high'?score>=50:mode==='bad'?score<0:score>0&&score<50;
+      return `<div class="theory-summary-tooltip-row ${contributing?'match':'nonmatch'} ${type}"><span class="theory-summary-tooltip-check">${icon}</span><span class="tooltip-note-text">${esc(src)}</span></div>`;
+    }).join('');
+    const title=mode==='bad'?'High-risk breakdown':mode==='neutral'?'Conditional breakdown':'High-match breakdown';
+    return `<span class="theory-summary-tooltip"><div class="theory-summary-tooltip-title">${title}</div>${rows}</span>`;
+  };
+  const highHtml=summaryCandidates.length?summaryCandidates.map(x=>{
+    const count=relationshipStats(x).high;
+    const all=count===selected.length && selected.length>1;
+    return `<span class="theory-summary-note ${all?'all':'shared'}"><span>${esc(x)}</span><span class="theory-summary-count">${count}/${selected.length}</span><span class="theory-summary-badge"></span>${tooltipFor(x)}</span>`;
+  }).join(''):`<div class="theory-summary-empty">No shared high-match notes meet the current slider.</div>`;
+  const badHtml=nonCompatible.length?nonCompatible.map(x=>{
+    const count=relationshipStats(x).risk;
+    return `<span class="theory-summary-note bad"><span>${esc(x)}</span><span class="theory-summary-count">${count}/${selected.length}</span>${tooltipFor(x,'bad')}</span>`;
+  }).join(''):`<div class="theory-summary-empty">No explicit penalty/high-risk notes in the current roster.</div>`;
+  const summaryHtml=`<div class="theory-summary">
+    <div class="theory-summary-head">
+      <span class="theory-summary-title">Database summary</span>
+      <span class="theory-summary-meta">${selected.length} selected notes · min ${minMatches} matches</span>
+    </div>
+    <div class="theory-summary-grid">
+      <div class="theory-summary-group">
+        <div class="theory-summary-group-title high"><span>Shared high-match notes</span><span>${summaryCandidates.length}</span></div>
+        <div class="theory-summary-note-list">${highHtml}</div>
+      </div>
+      <div class="theory-summary-group">
+        <div class="theory-summary-group-title bad"><span>Penalties / high-risk</span><span>${nonCompatible.length}</span></div>
+        <div class="theory-summary-note-list">${badHtml}</div>
+      </div>
+    </div>
+  </div>`;
+
+  const blocks=selected.map(src=>{
+    return `<details class="theory-note-collapsed" data-theory-src="${esc(norm(src))}">
+      <summary class="theory-note-toggle"><span class="theory-title"><span>${esc(src)}</span><span class="theory-family">${esc(noteFamily(src)||'Unclassified')}</span></span><span class="theory-note-chevron">›</span></summary>
+      <div class="theory-note-content"><div class="theory-note-loading">Expand to load this note's full theoretical database.</div></div>
+    </details>`;
+  }).join('');
+  box.innerHTML=`${summaryHtml}${blocks}`;
+  box.querySelectorAll('.theory-note-collapsed').forEach(details=>{
+    details.addEventListener('toggle',()=>{
+      if(!details.open || details.dataset.loaded==='1') return;
+      const src=selected.find(n=>norm(n)===details.dataset.theorySrc);
+      if(!src) return;
+      const {good,warn,bad}=getCategorized(src);
+      const content=details.querySelector('.theory-note-content');
+      if(content){
+        content.innerHTML=`
+          <div class="theory-section"><div class="theory-section-title" style="color:var(--good)">Highly compatible</div>${chips(good,'good','No high-synergy entries in the current database.')}</div>
+          <div class="theory-section"><div class="theory-section-title" style="color:var(--warn)">Conditional</div>${chips(warn,'warn','No conditional entries.')}</div>
+          <div class="theory-section"><div class="theory-section-title" style="color:var(--bad)">Penalties / high-risk</div>${chips(bad,'bad','No explicit penalty entries.')}</div>`;
+      }
+      details.dataset.loaded='1';
+    });
+  });
+  if(!box.dataset.summaryTooltipBound){
+    box.addEventListener('mouseover',e=>{
+      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip');
+      if(!note || !box.contains(note))return;
+      const tip=note.querySelector('.theory-summary-tooltip');
+      if(!tip)return;
+      const r=note.getBoundingClientRect();
+      const w=210, gap=10, pad=12;
+      let left=r.right+gap;
+      if(left+w>window.innerWidth-pad) left=r.left-w-gap;
+      left=Math.max(pad,Math.min(left,window.innerWidth-w-pad));
+      const h=tip.offsetHeight||120;
+      let top=r.top+(r.height/2)-(h/2);
+      top=Math.max(pad,Math.min(top,window.innerHeight-h-pad));
+      tip.style.left=left+'px';
+      tip.style.top=top+'px';
+    });
+    box.dataset.summaryTooltipBound='1';
+  }
+}
+
+
+const noteSpecificColors={
+  "bergamot": "#B6D52A",
+  "lemon": "#FFE229",
+  "lime": "#72D52B",
+  "grapefruit": "#FF6F6F",
+  "orange": "#FF8C1A",
+  "blood orange": "#E43B24",
+  "mandarin": "#FFAA17",
+  "tangerine": "#F47A18",
+  "yuzu": "#D6E82E",
+  "petitgrain": "#4A9B55",
+  "neroli": "#F8F1D5",
+  "citron": "#E5D51E",
+  "kumquat": "#F4B51B",
+  "bitter orange": "#C65A20",
+  "green apple": "#8DD52B",
+  "red apple": "#D9273E",
+  "pear": "#C8D968",
+  "blackcurrant": "#572A82",
+  "raspberry": "#D92C68",
+  "strawberry": "#F33E55",
+  "blackberry": "#321C46",
+  "blueberry": "#4058C9",
+  "cranberry": "#A90C36",
+  "peach": "#FFB18E",
+  "apricot": "#F9A24B",
+  "plum": "#773A8B",
+  "nectarine": "#F07842",
+  "cherry": "#CE1535",
+  "black cherry": "#651329",
+  "pineapple": "#FFD400",
+  "coconut": "#F7F0D9",
+  "mango": "#FFAA00",
+  "passionfruit": "#D9B526",
+  "guava": "#EE8E9C",
+  "papaya": "#FF713A",
+  "banana": "#FFE45B",
+  "fig": "#7C4E5B",
+  "pomegranate": "#C3194A",
+  "melon": "#CFEA95",
+  "watermelon": "#F84C6B",
+  "grape": "#6B45B5",
+  "lychee": "#E8A9B7",
+  "rose": "#E75586",
+  "damask rose": "#BD315A",
+  "turkish rose": "#D94864",
+  "jasmine": "#FFF3C7",
+  "sambac jasmine": "#F6EAC5",
+  "tuberose": "#F7F6E9",
+  "gardenia": "#FDFCF2",
+  "orange blossom": "#FFE9C2",
+  "ylang ylang": "#F5D64B",
+  "honeysuckle": "#F2C14E",
+  "iris": "#7774C9",
+  "violet": "#8050B7",
+  "heliotrope": "#C9A1E7",
+  "lavender": "#A78AD8",
+  "geranium": "#E34863",
+  "osmanthus": "#E9A06E",
+  "magnolia": "#F4C9D5",
+  "peony": "#EF78A9",
+  "lily": "#F2F1E5",
+  "mimosa": "#F4D21F",
+  "narcissus": "#E8BD2D",
+  "lotus": "#D9A6C6",
+  "green leaves": "#42B94D",
+  "grass": "#76C843",
+  "tea": "#8A9B46",
+  "green tea": "#9BCB47",
+  "black tea": "#74462C",
+  "mate": "#90A45A",
+  "basil": "#249B56",
+  "mint": "#55C9A5",
+  "spearmint": "#40CFA3",
+  "peppermint": "#5AC7D8",
+  "rosemary": "#789B63",
+  "sage": "#A2AD78",
+  "thyme": "#8A9D40",
+  "tarragon": "#4C963B",
+  "coriander leaf": "#80B75B",
+  "shiso": "#3D7A50",
+  "tomato leaf": "#3F9B45",
+  "violet leaf": "#2D8B63",
+  "galbanum": "#A3B52D",
+  "artemisia": "#A1A98B",
+  "angelica": "#C2D78B",
+  "eucalyptus": "#43AFA0",
+  "juniper": "#3A9D90",
+  "pine": "#267548",
+  "fir": "#155B42",
+  "cypress": "#3E745D",
+  "cedar": "#A35B36",
+  "sandalwood": "#D0A36D",
+  "guaiac wood": "#6C4738",
+  "vetiver": "#7C7E3B",
+  "patchouli": "#68503A",
+  "oak": "#B07A43",
+  "oakmoss": "#566B31",
+  "cashmere wood": "#A88C78",
+  "palo santo": "#C29A5B",
+  "birch": "#C5BBA9",
+  "rosewood": "#8B4D5B",
+  "amyris": "#B68A56",
+  "hinoki": "#C5A77B",
+  "oud": "#39251F",
+  "dry woods": "#90745B",
+  "smoky woods": "#554941",
+  "creamy woods": "#D8C6A5",
+  "cardamom": "#9EAF65",
+  "cinnamon": "#B64A2B",
+  "nutmeg": "#94633E",
+  "clove": "#6F3426",
+  "black pepper": "#393436",
+  "pink pepper": "#E98A9A",
+  "sichuan pepper": "#B83D3B",
+  "saffron": "#E9A126",
+  "ginger": "#D6A12E",
+  "coriander seed": "#C4A878",
+  "star anise": "#4F5940",
+  "anise": "#A5BF70",
+  "cumin": "#99704B",
+  "allspice": "#7B4B31",
+  "vanilla": "#F4E3B3",
+  "tonka bean": "#98613C",
+  "caramel": "#C47A32",
+  "toffee": "#B87835",
+  "praline": "#D19A49",
+  "honey": "#E8B52D",
+  "brown sugar": "#8B522C",
+  "marshmallow": "#F0B9D1",
+  "chocolate": "#6F3829",
+  "cacao": "#48271F",
+  "coffee": "#694332",
+  "espresso": "#32221E",
+  "hazelnut": "#A96E43",
+  "almond": "#D3B68B",
+  "pistachio": "#A6C86A",
+  "chestnut": "#8D4934",
+  "milk": "#F4EDE1",
+  "cream": "#EFE0C4",
+  "biscuit": "#D3A66F",
+  "maple": "#B76B24",
+  "rum accord": "#A45F36",
+  "lactonic notes": "#E5D8C5",
+  "tobacco": "#8C5A36",
+  "tobacco leaf": "#6E7137",
+  "cigar": "#5C3829",
+  "pipe tobacco": "#A16A3A",
+  "ash": "#92918D",
+  "smoke": "#63636E",
+  "incense smoke": "#82717C",
+  "birch tar": "#2B2424",
+  "charcoal": "#333338",
+  "burnt woods": "#49352B",
+  "amber": "#D99521",
+  "ambergris accord": "#8B9AA2",
+  "labdanum": "#5D3528",
+  "benzoin": "#C58B3B",
+  "myrrh": "#73502D",
+  "frankincense": "#D8B76C",
+  "olibanum": "#D0A345",
+  "opoponax": "#82452D",
+  "elemi": "#B8C65C",
+  "peru balsam": "#753D2B",
+  "tolu balsam": "#A34F2C",
+  "leather": "#8C4F32",
+  "suede": "#B98B62",
+  "birch leather": "#88766A",
+  "animalic musk": "#644337",
+  "castoreum accord": "#5A392E",
+  "civet accord": "#7B473B",
+  "labdanum leather": "#6E3D2D",
+  "smoky leather": "#49403D",
+  "oud leather": "#34241F",
+  "white musk": "#E9ECEF",
+  "clean musk": "#C5D6E0",
+  "skin musk": "#C69F87",
+  "ambrette": "#B9A77D",
+  "powder musk": "#C8B8D7",
+  "cotton musk": "#F4F2EA",
+  "soapy musk": "#B5DCE0",
+  "laundry musk": "#83C5E8",
+  "soap": "#D2E8E8",
+  "marine accord": "#168FA5",
+  "sea salt": "#D9F4F7",
+  "sea breeze": "#53BFE3",
+  "oceanic notes": "#087F9A",
+  "watery notes": "#A3E8E9",
+  "calone": "#35CBD0",
+  "mineral notes": "#869DA8",
+  "driftwood": "#A89C8A",
+  "watery melon": "#9ACF9A",
+  "talc accord": "#E7E2DC",
+  "cosmetic powder": "#E8C6D5",
+  "orris": "#9B8ACB",
+  "lipstick accord": "#C72C57",
+  "rice": "#F0E3C8",
+  "soft woods": "#D5BFA0",
+  "barbershop foug re": "#679C7E",
+  "iso e super": "#9DA6A4",
+  "ambroxan": "#B77A31",
+  "cashmeran": "#AB877E",
+  "hedione": "#EDE3A1",
+  "galaxolide": "#DCE2E5",
+  "ethylene brassylate": "#E8E1D4",
+  "akigalawood": "#6B6B35",
+  "norlimbanol": "#65503B",
+  "timberol": "#946B42",
+  "kephalis": "#86604D",
+  "javanol": "#C9A16A",
+  "muscenone": "#9E8195",
+  "methyl ionone": "#7658A8",
+  "aldehydes": "#D9E0E5",
+  "metallic accord": "#A8B4BC",
+  "mineral accord": "#778D9C",
+  "ozonic accord": "#7CC8E8",
+  "solar accord": "#F4B733",
+  "ink accord": "#27334E",
+  "vinyl accord": "#56304F",
+  "paper accord": "#E0D3B9",
+  "petrichor": "#667A62"
+};
+const noteFamilyFallback={
+  "Citrus":"#F4C52D","Fruits":"#D94B78","Florals":"#D77AAE","Green / Herbal":"#62A75D",
+  "Woods":"#A77A55","Spices":"#C77B35","Gourmand":"#B87942","Tobacco / Smoke":"#73584E",
+  "Amber / Resinous":"#D39A36","Leather / Animalic":"#8A5548","Musk / Skin":"#AFC8D2",
+  "Aquatic / Marine":"#37AFC2","Powdery / Soft":"#B4A1D1","Other / Modern Materials":"#8AA5A2"
+};
+function noteColorHex(note){
+  const exact=noteSpecificColors[norm(note)];
+  if(exact)return exact;
+  const fam=noteFamily(note);
+  return noteFamilyFallback[fam]||'#7C9AA5';
+}
+function hexRgb(hex){
+  const h=String(hex||'#7C9AA5').replace('#','');
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+}
+function rgbaNote(note,alpha){
+  const rgb=hexRgb(noteColorHex(note));
+  return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${Math.max(0,Math.min(.94,alpha)).toFixed(3)})`;
+}
+function applyFragranceAtmosphere(prefix,notes,projection){
+  const panel=document.getElementById(prefix==='a'?'fragranceA':'fragranceB');
+  if(!panel)return;
+  const selected=(Array.isArray(notes)?notes:[]).slice(0,3);
+  if(!selected.length){
+    panel.style.backgroundImage='';
+    panel.style.backgroundColor='';
+    panel.style.borderColor='';
+    panel.style.boxShadow='';
+    return;
+  }
+  // Rank weights stay exact: 1.00, 0.70, and 0.40. The first fragrance
+  // emits color from its right edge; the second emits from its left edge.
+  const ranks=[1.00,0.70,0.40];
+  const fadeEnds=[78,63,46];
+  const projectionFactor={soft:.86,moderate:1,loud:1.20}[String(projection||'moderate').toLowerCase()]||1;
+  const direction=prefix==='a'?270:90;
+  const layers=[];
+  selected.forEach((note,index)=>{
+    const rank=ranks[index]||.4;
+    const alpha=Math.min(.94,.88*rank*projectionFactor);
+    const color=rgbaNote(note,alpha);
+    const inner=rgbaNote(note,alpha*.82);
+    layers.push(`linear-gradient(${direction}deg, ${color} 0%, ${inner} 12%, rgba(0,0,0,0) ${fadeEnds[index]}%)`);
+  });
+  layers.push('linear-gradient(145deg, color-mix(in srgb,var(--card) 95%,var(--bg)), var(--card))');
+  panel.style.backgroundImage=layers.join(',');
+  const primary=hexRgb(noteColorHex(selected[0]));
+  panel.style.borderColor=`rgba(${primary[0]},${primary[1]},${primary[2]},.98)`;
+  panel.style.boxShadow=`0 14px 38px rgba(0,0,0,.38), 0 0 0 1px rgba(${primary[0]},${primary[1]},${primary[2]},.30), 0 0 28px rgba(${primary[0]},${primary[1]},${primary[2]},.20), inset 0 0 0 1px rgba(255,255,255,.10)`;
+}
+function updateNoteAtmosphere(A,B,tier){
+  applyFragranceAtmosphere('a',A.notes,A.chars?.projection);
+  applyFragranceAtmosphere('b',B.notes,B.chars?.projection);
+  const live=document.querySelector('.score-sticky');
+  if(live){
+    const rgbA=hexRgb(noteColorHex((A.notes||[])[0]||''));
+    const rgbB=hexRgb(noteColorHex((B.notes||[])[0]||''));
+    live.style.setProperty('--tier-color-a',rgbA.join(','));
+    live.style.setProperty('--tier-color-b',rgbB.join(','));
+    live.classList.toggle('s-tier-active',tier==='S');
+  }
+}
+
+function calculate(){
+  updateNoteReminder('a');updateNoteReminder('b');
+  const A=getProfile('a'),B=getProfile('b');
+  let general=0;const charBonuses=[],charPenalties=[];
+
+  /* GENERAL CHARACTERISTICS: ONLY PROJECTION + COMPLEXITY, max 35 (25 + 10). */
+  const proj=projectionValue(A.chars.projection,B.chars.projection);
+  let projectionContribution=0;
+  if(proj.points){projectionContribution+=proj.points;charBonuses.push(`Projection: ${proj.label} (+${proj.points})`);}
+  if(proj.penalty){
+    /* General-characteristic conflicts are floors, not deductions.
+       Loud + Soft therefore contributes 0 projection points rather than -20. */
+    projectionContribution=0;
+    charBonuses.push(`Projection: ${proj.label} (0/${proj.penalty})`);
+  }
+
+  let complexityContribution=0;
+  if(A.chars.complexity&&B.chars.complexity){
+    const k=key(A.chars.complexity,B.chars.complexity);
+    const cp={'complex|simple':getWeight('complexity'),'simple|simple':Math.round(getWeight('complexity')*.50),'complex|complex':0}[k]||0;
+    if(cp) complexityContribution+=cp;
+    if(k==='complex|complex') charBonuses.push(`Complexity: complex + complex (0/${getWeight('complexity')})`);
+    else charBonuses.push(`Complexity: ${A.chars.complexity} + ${B.chars.complexity} (+${cp})`);
+  }
+  /* General characteristics are positive-only. A mismatch means zero
+     contribution for that characteristic, never a negative score. */
+  general=Math.max(0,Math.min(35,Math.round(projectionContribution+complexityContribution)));
+
+  const nr=calculateNoteScore(A,B);
+  const noteDelta=nr.score;
+  const notePositive=nr.pairs.filter(p=>p.score>0);const noteNegative=nr.pairs.filter(p=>p.score<0);
+  const score=Math.max(0,Math.min(100,Math.round(general+noteDelta)));
+  const tier=score>=85?'S':score>=70?'A':score>=55?'B':score>=40?'C':'F';
+  const tierText={S:'Exceptional structural harmony',A:'Highly compatible',B:'Good and viable',C:'Experimental / requires control',F:'High conflict or likely to become muddled'}[tier];
+  updateNoteAtmosphere(A,B,tier);
+
+  document.getElementById('score').textContent=score;document.getElementById('tier').textContent=tier+'-tier';document.getElementById('tierText').textContent=tierText;
+  document.getElementById('scorebar').style.width=score+'%';document.getElementById('totalMetric').textContent=`${score}/100`;document.getElementById('charMetric').textContent=`${general}/35`;document.getElementById('noteMetric').textContent=`${noteDelta>=0?'+':''}${noteDelta}/65`;document.getElementById('penaltyMetric').textContent=String(noteNegative.length);
+
+  const rows=[];
+  rows.push(`<div class="score-breakdown-row"><span>General characteristics</span><b>${general}/35</b></div>`);
+  charBonuses.forEach(x=>rows.push(`<div class="score-breakdown-row"><span>${x}</span><b class="positive">${(x.match(/\(\+([0-9]+)\)/)||[])[1]?'+'+(x.match(/\(\+([0-9]+)\)/)||[])[1]:''}</b></div>`));
+  if(nr.pairs.length){
+    rows.push(`<div class="score-breakdown-row"><span>Notes: ${nr.uniqueCount} unique note relationships (mirrors collapsed)</span><b class="${noteDelta<0?'negative':'positive'}">${noteDelta>=0?'+':''}${noteDelta}/65</b></div>`);
+    nr.pairs.forEach(p=>{const strength=`×${p.weight.toFixed(2)}`;rows.push(`<div class="score-breakdown-row"><span>${esc(p.a)} + ${esc(p.b)} <span class="smallnote">${strength}</span></span><b class="${p.score<0?'negative':'positive'}">${p.score>=0?'+':''}${p.score}</b></div>`);});
+    rows.push(`<div class="score-breakdown-row"><span>Note computation</span><b>${nr.totalWeighted.toFixed(1)} ÷ (${nr.idealWeight.toFixed(2)} × 50) × 65 = ${noteDelta>=0?'+':''}${noteDelta}</b></div>`);
+  } else rows.push(`<div class="score-breakdown-row"><span>Notes</span><b>0/65</b></div>`);
+  rows.push(`<div class="score-breakdown-row"><span><b>General + Notes</b></span><b>${general} ${noteDelta>=0?'+ ':''}${noteDelta} = ${score}</b></div>`);
+  rows.push(`<div class="score-breakdown-row"><span><b>Final</b></span><b>${score}/100</b></div>`);
+  document.getElementById('scoreBreakdown').innerHTML=`<div class="score-breakdown-title">How this score was built</div>${rows.join('')}`;
+
+
+
+  renderTheoreticalNoteDatabase();
+  updateCodes();
+  positionOlfactraGuide();
+}/* ---------- THEME PREFERENCES ---------- */
+function applyTheme(theme){
+  const allowed=['obsidian','rosewood','forest','ocean','lavender','nebula','arctic'];
+  const t=allowed.includes(theme)?theme:'ocean';
+  document.body.dataset.theme=t;
+  const picker=document.getElementById('themePicker');
+  if(picker) picker.value=t;
+  try{localStorage.setItem('fra-theme',t);}catch(e){}
+}
+(function initTheme(){
+  let saved='ocean';
+  try{saved=localStorage.getItem('fra-theme')||'ocean';}catch(e){}
+  applyTheme(saved);
+})();
+
+
+function clearLoadCode(inputId){
+  const field=document.getElementById(inputId);
+  if(!field) return;
+  field.value='';
+  field.focus();
+  field.setSelectionRange(0,0);
+}
+
+function positionOlfactraGuide(){
+  // The guide now sits in the same fixed right rail as Compatibility Score.
+  // Normal document flow inside that rail keeps it visible from the first paint,
+  // including before either fragrance has any selections.
+  const guide=document.getElementById('olfactraGuide');
+  if(guide){guide.style.top='';guide.style.right='';guide.style.maxHeight='';guide.style.overflowY='';}
+}
+window.addEventListener('resize',positionOlfactraGuide,{passive:true});
+
+function titleCaseFragranceName(value){
+  return String(value||'').trim().replace(/\s+/g,' ').replace(/(^|[\s\-'])[a-z]/g,m=>m.toUpperCase());
+}
+['aName','bName'].forEach(id=>{
+  const field=document.getElementById(id);
+  field.addEventListener('input',calculate);
+  field.addEventListener('blur',()=>{const next=titleCaseFragranceName(field.value);if(field.value!==next){field.value=next;calculate();}});
+});
+renderTheoreticalNoteDatabase();
+calculate();
+</script>
+
+
+
+<div class="theme-dock"><div class="theme-control"><label for="themePicker">Theme</label><select id="themePicker" aria-label="Interface theme"><option value="obsidian">Obsidian</option><option value="rosewood">Rosewood</option><option value="forest">Forest</option><option value="ocean">Ocean</option><option value="lavender">Lavender</option><option value="nebula">Nebula</option><option value="arctic">Arctic</option></select></div></div>
+<script>
+// The picker is declared after the main application script, so bind it here once it exists.
+(function bindOlfactraThemePicker(){
+  const picker = document.getElementById('themePicker');
+  if (!picker || picker.dataset.bound === '1') return;
+  picker.dataset.bound = '1';
+  picker.value = document.body.dataset.theme || 'ocean';
+  picker.addEventListener('input', () => applyTheme(picker.value));
+  picker.addEventListener('change', () => applyTheme(picker.value));
+})();
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
