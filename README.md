@@ -48,3 +48,16 @@ These grants are for signed-in users only. Keep RLS enabled and keep the ownersh
 ## Saved-pair and library UI update
 
 This build restores saved fragrance pairs across both the current nested profile format and older flat profile records, recalculates the live compatibility score after loading both slots, and keeps the score breakdown visible in the desktop score panel. The save-combination name prompt is now a styled dialog. Load from Library and Reset Fragrance are grouped together, and the Delete action is anchored at the lower-right of each fragrance card.
+
+
+## Theme and library controls update
+
+This build includes:
+- A rounded S-tier score-card edge with a separate rectangular gold backlight.
+- Save to My Library, Load from Library, and Reset Fragrance aligned in one row.
+- Single-row actions on My Library and My Combinations cards.
+- A theme-coloured X delete control on the upper-right of each saved card.
+- A reusable in-app themed confirmation dialog for deletes and a themed input dialog for renaming.
+- Theme-aware styling for the account, collection, About, and save-combination dialogs.
+
+The Supabase project URL and publishable key from the existing configured build are retained. No database schema migration is required for this visual and interaction update.

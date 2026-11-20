@@ -1411,6 +1411,260 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 }
 </style>
 
+
+<style id="olfaculator-theme-action-and-horizontal-control-polish">
+/* S-tier: keep the actual score-card edge distinctly rounded, with a separate
+   rectangular light frame behind it for the premium highlight effect. */
+.score-sticky.s-tier-active{
+  overflow:visible!important;
+  border-radius:22px!important;
+  border:1.5px solid #FFE08A!important;
+  box-shadow:
+    0 0 0 1px rgba(255,229,145,.48),
+    0 0 11px rgba(255,205,65,.66),
+    0 0 25px rgba(255,177,28,.42),
+    0 16px 42px rgba(0,0,0,.55)!important;
+}
+.score-sticky.s-tier-active>.s-tier-rectangular-halo{
+  display:block!important;
+  position:absolute!important;
+  inset:-7px!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border:1px solid rgba(255,224,138,.58)!important;
+  border-radius:3px!important;
+  background:transparent!important;
+  box-shadow:
+    0 0 0 1px rgba(255,205,82,.16),
+    0 0 11px rgba(255,205,82,.46),
+    0 0 25px rgba(255,184,44,.28)!important;
+  opacity:.9;
+  animation:sTierRectangularBacklight 3s ease-in-out infinite;
+}
+@keyframes sTierRectangularBacklight{
+  0%,100%{opacity:.65;filter:brightness(.94)}
+  50%{opacity:1;filter:brightness(1.2)}
+}
+@media(max-width:1280px){
+  .score-sticky.s-tier-active{position:static!important;}
+}
+
+/* Keep all three fragrance actions on one horizontal row. Button labels may
+   wrap within each button so the controls never spill onto a second row. */
+.profile-actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:7px!important;
+  width:100%!important;
+}
+.profile-actions .profile-action-pair{display:contents!important;}
+.profile-actions>button,
+.profile-actions .profile-action-pair button{
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:40px!important;
+  margin:0!important;
+  padding:7px 5px!important;
+  font-size:clamp(8px, .74vw, 10px)!important;
+  line-height:1.12!important;
+  text-align:center!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:520px){
+  .profile-actions{gap:5px!important;}
+  .profile-actions>button,
+  .profile-actions .profile-action-pair button{
+    min-height:39px!important;
+    padding:6px 3px!important;
+    font-size:9px!important;
+  }
+}
+
+/* Library and combination cards: compact, same-row actions with a themed X
+   control pinned to the upper-right corner. */
+.saved-fragrance,.saved-combination{
+  position:relative!important;
+  box-sizing:border-box!important;
+  padding-top:14px!important;
+}
+.saved-fragrance-title,.saved-combination-title{
+  padding-right:36px!important;
+  min-height:25px;
+}
+.saved-card-delete{
+  position:absolute!important;
+  top:9px!important;
+  right:9px!important;
+  z-index:4!important;
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  width:28px!important;
+  min-width:28px!important;
+  height:28px!important;
+  min-height:28px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:50%!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 46%,var(--line))!important;
+  background:color-mix(in srgb,var(--theme-primary) 12%,var(--card2))!important;
+  color:var(--theme-primary)!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--theme-primary) 12%,transparent),0 3px 10px rgba(0,0,0,.18)!important;
+  cursor:pointer!important;
+  transition:background .16s,border-color .16s,transform .16s,box-shadow .16s!important;
+}
+.saved-card-delete svg{display:block!important;width:14px!important;height:14px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.9!important;stroke-linecap:round!important;}
+.saved-card-delete:hover{
+  background:color-mix(in srgb,var(--theme-primary) 25%,var(--card2))!important;
+  border-color:var(--theme-primary)!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--theme-primary) 14%,transparent),0 5px 14px rgba(0,0,0,.2)!important;
+  transform:translateY(-1px);
+}
+.saved-fragrance-actions,.combination-actions{
+  display:flex!important;
+  align-items:stretch!important;
+  flex-wrap:nowrap!important;
+  gap:6px!important;
+  width:100%!important;
+  margin-top:12px!important;
+}
+.saved-fragrance-actions button,.combination-actions button{
+  flex:1 1 0!important;
+  box-sizing:border-box!important;
+  width:0!important;
+  min-width:0!important;
+  min-height:34px!important;
+  padding:6px 5px!important;
+  font-size:9px!important;
+  line-height:1.1!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  text-align:center!important;
+}
+.saved-fragrance-footer{display:none!important;}
+.saved-fragrance-actions .delete-saved,.combination-actions .delete-saved{display:none!important;}
+
+/* Shared theme-aware dialog palette for collection, About, authentication,
+   save-combination and destructive-action popups. */
+.collection-screen,.about-screen{
+  background:
+    radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--theme-primary) 12%,transparent),transparent 54%),
+    color-mix(in srgb,var(--bg) 88%,#000 12%)!important;
+  backdrop-filter:blur(14px)!important;
+}
+.collection-dialog,.about-card,.auth-card{
+  color:var(--ink)!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 32%,var(--line))!important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 94%,var(--theme-primary) 6%),var(--bg2))!important;
+  box-shadow:0 28px 90px rgba(0,0,0,.48),0 0 25px color-mix(in srgb,var(--theme-primary) 9%,transparent)!important;
+}
+.collection-dialog-head h2,.about-card h2{color:var(--ink)!important;}
+.collection-dialog .library-subtitle,.about-section p,.about-tips,.theme-action-message{color:var(--muted)!important;}
+.collection-close,.about-close{
+  border:1px solid color-mix(in srgb,var(--theme-primary) 38%,var(--line))!important;
+  background:color-mix(in srgb,var(--theme-primary) 9%,var(--card2))!important;
+  color:var(--theme-primary)!important;
+}
+.collection-close:hover,.about-close:hover{
+  background:color-mix(in srgb,var(--theme-primary) 18%,var(--card2))!important;
+  border-color:var(--theme-primary)!important;
+}
+.save-combination-name,.theme-action-input{
+  background:var(--bg2)!important;
+  color:var(--ink)!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 35%,var(--line))!important;
+}
+.save-combination-name:focus,.theme-action-input:focus{
+  border-color:var(--theme-primary)!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--theme-primary) 17%,transparent)!important;
+}
+.save-combination-summary{
+  border-color:color-mix(in srgb,var(--theme-primary) 28%,var(--line))!important;
+  background:color-mix(in srgb,var(--theme-primary) 7%,var(--card2))!important;
+  color:var(--muted)!important;
+}
+.save-combination-summary b{color:var(--ink)!important;}
+
+/* The native browser confirm/prompt dialogs are replaced by this themed modal. */
+.theme-action-screen{z-index:3500!important;}
+.theme-action-dialog{width:min(480px,100%)!important;max-height:min(82vh,620px)!important;}
+.theme-action-dialog .collection-dialog-head{margin-bottom:8px!important;}
+.theme-action-message{margin:0 0 16px!important;font-size:12px!important;line-height:1.6!important;}
+.theme-action-input-wrap{margin:12px 0 16px!important;}
+.theme-action-input-wrap[hidden]{display:none!important;}
+.theme-action-input{width:100%!important;box-sizing:border-box!important;}
+.theme-action-buttons{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important;margin-top:16px!important;}
+.theme-action-buttons button{
+  min-width:112px!important;
+  min-height:39px!important;
+  padding:9px 14px!important;
+  border-radius:10px!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+.theme-action-confirm{
+  border:1px solid color-mix(in srgb,var(--theme-primary) 45%,var(--line))!important;
+  background:linear-gradient(115deg,var(--theme-primary),var(--theme-secondary))!important;
+  color:var(--bg)!important;
+}
+.theme-action-confirm.is-danger{
+  border-color:color-mix(in srgb,var(--bad) 62%,var(--theme-primary))!important;
+  background:linear-gradient(115deg,color-mix(in srgb,var(--bad) 82%,var(--theme-primary)),color-mix(in srgb,var(--bad) 54%,var(--theme-secondary)))!important;
+  color:#fff!important;
+}
+.theme-action-confirm:disabled{opacity:.58!important;cursor:wait!important;}
+
+/* Theme-aware authentication window. */
+.auth-screen{
+  background:
+    radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--theme-primary) 17%,transparent),transparent 46%),
+    color-mix(in srgb,var(--bg) 92%,#000 8%)!important;
+}
+.auth-brand{color:var(--theme-primary)!important;}
+.auth-kicker{color:var(--theme-secondary)!important;}
+.auth-card h1{color:var(--ink)!important;}
+.auth-intro,.auth-local p{color:var(--muted)!important;}
+.auth-tabs{background:var(--bg2)!important;}
+.auth-tab{color:var(--muted)!important;}
+.auth-tab.active{
+  color:var(--ink)!important;
+  background:color-mix(in srgb,var(--theme-primary) 18%,var(--card2))!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 32%,var(--line))!important;
+}
+.auth-field label{color:var(--theme-secondary)!important;}
+.auth-field input{
+  color:var(--ink)!important;
+  background:var(--bg2)!important;
+  border:1px solid var(--line)!important;
+}
+.auth-primary{
+  background:linear-gradient(115deg,var(--theme-primary),var(--theme-secondary))!important;
+  color:var(--bg)!important;
+}
+.google-button{
+  background:color-mix(in srgb,var(--card2) 86%,var(--theme-primary))!important;
+  color:var(--ink)!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 25%,var(--line))!important;
+}
+.auth-feedback{color:var(--theme-secondary)!important;}
+.auth-local{border-top:1px solid var(--line)!important;}
+.auth-local button{color:var(--theme-primary)!important;}
+.auth-separator{color:var(--muted)!important;}
+.auth-separator:before,.auth-separator:after{background:var(--line)!important;}
+
+@media(max-width:520px){
+  .theme-action-dialog{padding:17px!important;}
+  .theme-action-buttons{display:grid!important;grid-template-columns:1fr 1fr!important;}
+  .theme-action-buttons button{width:100%!important;min-width:0!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -1539,6 +1793,26 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
     </form>
   </section>
 </div>
+<div class="collection-screen theme-action-screen" id="themeActionScreen" hidden onclick="if(event.target===this)closeThemeActionDialog()">
+  <section class="collection-dialog theme-action-dialog" id="themeActionDialog" role="alertdialog" aria-modal="true" aria-labelledby="themeActionTitle" aria-describedby="themeActionMessage">
+    <div class="collection-dialog-head">
+      <div>
+        <div class="eyebrow" id="themeActionEyebrow">CONFIRM ACTION</div>
+        <h2 id="themeActionTitle">Confirm action</h2>
+      </div>
+      <button type="button" class="collection-close" aria-label="Close dialog" title="Close" onclick="closeThemeActionDialog()"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
+    </div>
+    <p class="theme-action-message" id="themeActionMessage"></p>
+    <div class="theme-action-input-wrap" id="themeActionInputWrap" hidden>
+      <label class="save-combination-label" id="themeActionInputLabel" for="themeActionInput">New name</label>
+      <input class="save-combination-name theme-action-input" id="themeActionInput" type="text" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmThemeAction();}">
+    </div>
+    <div class="theme-action-buttons">
+      <button type="button" class="secondary" onclick="closeThemeActionDialog()">Cancel</button>
+      <button type="button" class="theme-action-confirm" id="themeActionConfirmButton" onclick="confirmThemeAction()">Confirm</button>
+    </div>
+  </section>
+</div>
 <div class="grid">
 
 <section class="card fragrance-panel" id="fragranceA">
@@ -1563,6 +1837,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 
 <aside class="olfactra-right-rail" aria-label="Compatibility score">
 <section class="card full score-sticky">
+<span class="s-tier-rectangular-halo" aria-hidden="true"></span>
 <h2>Compatibility Score</h2>
 <div class="notice">
 Projection and Complexity contribute up to 35 points; ranked note relationships contribute up to 65. Loud + Soft earns 0 projection points because the louder fragrance may overpower the softer one. Specific note penalties take priority over positive relationships.
@@ -2989,12 +3264,12 @@ function renderFragranceLibrary(){
       ? `<button type="button" onclick="loadLibraryIntoSlot('${olfactraLibraryLoadTarget}','${esc(item.id)}')">Load to ${olfactraLibraryLoadTarget.toUpperCase()}</button>`
       : `<button type="button" onclick="loadLibraryIntoSlot('a','${esc(item.id)}')">Load A</button><button type="button" onclick="loadLibraryIntoSlot('b','${esc(item.id)}')">Load B</button>`;
     return `<article class="saved-fragrance" draggable="true" data-fragrance-id="${esc(item.id)}" ondragstart="beginLibraryDrag(event,'${esc(item.id)}')" title="Drag this fragrance onto Fragrance A or B">
+      <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete fragrance" onclick="deleteLibraryFragrance('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
       <div class="saved-fragrance-title">${esc(item.name)}</div>
       ${colorway}
       <div class="saved-fragrance-meta">${esc(noteText)}</div>
       <div class="saved-fragrance-tags">${tags||'<span>Custom profile</span>'}</div>
       <div class="saved-fragrance-actions">${loadButtons}<button type="button" class="secondary" onclick="renameLibraryFragrance('${esc(item.id)}')">Rename</button></div>
-      <div class="saved-fragrance-footer"><button type="button" class="delete-saved" onclick="deleteLibraryFragrance('${esc(item.id)}')">Delete</button></div>
     </article>`;
   }).join('');
 }
@@ -3014,10 +3289,11 @@ function renderSavedCombinations(){
   host.innerHTML=ranked.map(item=>{
     const a=item.fragrance_a?.name||'Fragrance A';const b=item.fragrance_b?.name||'Fragrance B';
     return `<article class="saved-combination">
+      <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete combination" onclick="deleteSavedCombination('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
       <div class="saved-combination-title">${esc(item.name)}</div>
       <div class="saved-combination-meta">${esc(a)} + ${esc(b)}</div>
       <div class="saved-combination-score">${Number(item.score)||0}/100 · ${esc(item.tier||'F')}-tier</div>
-      <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load pair</button><button type="button" class="delete-saved" onclick="deleteSavedCombination('${esc(item.id)}')">Delete</button></div>
+      <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load pair</button></div>
     </article>`;
   }).join('');
 }
@@ -3070,6 +3346,7 @@ async function confirmSaveCurrentCombination(event){
   showToast(`Saved “${name}” with a score of ${score}/100 (${tier}-tier).`,'good');
 }
 document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!document.getElementById('themeActionScreen')?.hidden){closeThemeActionDialog();return;}
   if(event.key==='Escape'&&!document.getElementById('saveCombinationScreen')?.hidden)closeSaveCombinationDialog();
 });
 function beginLibraryDrag(event,id){event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('text/plain',id);}
@@ -3158,31 +3435,115 @@ function loadSavedCombination(id){
     showToast('This saved pair could not be restored. One of its stored fragrance profiles may be malformed.','bad');
   }
 }
+let pendingThemeAction=null;
+function openThemeActionDialog(options={}){
+  const screen=document.getElementById('themeActionScreen');
+  if(!screen)return;
+  pendingThemeAction=options;
+  const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=String(value??'');};
+  setText('themeActionEyebrow',options.eyebrow||'CONFIRM ACTION');
+  setText('themeActionTitle',options.title||'Confirm action');
+  setText('themeActionMessage',options.message||'');
+  const inputWrap=document.getElementById('themeActionInputWrap');
+  const input=document.getElementById('themeActionInput');
+  const hasInput=!!options.inputLabel;
+  if(inputWrap)inputWrap.hidden=!hasInput;
+  if(input){
+    input.value=options.inputValue||'';
+    input.placeholder=options.inputPlaceholder||'Enter a name';
+    input.maxLength=Number(options.maxLength)||80;
+  }
+  setText('themeActionInputLabel',options.inputLabel||'New name');
+  const confirmButton=document.getElementById('themeActionConfirmButton');
+  if(confirmButton){
+    confirmButton.textContent=options.confirmLabel||'Confirm';
+    confirmButton.classList.toggle('is-danger',!!options.danger);
+    confirmButton.disabled=false;
+  }
+  const dialog=document.getElementById('themeActionDialog');
+  if(dialog)dialog.setAttribute('role',options.inputLabel?'dialog':'alertdialog');
+  screen.hidden=false;
+  requestAnimationFrame(()=>{const target=hasInput?input:confirmButton;if(target){target.focus();if(hasInput)target.select();}});
+}
+function closeThemeActionDialog(){
+  const screen=document.getElementById('themeActionScreen');
+  if(screen)screen.hidden=true;
+  pendingThemeAction=null;
+  const button=document.getElementById('themeActionConfirmButton');
+  if(button)button.disabled=false;
+}
+async function confirmThemeAction(){
+  const action=pendingThemeAction;
+  if(!action||typeof action.onConfirm!=='function')return;
+  const input=document.getElementById('themeActionInput');
+  const value=action.inputLabel?String(input?.value||'').trim():null;
+  const button=document.getElementById('themeActionConfirmButton');
+  if(button)button.disabled=true;
+  try{
+    const shouldClose=await action.onConfirm(value);
+    if(shouldClose!==false)closeThemeActionDialog();
+  }catch(error){
+    showToast('Action could not be completed: '+(error?.message||'Unknown error'),'bad');
+  }finally{
+    if(button&&button.isConnected)button.disabled=false;
+  }
+}
 function renameLibraryFragrance(id){
   if(!olfactraSession){showAuthScreen('Sign in is required to manage your saved fragrance library.');return;}
   const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
-  const next=prompt('Rename this fragrance:',item.name);if(next===null)return;
-  const name=titleCaseFragranceName(next);if(!name){showToast('A fragrance name cannot be empty.','bad');return;}
-  if(olfactraLibrary.some(x=>x.id!==id&&norm(x.name)===norm(name))){showToast('A fragrance with that name already exists in your library.','bad');return;}
-  item.name=name;item.updated_at=new Date().toISOString();persistLibraryRecord(item).then(ok=>{if(ok){renderFragranceLibrary();showToast('Fragrance renamed.','good');}});
+  openThemeActionDialog({
+    eyebrow:'EDIT YOUR COLLECTION',
+    title:'Rename fragrance',
+    message:'Choose a new name for this saved fragrance. Its notes and colour palette will remain unchanged.',
+    inputLabel:'Fragrance name',
+    inputValue:item.name,
+    inputPlaceholder:'Enter fragrance name',
+    confirmLabel:'Save name',
+    onConfirm:async raw=>{
+      const name=titleCaseFragranceName(raw||'');
+      if(!name){showToast('A fragrance name cannot be empty.','bad');return false;}
+      if(olfactraLibrary.some(x=>x.id!==id&&norm(x.name)===norm(name))){showToast('A fragrance with that name already exists in your library.','bad');return false;}
+      const previousName=item.name,previousUpdatedAt=item.updated_at;
+      item.name=name;item.updated_at=new Date().toISOString();
+      const ok=await persistLibraryRecord(item);
+      if(!ok){item.name=previousName;item.updated_at=previousUpdatedAt;return false;}
+      renderFragranceLibrary();showToast('Fragrance renamed.','good');return true;
+    }
+  });
 }
-async function deleteLibraryFragrance(id){
+function deleteLibraryFragrance(id){
   if(!olfactraSession)return;
   const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
-  if(!confirm(`Delete “${item.name}” from your library?`))return;
-  const {error}=await olfactraSupabase.from('fragrances').delete().eq('id',id);
-  if(error){showToast('Delete failed: '+error.message,'bad');return;}
-  olfactraLibrary=olfactraLibrary.filter(x=>x.id!==id);
-  renderFragranceLibrary();showToast('Fragrance deleted.','good');
+  openThemeActionDialog({
+    eyebrow:'MY LIBRARY',
+    title:'Delete fragrance?',
+    message:`“${item.name}” will be permanently removed from your fragrance library. This will not change any fragrance already loaded into the calculator.`,
+    confirmLabel:'Delete fragrance',
+    danger:true,
+    onConfirm:async()=>{
+      const {error}=await olfactraSupabase.from('fragrances').delete().eq('id',id);
+      if(error){showToast('Delete failed: '+error.message,'bad');return false;}
+      olfactraLibrary=olfactraLibrary.filter(x=>x.id!==id);
+      renderFragranceLibrary();showToast('Fragrance deleted.','good');return true;
+    }
+  });
 }
-async function deleteSavedCombination(id){
+function deleteSavedCombination(id){
   if(!olfactraSession)return;
   const item=olfactraCombinations.find(x=>x.id===id);if(!item)return;
-  if(!confirm(`Delete saved combination “${item.name}”?`))return;
-  const {error}=await olfactraSupabase.from('saved_combinations').delete().eq('id',id);
-  if(error){showToast('Delete failed: '+error.message,'bad');return;}
-  olfactraCombinations=olfactraCombinations.filter(x=>x.id!==id);renderSavedCombinations();
-  showToast('Saved combination deleted.','good');
+  openThemeActionDialog({
+    eyebrow:'MY COMBINATIONS',
+    title:'Delete saved combination?',
+    message:`“${item.name}” and its saved score snapshot will be permanently removed from My Combinations.`,
+    confirmLabel:'Delete combination',
+    danger:true,
+    onConfirm:async()=>{
+      const {error}=await olfactraSupabase.from('saved_combinations').delete().eq('id',id);
+      if(error){showToast('Delete failed: '+error.message,'bad');return false;}
+      olfactraCombinations=olfactraCombinations.filter(x=>x.id!==id);
+      renderSavedCombinations();showToast('Saved combination deleted.','good');return true;
+    }
+  });
 }
 async function persistLibraryRecord(item){
   if(!olfactraSession||!olfactraSupabase)return false;
