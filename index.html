@@ -1013,10 +1013,20 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 }
 .olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{display:flex!important;align-items:center!important;gap:8px!important;pointer-events:auto;}
 .olfactra-header .workspace-nav-button,.olfactra-header .account-button{min-height:35px;padding:8px 13px;font-size:10px;box-shadow:0 4px 12px rgba(0,0,0,.16);}
-/* The account window has an explicit close control that behaves like Continue browsing. */
-.auth-card{position:relative!important;padding-top:38px!important;}
-.auth-close{position:absolute;top:12px;right:12px;z-index:2;width:31px;height:31px;min-height:31px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #55493d;border-radius:50%;background:rgba(255,255,255,.035);color:#e7d9c8;font:400 23px/1 Arial,sans-serif;cursor:pointer;}
-.auth-close:hover{background:rgba(208,176,139,.16);border-color:#c9a45f;color:#fff2d8;}
+/* The account window has an anchored, geometrically centered close control. */
+.auth-card{position:relative!important;box-sizing:border-box!important;padding-top:48px!important;}
+.auth-close{
+  position:absolute!important;top:14px!important;right:14px!important;z-index:5!important;
+  box-sizing:border-box!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+  margin:0!important;padding:0!important;display:grid!important;place-items:center!important;
+  appearance:none!important;border:1px solid #55493d!important;border-radius:50%!important;
+  background:rgba(255,255,255,.035)!important;color:#e7d9c8!important;cursor:pointer!important;
+  line-height:1!important;transform:none!important;translate:0 0!important;
+}
+.auth-close svg{display:block!important;width:14px!important;height:14px!important;overflow:visible!important;pointer-events:none!important;}
+.auth-close svg path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;}
+.auth-close:hover,.auth-close:active{transform:none!important;translate:0 0!important;background:rgba(208,176,139,.16)!important;border-color:#c9a45f!important;color:#fff2d8!important;}
+.auth-close:focus-visible{outline:2px solid #c9a45f!important;outline-offset:3px!important;}
 /* Center the Projection and Complexity headings and their selectable options. */
 .fragrance-panel .axis{text-align:center;}
 .fragrance-panel .axis-title{text-align:center;width:100%;}
@@ -1047,7 +1057,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
 <div class="auth-screen" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
   <div class="auth-card">
-    <button type="button" class="auth-close" aria-label="Close sign-in window" title="Close" onclick="continueBrowsing()">×</button>
+    <button type="button" class="auth-close" aria-label="Close sign-in window" title="Close" onclick="continueBrowsing()"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15" /></svg></button>
     <div class="auth-brand">OLFACTRA</div>
     <div class="auth-kicker">YOUR PERSONAL FRAGRANCE WORKSPACE</div>
     <h1 id="authTitle">Save your OLFACTRA work.</h1>
@@ -2339,8 +2349,8 @@ calculate();
 // Add your Supabase project URL and anon/public key here after creating a project.
 // The anon key is intended for browser use. Never place a service-role key here.
 window.OLFACTRA_SUPABASE_CONFIG = window.OLFACTRA_SUPABASE_CONFIG || {
-  url: "https://rysbenlzcentpohuoqvl.supabase.co",
-  anonKey: "sb_publishable_FDhc3ygSfUUY2u336s41RQ_euau5XdA"
+  url: "https://YOUR-PROJECT.supabase.co",
+  anonKey: "YOUR_SUPABASE_ANON_KEY"
 };
 
 let olfactraSupabase = null;
