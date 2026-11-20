@@ -15,3 +15,11 @@ This build continues from AUTH_TOAST_POLISH and retains the Supabase configurati
 
 ## Deploy
 Replace the repository root `index.html` and `service-worker.js` with the versions in this project. Preserve the `icons/` folder, `manifest.webmanifest`, and Supabase SQL files. Commit and push to deploy.
+
+
+## Latest refinements
+- The outer masthead and inner brand banner now use a fixed charcoal/black gradient, independent of the selected interface theme.
+- Removed native `title` tooltips from top navigation controls; the custom themed tooltip remains the only visible hover label. Account tooltip text continues to update through `data-tooltip`.
+- Moved the “Browse Notes By Family” disclosure chevron to the far right of its row.
+- Replaced the footer signature with centered “OLFACULATOR · SUBJECTIVE LAYERING ASSISTANT”.
+- Bumped the service-worker cache to v8.

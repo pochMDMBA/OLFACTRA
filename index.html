@@ -2208,18 +2208,18 @@ button{-webkit-tap-highlight-color:transparent;}
       </button>
       <div class="mobile-nav-panel" id="mobileNavPanel">
         <div class="workspace-nav-left">
-          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Library" title="My Library" aria-label="My Library" onclick="openLibraryPanel()">
+          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Library" aria-label="My Library" onclick="openLibraryPanel()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 10.5h8"/></svg><span class="nav-label">My Library</span>
           </button>
-          <button type="button" class="workspace-nav-button secondary" id="combinationsButton" data-tooltip="My Combinations" title="My Combinations" aria-label="My Combinations" onclick="openCombinationsPanel()">
+          <button type="button" class="workspace-nav-button secondary" id="combinationsButton" data-tooltip="My Combinations" aria-label="My Combinations" onclick="openCombinationsPanel()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5-8 4.5-8-4.5z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg><span class="nav-label">My Combinations</span>
           </button>
         </div>
         <div class="workspace-nav-right">
-          <button type="button" class="workspace-nav-button about-button" id="aboutButton" data-tooltip="About Us" title="About Us" aria-label="About Us" onclick="openAboutPanel()">
+          <button type="button" class="workspace-nav-button about-button" id="aboutButton" data-tooltip="About Us" aria-label="About Us" onclick="openAboutPanel()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="nav-label">About Us</span>
           </button>
-          <button type="button" class="account-button" id="accountButton" data-tooltip="Sign In" title="Sign In" aria-label="Sign in or register" onclick="openAccountAction()">
+          <button type="button" class="account-button" id="accountButton" data-tooltip="Sign In" aria-label="Sign in or register" onclick="openAccountAction()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H3"/></svg><span class="nav-label">Sign In</span>
           </button>
         </div>
@@ -2360,7 +2360,7 @@ Projection and Complexity contribute up to 35 points; ranked note relationships 
 </aside>
 
 <footer class="optional-info">
-<span>OLFACULATOR · Your personal fragrance workspace</span></footer>
+<span>OLFACULATOR · SUBJECTIVE LAYERING ASSISTANT</span></footer>
 </div>
 </main>
 
@@ -3604,7 +3604,7 @@ function updateAccountControls(){
     }
     button.dataset.tooltip=accountLabel;
     button.setAttribute('aria-label',olfactraSession?'Sign out of OLFACULATOR':'Sign in or register');
-    button.title=olfactraSession?'Sign out of OLFACULATOR':'Sign in to OLFACULATOR';
+    button.removeAttribute('title');
   }
   if(search)search.disabled=!olfactraSession;
   if(refresh)refresh.disabled=!olfactraSession;
@@ -4242,6 +4242,69 @@ bootOlfactraAccounts();
 }
 @media (prefers-reduced-motion:reduce){
   .olfactra-header .workspace-nav-button::after,.olfactra-header .account-button::after{transition:none!important;}
+}
+</style>
+
+
+
+<style id="olfaculator-fixed-monochrome-banner-footer-arrow">
+/* The masthead remains a permanent charcoal/black brand surface in every theme. */
+.olfactra-header{
+  background:linear-gradient(112deg,#101113 0%,#191b1e 48%,#111315 100%)!important;
+  background-color:#111315!important;
+  border:0!important;
+  border-bottom:1px solid #3a3d40!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
+}
+.olfactra-header::after{
+  background:linear-gradient(112deg,transparent 0 67%,rgba(255,255,255,.025) 67.2% 67.5%,transparent 67.8% 77%,rgba(255,255,255,.018) 77.2% 77.5%,transparent 77.8%)!important;
+  opacity:.75!important;
+}
+.olfactra-header .brand-banner{
+  background:linear-gradient(105deg,#17191c 0%,#24272a 54%,#191b1e 100%)!important;
+  background-color:#1b1d20!important;
+  border:1px solid #414448!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 9px 24px rgba(0,0,0,.30)!important;
+}
+
+/* The label is a single centered signature at the bottom of the workspace. */
+footer.optional-info{
+  display:flex!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:28px auto 14px!important;
+  padding:14px 12px!important;
+  text-align:center!important;
+}
+footer.optional-info>span{
+  display:block!important;
+  width:100%!important;
+  margin:0 auto!important;
+  text-align:center!important;
+  font-size:10px!important;
+  font-weight:850!important;
+  letter-spacing:.14em!important;
+  line-height:1.5!important;
+  text-transform:uppercase!important;
+}
+
+/* Keep the disclosure arrow at the far right edge of Browse Notes By Family. */
+.note-family-disclosure>summary{
+  display:flex!important;
+  align-items:center!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+.note-family-disclosure>summary .note-family-disclosure-title{
+  min-width:0!important;
+  flex:0 1 auto!important;
+}
+.note-family-disclosure>summary .note-family-chevron{
+  display:block!important;
+  margin-left:auto!important;
+  flex:0 0 16px!important;
 }
 </style>
 
