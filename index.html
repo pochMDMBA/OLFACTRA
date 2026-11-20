@@ -3462,7 +3462,7 @@ function applyTheme(theme){
   const picker=document.getElementById('themePicker');
   if(picker) picker.value=t;
   const themeMeta=document.querySelector('meta[name="theme-color"]');
-  const themeChromeColors={original:'#111315',obsidian:'#171513',rosewood:'#1d1418',forest:'#121b17',ocean:'#101b23',lavender:'#181522',nebula:'#1a1230',arctic:'#0e2436'};
+  const themeChromeColors={original:'#111111',obsidian:'#171513',rosewood:'#1d1418',forest:'#121b17',ocean:'#101b23',lavender:'#181522',nebula:'#1a1230',arctic:'#0e2436'};
   if(themeMeta) themeMeta.setAttribute('content',themeChromeColors[t]||'#111315');
   try{localStorage.setItem('fra-theme',t);}catch(e){}
 }
@@ -4483,6 +4483,246 @@ body[data-theme="original"]{
 /* The Shelf button uses a rack icon while preserving the existing action binding. */
 #libraryButton .nav-button-icon{width:19px!important;height:19px!important;}
 #libraryButton .nav-button-icon path{stroke-linecap:round!important;stroke-linejoin:round!important;}
+</style>
+
+
+
+<style id="olfaculator-amboss-default-and-video-matched-s-tier">
+/* DEFAULT / ORIGINAL: match the dark charcoal and muted teal palette in AMBOSS.
+   The masthead remains a single fixed graphite banner, independent of selected theme. */
+body[data-theme="original"]{
+  --bg:#111111;
+  --bg2:#1a1c1d;
+  --card:#1a1c1c;
+  --card2:#242829;
+  --ink:#e5e8e9;
+  --muted:#aab2b6;
+  --line:#353c3f;
+  --accent:#477e87;
+  --accent2:#315e66;
+  --good:#78a995;
+  --warn:#c4a56d;
+  --bad:#be7978;
+  --track:#2b3134;
+  --glow:rgba(77,139,149,.16);
+  --shadow:rgba(0,0,0,.48);
+  --theme-primary:#78b9c2;
+  --theme-secondary:#4d8791;
+  --theme-tertiary:#315b63;
+}
+
+/* Remove the extra inset frame entirely. The header itself is the only banner;
+   the brand identity and toolbar remain in their existing responsive positions. */
+.olfactra-header{
+  background:linear-gradient(112deg,#111315 0%,#1b1f21 48%,#111315 100%)!important;
+  background-color:#151719!important;
+  border:0!important;
+  border-bottom:1px solid #343a3d!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.24)!important;
+}
+.olfactra-header::after{display:none!important;content:none!important;}
+.olfactra-header .brand-banner{
+  box-sizing:border-box!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+}
+
+/* The Note Relationships disclosure arrow is neutral graphite/silver, never gold. */
+.note-db-chevron path,
+.note-family-chevron path{
+  stroke:#aeb7bb!important;
+}
+.note-database-disclosure>summary .note-db-chevron,
+.note-family-disclosure>summary .note-family-chevron{
+  opacity:.9!important;
+}
+.note-database-disclosure>summary:focus-visible .note-db-chevron path,
+.note-family-disclosure>summary:focus-visible .note-family-chevron path{
+  stroke:#d6dfe2!important;
+}
+
+/* S-tier winner card: restored to the animated, luminous metallic treatment seen
+   in the supplied reference video. Rounded champagne-gold rim, deep bronze/black
+   reflective interior, strong soft bloom, twinkling glints and a moving specular sweep. */
+.score-sticky.s-tier-active{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  border:1.6px solid transparent!important;
+  border-radius:24px!important;
+  background:
+    linear-gradient(142deg,
+      rgba(58,45,23,.985) 0%,
+      rgba(35,31,22,.99) 23%,
+      rgba(22,22,21,.995) 48%,
+      rgba(65,49,22,.985) 69%,
+      rgba(25,23,19,.99) 100%) padding-box,
+    linear-gradient(112deg,
+      #fff5ce 0%,
+      #c08f35 10%,
+      #fff0ae 21%,
+      #80591c 36%,
+      #f8dfa0 49%,
+      #a87524 63%,
+      #fff0b3 78%,
+      #896127 90%,
+      #fff5d2 100%) border-box!important;
+  background-clip:padding-box,border-box!important;
+  background-size:100% 100%,260% 260%!important;
+  background-position:0 0,0% 50%!important;
+  box-shadow:
+    0 0 0 1px rgba(255,239,190,.35),
+    0 0 13px 2px rgba(255,213,112,.48),
+    0 0 34px 8px rgba(222,164,55,.34),
+    0 0 62px 14px rgba(191,135,38,.19),
+    0 16px 42px rgba(0,0,0,.46),
+    inset 0 1px 0 rgba(255,255,238,.30),
+    inset 0 -1px 0 rgba(133,91,28,.58)!important;
+  animation:
+    olfVideoGoldRim 7.4s ease-in-out infinite,
+    olfVideoGoldBloom 4.2s ease-in-out infinite!important;
+}
+.score-sticky.s-tier-active>.s-tier-rectangular-halo{display:none!important;}
+.score-sticky.s-tier-active::before{
+  content:""!important;
+  position:absolute!important;
+  inset:1px!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:22px!important;
+  background:
+    radial-gradient(circle at 13% 15%,rgba(255,250,215,.92) 0 1px,transparent 3px),
+    radial-gradient(circle at 87% 20%,rgba(255,235,183,.82) 0 1px,transparent 3px),
+    radial-gradient(circle at 73% 81%,rgba(255,244,204,.78) 0 1px,transparent 3px),
+    radial-gradient(ellipse at 10% 0%,rgba(255,229,164,.24),transparent 39%),
+    radial-gradient(ellipse at 96% 92%,rgba(213,157,55,.20),transparent 44%),
+    linear-gradient(118deg,
+      rgba(255,239,194,.11) 0%,
+      transparent 30%,
+      rgba(255,219,147,.075) 57%,
+      transparent 84%)!important;
+  background-size:100% 100%!important;
+  opacity:.76!important;
+  mix-blend-mode:screen!important;
+  animation:olfVideoGoldLustre 5.6s ease-in-out infinite alternate!important;
+}
+.score-sticky.s-tier-active::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background:linear-gradient(108deg,
+    transparent 14%,
+    rgba(255,247,218,.012) 32%,
+    rgba(255,236,185,.16) 43%,
+    rgba(255,255,244,.32) 48%,
+    rgba(255,226,157,.18) 52%,
+    rgba(255,255,255,.016) 64%,
+    transparent 82%)!important;
+  background-size:235% 100%!important;
+  background-position:-145% 0!important;
+  mix-blend-mode:screen!important;
+  opacity:.86!important;
+  animation:olfVideoGoldSweep 6.1s cubic-bezier(.4,0,.2,1) infinite!important;
+}
+.score-sticky.s-tier-active>*{
+  position:relative!important;
+  z-index:1!important;
+}
+.score-sticky.s-tier-active h2{
+  color:#fff0b8!important;
+  text-shadow:
+    0 1px 0 rgba(91,61,16,.88),
+    0 0 10px rgba(255,218,120,.48),
+    0 0 22px rgba(255,194,64,.22)!important;
+}
+.score-sticky.s-tier-active .big,
+.score-sticky.s-tier-active #score{
+  color:#fff3cd!important;
+  text-shadow:
+    0 1px 0 #795622,
+    0 2px 5px rgba(0,0,0,.62),
+    0 0 18px rgba(255,218,130,.38)!important;
+}
+.score-sticky.s-tier-active .tier,
+.score-sticky.s-tier-active #tier{
+  color:#f8dfa0!important;
+  text-shadow:0 1px 0 rgba(74,49,15,.85),0 0 9px rgba(255,220,135,.26)!important;
+}
+.score-sticky.s-tier-active .bar{
+  background:rgba(19,17,13,.72)!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.55)!important;
+}
+.score-sticky.s-tier-active .bar>div{
+  background:linear-gradient(90deg,
+    #8d6427 0%,
+    #e4c47d 18%,
+    #fff1bc 37%,
+    #c99b43 55%,
+    #f8e4a8 73%,
+    #a87527 100%)!important;
+  box-shadow:0 0 9px rgba(255,218,131,.52),inset 0 1px 0 rgba(255,255,235,.58)!important;
+}
+.score-sticky.s-tier-active .metric{
+  border-color:rgba(207,168,89,.34)!important;
+  background:linear-gradient(145deg,rgba(37,31,20,.94),rgba(20,19,16,.97))!important;
+}
+@keyframes olfVideoGoldRim{
+  0%,100%{background-position:0 0,0% 48%;}
+  50%{background-position:0 0,100% 52%;}
+}
+@keyframes olfVideoGoldBloom{
+  0%,100%{
+    box-shadow:
+      0 0 0 1px rgba(255,239,190,.30),
+      0 0 12px 2px rgba(255,213,112,.40),
+      0 0 30px 7px rgba(222,164,55,.28),
+      0 0 54px 12px rgba(191,135,38,.15),
+      0 16px 42px rgba(0,0,0,.46),
+      inset 0 1px 0 rgba(255,255,238,.26),
+      inset 0 -1px 0 rgba(133,91,28,.54);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1px rgba(255,247,210,.54),
+      0 0 19px 4px rgba(255,222,132,.64),
+      0 0 46px 12px rgba(224,169,62,.42),
+      0 0 76px 18px rgba(194,139,42,.23),
+      0 16px 42px rgba(0,0,0,.46),
+      inset 0 1px 0 rgba(255,255,246,.42),
+      inset 0 -1px 0 rgba(133,91,28,.66);
+  }
+}
+@keyframes olfVideoGoldLustre{
+  0%{opacity:.48;filter:brightness(.94) saturate(1.02);}
+  100%{opacity:.98;filter:brightness(1.18) saturate(1.16);}
+}
+@keyframes olfVideoGoldSweep{
+  0%,14%{background-position:-145% 0;opacity:.16;}
+  43%{opacity:.90;}
+  78%,100%{background-position:145% 0;opacity:.24;}
+}
+@media(prefers-reduced-motion:reduce){
+  .score-sticky.s-tier-active,
+  .score-sticky.s-tier-active::before,
+  .score-sticky.s-tier-active::after{animation:none!important;}
+  .score-sticky.s-tier-active{background-position:0 0,50% 50%!important;}
+}
 </style>
 
 </body>
