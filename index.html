@@ -2176,7 +2176,7 @@ button{-webkit-tap-highlight-color:transparent;}
     <h2 id="aboutTitle">About OLFACULATOR</h2>
     <section class="about-section">
       <h3>Why subjective?</h3>
-      <p>Your nose is the source of truth. Published note pyramids can be incomplete, inconsistent, or different from what you actually smell. You do not need to identify every material by name. Choose the notes and impressions that best describe your experience. Use the database as a vocabulary aid, not as an exam or an authority over your perception.</p>
+      <p>Your nose is the source of truth. Published note pyramids can be incomplete, inconsistent, or different from what you actually smell. You do not need to identify every material by name. Choose the notes and impressions that best describe your experience.</p>
     </section>
     <section class="about-section">
       <h3>Layering tips</h3>
@@ -2186,7 +2186,6 @@ button{-webkit-tap-highlight-color:transparent;}
         <li><b>Respect projection.</b> Avoid pairing very soft + very loud fragrances without testing first, because the louder scent can overpower the softer one. Adjust spray counts or choose closer projection levels.</li>
       </ul>
     </section>
-    <p class="about-footnote">These are starting points, not strict rules. Experiment with small amounts and trust what works on your skin.</p>
   </section>
 </div>
 <header class="olfactra-header">
@@ -2209,12 +2208,20 @@ button{-webkit-tap-highlight-color:transparent;}
       </button>
       <div class="mobile-nav-panel" id="mobileNavPanel">
         <div class="workspace-nav-left">
-          <button type="button" class="workspace-nav-button" id="libraryButton" onclick="openLibraryPanel()">My Library</button>
-          <button type="button" class="workspace-nav-button secondary" id="combinationsButton" onclick="openCombinationsPanel()">My Combinations</button>
+          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Library" title="My Library" aria-label="My Library" onclick="openLibraryPanel()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 10.5h8"/></svg><span class="nav-label">My Library</span>
+          </button>
+          <button type="button" class="workspace-nav-button secondary" id="combinationsButton" data-tooltip="My Combinations" title="My Combinations" aria-label="My Combinations" onclick="openCombinationsPanel()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5-8 4.5-8-4.5z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg><span class="nav-label">My Combinations</span>
+          </button>
         </div>
         <div class="workspace-nav-right">
-          <button type="button" class="workspace-nav-button about-button" id="aboutButton" onclick="openAboutPanel()">About Us</button>
-          <button type="button" class="account-button" id="accountButton" onclick="openAccountAction()">Sign In</button>
+          <button type="button" class="workspace-nav-button about-button" id="aboutButton" data-tooltip="About Us" title="About Us" aria-label="About Us" onclick="openAboutPanel()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="nav-label">About Us</span>
+          </button>
+          <button type="button" class="account-button" id="accountButton" data-tooltip="Sign In" title="Sign In" aria-label="Sign in or register" onclick="openAccountAction()">
+            <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H3"/></svg><span class="nav-label">Sign In</span>
+          </button>
         </div>
       </div>
     </nav>
@@ -2346,7 +2353,7 @@ Projection and Complexity contribute up to 35 points; ranked note relationships 
 <div class="metric"><strong>Total</strong><b id="totalMetric">0/100</b></div>
 </div>
 <div class="score-breakdown" id="scoreBreakdown"><div class="score-breakdown-title">How this score was built</div><div class="muted">Select characteristics and notes to see the computation.</div></div>
-<button type="button" class="save-combination-btn" onclick="saveCurrentCombination()">Save this combination and score</button>
+<button type="button" class="save-combination-btn" onclick="saveCurrentCombination()">Save This Combination and Score</button>
 
 </section>
 
@@ -2430,7 +2437,7 @@ function renderNotes(container,prefix){
   <div class="note-search"><input id="${prefix}NoteSearch" type="text" placeholder="Search notes..." oninput="filterNotes('${prefix}',this.value)"><div class="note-search-hint">Search by note name or family.</div></div>
   <div class="selected-notes"><div class="selected-notes-title">Ranked note strength</div><div class="smallnote">Rank 1 = strongest contribution · Rank 2 = moderate · Rank 3 = lightest. Drag to reorder.</div><div id="${prefix}RankedNotes"></div></div>`+
   `<details class="note-family-disclosure" id="${prefix}NoteFamilies" ${window.matchMedia && window.matchMedia('(max-width:760px)').matches ? '' : 'open'}>
-    <summary><span class="note-family-disclosure-title">Browse Notes By Family</span><span class="note-family-disclosure-hint">${Object.keys(families).length} fragrance families</span><svg class="note-family-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg></summary>
+    <summary><span class="note-family-disclosure-title">Browse Notes By Family</span><svg class="note-family-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg></summary>
     <div class="note-family-content">${Object.entries(families).map(([family,notes])=>{
       const common=commonNotes[family]||[]; const other=notes.filter(n=>!common.includes(n));
       return `<div class="family" data-family="${esc(family)}"><div class="family-title">${esc(family)}</div><div class="note-grid">${common.map(n=>noteHTML(prefix,n)).join("")}</div>${other.length?`<details><summary>Others (${other.length})</summary><div class="note-grid other-grid">${other.map(n=>noteHTML(prefix,n)).join("")}</div></details>`:""}</div>`;
@@ -3585,9 +3592,19 @@ function updateAccountControls(){
   const search=document.getElementById('librarySearch');
   const refresh=document.querySelector('.collection-tools button');
   if(button){
-    button.textContent=olfactraSession?'Sign Out':'Sign In';
+    const accountLabel=olfactraSession?'Sign Out':'Sign In';
+    const label=button.querySelector('.nav-label');
+    if(label)label.textContent=accountLabel;
+    else button.textContent=accountLabel;
+    const accountIcon=button.querySelector('.nav-button-icon');
+    if(accountIcon){
+      accountIcon.innerHTML=olfactraSession
+        ? '<path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"/><path d="m14 8 4 4-4 4M18 12H7"/>'
+        : '<path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H3"/>';
+    }
+    button.dataset.tooltip=accountLabel;
     button.setAttribute('aria-label',olfactraSession?'Sign out of OLFACULATOR':'Sign in or register');
-    button.title=olfactraSession?(olfactraSession.user.email||'Sign out'):'Sign in or register';
+    button.title=olfactraSession?'Sign out of OLFACULATOR':'Sign in to OLFACULATOR';
   }
   if(search)search.disabled=!olfactraSession;
   if(refresh)refresh.disabled=!olfactraSession;
@@ -3773,7 +3790,7 @@ function renderFragranceLibrary(){
 function renderSavedCombinations(){
   const host=document.getElementById('combinationGrid');if(!host)return;
   if(!olfactraSession){host.innerHTML='<div class="library-gate">Saved combinations and their compatibility score history are available with an account.<br><button type="button" onclick="showAuthScreen(\'Saving combinations and their compatibility scores requires a free OLFACULATOR account. Sign in or create one to keep this pairing.\')">Sign in to save combinations</button></div>';return;}
-  if(!olfactraCombinations.length){host.innerHTML='<div class="library-empty">No saved combinations yet. Build a pair and select “Save this combination and score” in the Compatibility Score panel.</div>';return;}
+  if(!olfactraCombinations.length){host.innerHTML='<div class="library-empty">No saved combinations yet. Build a pair and select “Save This Combination and Score” in the Compatibility Score panel.</div>';return;}
   const ranked=[...olfactraCombinations].sort((a,b)=>{
     const scoreA=Number.isFinite(Number(a.score))?Number(a.score):0;
     const scoreB=Number.isFinite(Number(b.score))?Number(b.score):0;
@@ -4162,6 +4179,71 @@ bootOlfactraAccounts();
   else if(viewport.addListener)viewport.addListener(placePanel);
 })();
 </script>
+
+
+<style id="olfaculator-top-nav-vector-icons-and-copy-polish">
+/* Clean desktop toolbar: recognizable vector controls, with a clear label on hover/focus. */
+@media (min-width:761px){
+  .olfactra-header .workspace-nav-button,
+  .olfactra-header .account-button{
+    position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    box-sizing:border-box!important;width:42px!important;min-width:42px!important;max-width:42px!important;
+    height:38px!important;min-height:38px!important;padding:0!important;overflow:visible!important;
+    border-radius:12px!important;cursor:pointer!important;
+  }
+  .olfactra-header .nav-button-icon{
+    display:block!important;width:19px!important;height:19px!important;flex:0 0 19px!important;
+    fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;
+    stroke-linecap:round!important;stroke-linejoin:round!important;
+  }
+  .olfactra-header .nav-label{
+    position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+    overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+  }
+  .olfactra-header .workspace-nav-button::after,
+  .olfactra-header .account-button::after{
+    content:attr(data-tooltip);position:absolute;left:50%;top:calc(100% + 9px);z-index:9999;
+    transform:translate(-50%,-3px);opacity:0;visibility:hidden;pointer-events:none;
+    padding:7px 10px;border:1px solid color-mix(in srgb,var(--theme-primary) 45%,var(--line));
+    border-radius:8px;background:color-mix(in srgb,var(--card) 96%,#000 4%);color:var(--ink);
+    box-shadow:0 8px 22px rgba(0,0,0,.35);font-size:10px;font-weight:800;line-height:1.1;
+    letter-spacing:.025em;white-space:nowrap;transition:opacity .13s ease,transform .13s ease,visibility .13s ease;
+  }
+  .olfactra-header .workspace-nav-button:hover::after,
+  .olfactra-header .workspace-nav-button:focus-visible::after,
+  .olfactra-header .account-button:hover::after,
+  .olfactra-header .account-button:focus-visible::after{
+    opacity:1;visibility:visible;transform:translate(-50%,0);
+  }
+  .olfactra-header .account-button::after{
+    -webkit-text-stroke:.32px #000;paint-order:stroke fill;
+  }
+}
+/* Mobile keeps the descriptive text beside each icon inside the existing hamburger menu. */
+@media (max-width:760px){
+  .olfactra-header .mobile-nav-panel .workspace-nav-button,
+  .olfactra-header .mobile-nav-panel .account-button{
+    display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
+    gap:10px!important;text-align:left!important;
+  }
+  .olfactra-header .mobile-nav-panel .nav-button-icon{
+    display:block!important;width:18px!important;height:18px!important;flex:0 0 18px!important;
+    fill:none!important;stroke:currentColor!important;stroke-width:1.75!important;
+    stroke-linecap:round!important;stroke-linejoin:round!important;
+  }
+  .olfactra-header .mobile-nav-panel .nav-label{
+    position:static!important;display:inline!important;width:auto!important;height:auto!important;
+    margin:0!important;padding:0!important;overflow:visible!important;clip:auto!important;
+    white-space:normal!important;border:0!important;font-size:inherit!important;line-height:inherit!important;
+  }
+  .olfactra-header .mobile-nav-panel .account-button .nav-label{
+    -webkit-text-stroke:.34px #000!important;paint-order:stroke fill!important;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .olfactra-header .workspace-nav-button::after,.olfactra-header .account-button::after{transition:none!important;}
+}
+</style>
 
 </body>
 </html>
