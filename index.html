@@ -4553,71 +4553,49 @@ body[data-theme="original"]{
   stroke:#d6dfe2!important;
 }
 
-/* S-tier winner card: restored to the animated, luminous metallic treatment seen
-   in the supplied reference video. Rounded champagne-gold rim, deep bronze/black
-   reflective interior, strong soft bloom, twinkling glints and a moving specular sweep. */
+/* S-tier winner card: faithfully ported from the attached reference HTML.
+   Rounded gold-metal rim, deep bronze/black surface, pulsing bloom, subtle
+   sparkle glints and a moving metallic sweep. Keep the glow soft and contained
+   to the rounded card; no rectangular halo or angular frame. */
 .score-sticky.s-tier-active{
   position:relative!important;
   isolation:isolate!important;
   overflow:hidden!important;
   box-sizing:border-box!important;
-  border:1.6px solid transparent!important;
-  border-radius:24px!important;
-  background:
-    linear-gradient(142deg,
-      rgba(58,45,23,.985) 0%,
-      rgba(35,31,22,.99) 23%,
-      rgba(22,22,21,.995) 48%,
-      rgba(65,49,22,.985) 69%,
-      rgba(25,23,19,.99) 100%) padding-box,
-    linear-gradient(112deg,
-      #fff5ce 0%,
-      #c08f35 10%,
-      #fff0ae 21%,
-      #80591c 36%,
-      #f8dfa0 49%,
-      #a87524 63%,
-      #fff0b3 78%,
-      #896127 90%,
-      #fff5d2 100%) border-box!important;
-  background-clip:padding-box,border-box!important;
-  background-size:100% 100%,260% 260%!important;
-  background-position:0 0,0% 50%!important;
+  border:1.5px solid #FFD65A!important;
+  border-radius:20px!important;
+  background:linear-gradient(132deg,
+    rgba(31,25,13,.985) 0%,
+    rgba(66,48,17,.985) 19%,
+    rgba(24,22,18,.99) 38%,
+    rgba(83,61,20,.985) 59%,
+    rgba(23,21,17,.99) 78%,
+    rgba(57,43,17,.985) 100%)!important;
   box-shadow:
-    0 0 0 1px rgba(255,239,190,.35),
-    0 0 13px 2px rgba(255,213,112,.48),
-    0 0 34px 8px rgba(222,164,55,.34),
-    0 0 62px 14px rgba(191,135,38,.19),
-    0 16px 42px rgba(0,0,0,.46),
-    inset 0 1px 0 rgba(255,255,238,.30),
-    inset 0 -1px 0 rgba(133,91,28,.58)!important;
-  animation:
-    olfVideoGoldRim 7.4s ease-in-out infinite,
-    olfVideoGoldBloom 4.2s ease-in-out infinite!important;
+    0 0 0 1px rgba(255,229,145,.64),
+    0 0 12px rgba(255,205,65,.86),
+    0 0 30px rgba(255,177,28,.64),
+    0 0 58px rgba(255,194,48,.34),
+    0 16px 42px rgba(0,0,0,.55)!important;
+  animation:goldMetalPulse 2.9s ease-in-out infinite!important;
 }
 .score-sticky.s-tier-active>.s-tier-rectangular-halo{display:none!important;}
 .score-sticky.s-tier-active::before{
   content:""!important;
   position:absolute!important;
-  inset:1px!important;
+  inset:0!important;
   z-index:0!important;
   pointer-events:none!important;
-  border-radius:22px!important;
+  border-radius:inherit!important;
   background:
-    radial-gradient(circle at 13% 15%,rgba(255,250,215,.92) 0 1px,transparent 3px),
-    radial-gradient(circle at 87% 20%,rgba(255,235,183,.82) 0 1px,transparent 3px),
-    radial-gradient(circle at 73% 81%,rgba(255,244,204,.78) 0 1px,transparent 3px),
-    radial-gradient(ellipse at 10% 0%,rgba(255,229,164,.24),transparent 39%),
-    radial-gradient(ellipse at 96% 92%,rgba(213,157,55,.20),transparent 44%),
-    linear-gradient(118deg,
-      rgba(255,239,194,.11) 0%,
-      transparent 30%,
-      rgba(255,219,147,.075) 57%,
-      transparent 84%)!important;
+    radial-gradient(circle at 12% 18%,rgba(255,250,205,.95) 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 14%,rgba(255,225,135,.95) 0 1px,transparent 2.2px),
+    radial-gradient(circle at 66% 72%,rgba(255,245,195,.85) 0 1px,transparent 2px),
+    radial-gradient(circle at 25% 84%,rgba(255,210,95,.92) 0 1px,transparent 2px),
+    radial-gradient(circle at 92% 52%,rgba(255,238,175,.92) 0 1px,transparent 2px),
+    linear-gradient(112deg,rgba(255,229,143,.14),transparent 25%,rgba(255,255,235,.08) 48%,transparent 70%,rgba(255,197,55,.12));
   background-size:100% 100%!important;
-  opacity:.76!important;
-  mix-blend-mode:screen!important;
-  animation:olfVideoGoldLustre 5.6s ease-in-out infinite alternate!important;
+  animation:goldSparkle 2.7s ease-in-out infinite alternate!important;
 }
 .score-sticky.s-tier-active::after{
   content:""!important;
@@ -4626,102 +4604,309 @@ body[data-theme="original"]{
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background:linear-gradient(108deg,
-    transparent 14%,
-    rgba(255,247,218,.012) 32%,
-    rgba(255,236,185,.16) 43%,
-    rgba(255,255,244,.32) 48%,
-    rgba(255,226,157,.18) 52%,
-    rgba(255,255,255,.016) 64%,
-    transparent 82%)!important;
-  background-size:235% 100%!important;
-  background-position:-145% 0!important;
-  mix-blend-mode:screen!important;
-  opacity:.86!important;
-  animation:olfVideoGoldSweep 6.1s cubic-bezier(.4,0,.2,1) infinite!important;
+  background:linear-gradient(108deg,transparent 15%,rgba(255,246,202,.02) 34%,rgba(255,229,153,.22) 49%,rgba(255,248,215,.04) 61%,transparent 82%)!important;
+  background-size:230% 100%!important;
+  animation:goldMetalSweep 4.4s ease-in-out infinite!important;
 }
-.score-sticky.s-tier-active>*{
-  position:relative!important;
-  z-index:1!important;
-}
+.score-sticky.s-tier-active>*{position:relative!important;z-index:1!important;}
 .score-sticky.s-tier-active h2{
-  color:#fff0b8!important;
-  text-shadow:
-    0 1px 0 rgba(91,61,16,.88),
-    0 0 10px rgba(255,218,120,.48),
-    0 0 22px rgba(255,194,64,.22)!important;
+  color:#FFE9A0!important;
+  -webkit-text-stroke:0!important;
+  text-shadow:0 1px 0 #5C3E08,0 0 7px rgba(255,215,100,.78),0 0 16px rgba(255,190,35,.35)!important;
 }
 .score-sticky.s-tier-active .big,
 .score-sticky.s-tier-active #score{
   color:#fff3cd!important;
-  text-shadow:
-    0 1px 0 #795622,
-    0 2px 5px rgba(0,0,0,.62),
-    0 0 18px rgba(255,218,130,.38)!important;
+  -webkit-text-stroke:0!important;
+  text-shadow:0 1px 0 #795622,0 2px 5px rgba(0,0,0,.62),0 0 18px rgba(255,218,130,.38)!important;
 }
 .score-sticky.s-tier-active .tier,
 .score-sticky.s-tier-active #tier{
   color:#f8dfa0!important;
+  -webkit-text-stroke:0!important;
   text-shadow:0 1px 0 rgba(74,49,15,.85),0 0 9px rgba(255,220,135,.26)!important;
 }
-.score-sticky.s-tier-active .bar{
-  background:rgba(19,17,13,.72)!important;
-  box-shadow:inset 0 1px 2px rgba(0,0,0,.55)!important;
-}
+.score-sticky.s-tier-active .bar{background:rgba(19,17,13,.72)!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.55)!important;}
 .score-sticky.s-tier-active .bar>div{
-  background:linear-gradient(90deg,
-    #8d6427 0%,
-    #e4c47d 18%,
-    #fff1bc 37%,
-    #c99b43 55%,
-    #f8e4a8 73%,
-    #a87527 100%)!important;
+  background:linear-gradient(90deg,#8d6427 0%,#e4c47d 18%,#fff1bc 37%,#c99b43 55%,#f8e4a8 73%,#a87527 100%)!important;
   box-shadow:0 0 9px rgba(255,218,131,.52),inset 0 1px 0 rgba(255,255,235,.58)!important;
 }
 .score-sticky.s-tier-active .metric{
   border-color:rgba(207,168,89,.34)!important;
   background:linear-gradient(145deg,rgba(37,31,20,.94),rgba(20,19,16,.97))!important;
 }
-@keyframes olfVideoGoldRim{
-  0%,100%{background-position:0 0,0% 48%;}
-  50%{background-position:0 0,100% 52%;}
+@keyframes goldMetalPulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,229,145,.62),0 0 10px rgba(255,205,65,.74),0 0 28px rgba(255,177,28,.48),0 0 50px rgba(255,194,48,.26),0 16px 42px rgba(0,0,0,.55)}
+  50%{box-shadow:0 0 0 1.5px rgba(255,245,190,.96),0 0 17px rgba(255,218,91,1),0 0 40px rgba(255,183,26,.76),0 0 70px rgba(255,194,48,.44),0 16px 42px rgba(0,0,0,.55)}
 }
-@keyframes olfVideoGoldBloom{
-  0%,100%{
-    box-shadow:
-      0 0 0 1px rgba(255,239,190,.30),
-      0 0 12px 2px rgba(255,213,112,.40),
-      0 0 30px 7px rgba(222,164,55,.28),
-      0 0 54px 12px rgba(191,135,38,.15),
-      0 16px 42px rgba(0,0,0,.46),
-      inset 0 1px 0 rgba(255,255,238,.26),
-      inset 0 -1px 0 rgba(133,91,28,.54);
-  }
-  50%{
-    box-shadow:
-      0 0 0 1px rgba(255,247,210,.54),
-      0 0 19px 4px rgba(255,222,132,.64),
-      0 0 46px 12px rgba(224,169,62,.42),
-      0 0 76px 18px rgba(194,139,42,.23),
-      0 16px 42px rgba(0,0,0,.46),
-      inset 0 1px 0 rgba(255,255,246,.42),
-      inset 0 -1px 0 rgba(133,91,28,.66);
-  }
-}
-@keyframes olfVideoGoldLustre{
-  0%{opacity:.48;filter:brightness(.94) saturate(1.02);}
-  100%{opacity:.98;filter:brightness(1.18) saturate(1.16);}
-}
-@keyframes olfVideoGoldSweep{
-  0%,14%{background-position:-145% 0;opacity:.16;}
-  43%{opacity:.90;}
-  78%,100%{background-position:145% 0;opacity:.24;}
-}
+@keyframes goldSparkle{0%{opacity:.48;filter:brightness(1) saturate(1.05)}100%{opacity:1;filter:brightness(1.5) saturate(1.3)}}
+@keyframes goldMetalSweep{0%,15%{background-position:-130% 0}78%,100%{background-position:130% 0}}
 @media(prefers-reduced-motion:reduce){
-  .score-sticky.s-tier-active,
-  .score-sticky.s-tier-active::before,
-  .score-sticky.s-tier-active::after{animation:none!important;}
-  .score-sticky.s-tier-active{background-position:0 0,50% 50%!important;}
+  .score-sticky.s-tier-active,.score-sticky.s-tier-active::before,.score-sticky.s-tier-active::after{animation:none!important;}
+}
+</style>
+
+
+<style id="olfaculator-reference-masthead-window-and-note-edge-fix">
+/* Reference-scaled OLFACULATOR wordmark: larger, centred, and vertically balanced.
+   The outer masthead remains the only banner; no inset frame is reintroduced. */
+.olfactra-header{
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:132px!important;
+  min-height:132px!important;
+  max-height:132px!important;
+  margin:0!important;
+  padding:10px clamp(16px,2.5vw,36px)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  z-index:75!important;
+  overflow:visible!important;
+  background:linear-gradient(112deg,#111315 0%,#1b1f21 48%,#111315 100%)!important;
+  background-color:#151719!important;
+  border:0!important;
+  border-bottom:1px solid #343a3d!important;
+  border-radius:0!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.24)!important;
+}
+.olfactra-header::after{display:none!important;content:none!important;}
+.olfactra-header .brand-banner{
+  box-sizing:border-box!important;
+  position:relative!important;
+  z-index:1!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  max-width:1480px!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0 auto!important;
+  padding:0!important;
+  gap:16px!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.olfactra-header .brand-identity{
+  box-sizing:border-box!important;
+  position:relative!important;
+  inset:auto!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  transform:none!important;translate:none!important;
+  display:flex!important;
+  flex:0 1 auto!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:max-content!important;
+  max-width:calc(100% - 500px)!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  gap:16px!important;
+  z-index:2!important;
+  pointer-events:none!important;
+  overflow:visible!important;
+}
+.olfactra-header .brand-identity .olfactra-logo{
+  display:block!important;
+  width:64px!important;height:64px!important;min-width:64px!important;
+  flex:0 0 64px!important;
+  margin:0!important;padding:0!important;
+}
+.olfactra-header .brand-identity .brand-copy{
+  display:flex!important;
+  flex:0 1 auto!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0!important;padding:0!important;
+  gap:5px!important;
+  text-align:center!important;
+}
+.olfactra-header .brand-identity .brand-name{
+  display:block!important;
+  max-width:100%!important;
+  margin:0!important;padding:0!important;
+  color:var(--ink)!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:36px!important;
+  line-height:1.03!important;
+  font-weight:600!important;
+  letter-spacing:.15em!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.55),0 0 18px rgba(225,232,235,.12)!important;
+}
+.olfactra-header .brand-identity .brand-tagline{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;padding:0!important;
+  color:#b6c0c4!important;
+  font-size:10px!important;
+  line-height:1.3!important;
+  font-weight:850!important;
+  letter-spacing:.19em!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+  white-space:nowrap!important;
+}
+.olfactra-header .workspace-toolbar{
+  position:absolute!important;
+  inset:0!important;
+  z-index:5!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0 clamp(16px,2.5vw,36px)!important;
+  gap:12px!important;
+  pointer-events:none!important;
+}
+.olfactra-header .workspace-nav-left,
+.olfactra-header .workspace-nav-right{pointer-events:auto!important;}
+
+/* Desktop side-window sizes follow the reference: 285px left and 290px right. */
+@media(min-width:1281px){
+  .interaction-sticky{
+    position:fixed!important;top:140px!important;left:20px!important;right:auto!important;
+    width:285px!important;max-width:285px!important;
+    max-height:calc(100dvh - 158px)!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    margin:0!important;
+  }
+  .olfactra-right-rail{
+    position:fixed!important;top:140px!important;right:20px!important;left:auto!important;bottom:14px!important;
+    width:290px!important;max-width:290px!important;height:auto!important;max-height:none!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    gap:7px!important;overflow:visible!important;z-index:61!important;
+  }
+  .olfactra-right-rail>.score-sticky{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+  }
+}
+@media(min-width:761px) and (max-width:1280px){
+  .olfactra-header{height:116px!important;min-height:116px!important;max-height:116px!important;}
+  .olfactra-header .brand-identity{max-width:calc(100% - 330px)!important;gap:13px!important;}
+  .olfactra-header .brand-identity .olfactra-logo{width:54px!important;height:54px!important;min-width:54px!important;flex-basis:54px!important;}
+  .olfactra-header .brand-identity .brand-name{font-size:31px!important;letter-spacing:.13em!important;}
+  .olfactra-header .brand-identity .brand-tagline{font-size:9px!important;letter-spacing:.15em!important;}
+  .olfactra-header .workspace-toolbar{padding-left:12px!important;padding-right:12px!important;}
+  .olfactra-header .workspace-nav-left,.olfactra-header .workspace-nav-right{gap:5px!important;}
+  .olfactra-header .workspace-nav-button,.olfactra-header .account-button{padding:7px 8px!important;font-size:8.5px!important;}
+}
+
+/* Mobile: keep the existing hamburger and centre the complete larger brand unit
+   both horizontally and vertically in the masthead, with room around the icon. */
+@media(max-width:760px){
+  .olfactra-header{
+    box-sizing:border-box!important;
+    width:100%!important;max-width:100%!important;
+    height:112px!important;min-height:112px!important;max-height:112px!important;
+    margin:0!important;
+    padding:calc(8px + env(safe-area-inset-top)) 10px 8px!important;
+    display:block!important;
+    position:relative!important;
+    overflow:visible!important;
+  }
+  .olfactra-header .brand-banner{
+    box-sizing:border-box!important;position:relative!important;
+    display:block!important;width:100%!important;height:100%!important;min-height:0!important;
+    margin:0!important;padding:0!important;overflow:visible!important;
+  }
+  .olfactra-header .brand-identity{
+    box-sizing:border-box!important;position:absolute!important;
+    inset:auto!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+    transform:translate(-50%,-50%)!important;translate:0 0!important;
+    display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;
+    width:max-content!important;max-width:calc(100% - 66px)!important;min-width:0!important;
+    margin:0!important;padding:0!important;gap:10px!important;
+    overflow:visible!important;z-index:2!important;pointer-events:none!important;
+  }
+  .olfactra-header .brand-identity .olfactra-logo{
+    display:block!important;width:46px!important;height:46px!important;min-width:46px!important;
+    flex:0 0 46px!important;margin:0!important;padding:0!important;
+  }
+  .olfactra-header .brand-identity .brand-copy{
+    display:flex!important;flex:0 1 auto!important;flex-direction:column!important;
+    align-items:center!important;justify-content:center!important;gap:3px!important;
+    min-width:0!important;max-width:calc(100% - 56px)!important;margin:0!important;padding:0!important;
+    text-align:center!important;
+  }
+  .olfactra-header .brand-identity .brand-name{
+    display:block!important;max-width:100%!important;margin:0!important;padding:0!important;
+    font-size:clamp(19px,6.15vw,25px)!important;line-height:1!important;
+    letter-spacing:.105em!important;white-space:nowrap!important;text-align:center!important;
+  }
+  .olfactra-header .brand-identity .brand-tagline{
+    display:block!important;max-width:100%!important;margin:0!important;padding:0!important;
+    font-size:clamp(6.5px,1.9vw,8px)!important;line-height:1.15!important;
+    letter-spacing:.11em!important;white-space:nowrap!important;text-align:center!important;
+  }
+  .olfactra-header .workspace-toolbar{
+    position:absolute!important;inset:0!important;z-index:8!important;
+    display:block!important;width:100%!important;height:100%!important;min-height:0!important;
+    margin:0!important;padding:0!important;pointer-events:none!important;
+  }
+  .mobile-menu-toggle{
+    position:absolute!important;top:50%!important;right:10px!important;left:auto!important;bottom:auto!important;
+    transform:translateY(-50%)!important;z-index:12!important;pointer-events:auto!important;
+  }
+  .mobile-nav-panel{z-index:13!important;}
+}
+@media(max-width:380px){
+  .olfactra-header{height:106px!important;min-height:106px!important;max-height:106px!important;}
+  .olfactra-header .brand-identity{max-width:calc(100% - 58px)!important;gap:8px!important;}
+  .olfactra-header .brand-identity .olfactra-logo{width:40px!important;height:40px!important;min-width:40px!important;flex-basis:40px!important;}
+  .olfactra-header .brand-identity .brand-name{font-size:clamp(17px,5.8vw,22px)!important;letter-spacing:.09em!important;}
+  .mobile-menu-toggle{right:7px!important;width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;}
+}
+
+/* Let the Note Relationships header background meet the rounded top-right edge.
+   Negative one-pixel bleed fills the card border while the outer card clips it to
+   the same curve, avoiding the square-corner cutoff in the supplied screenshot. */
+#noteDatabasePanel{
+  box-sizing:border-box!important;
+  padding:0!important;
+  border-radius:22px!important;
+  overflow:hidden!important;
+}
+#noteDatabasePanel .note-database-disclosure{
+  display:block!important;width:100%!important;max-width:none!important;
+  margin:0!important;padding:0!important;border:0!important;
+  border-radius:inherit!important;overflow:hidden!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;
+  width:calc(100% + 2px)!important;
+  min-height:58px!important;
+  margin:-1px -1px 0!important;
+  padding:13px 18px!important;
+  border:0!important;
+  border-radius:21px 21px 0 0!important;
+  background:linear-gradient(105deg,
+    color-mix(in srgb,var(--card2) 88%,var(--theme-primary) 12%),
+    color-mix(in srgb,var(--card) 92%,var(--theme-secondary) 8%))!important;
+  background-clip:padding-box!important;
+}
+#noteDatabasePanel .note-database-disclosure[open]>summary{border-bottom:1px solid var(--line)!important;}
+@media(max-width:760px){
+  #noteDatabasePanel{border-radius:20px!important;}
+  #noteDatabasePanel .note-database-disclosure>summary{border-radius:19px 19px 0 0!important;padding:12px 15px!important;}
 }
 </style>
 
