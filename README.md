@@ -1,14 +1,13 @@
-# OLFACULATOR v22 · Combination Symmetry
-
-This release updates the saved-combination card layout.
+# OLFACULATOR v23 · Combination Layout Refinement
 
 ## Changes
-- Fragrance A appears on the left and Fragrance B on the right, including on mobile.
-- Removed individual coloured borders around fragrance names.
-- Added one restrained vertical divider between the two fragrance columns.
-- Centered the combination name and added a small ornamental rule beneath it.
-- Preserved existing note-colour swatches, saved combination data, tier effects, authentication and Supabase configuration.
-- Advanced the service-worker cache to v22.
+- Saved combinations now show Fragrance A and Fragrance B side by side in equal left/right columns on desktop and mobile.
+- Removed separate borders and capsule outlines from individual fragrance names.
+- Kept one subtle vertical separator between the two fragrance columns.
+- Preserved each fragrance's colour swatches and saved colour data.
+- Extended the ornamental rule beneath the centered combination title across the full balanced title width.
+- Preserved the existing tier effects, collection actions, account configuration, PWA assets and database files.
+- Advanced the service-worker cache to v23.
 
 ## Deployment
 Replace the repository root `index.html` and `service-worker.js` with the versions in this project. Keep the `icons` folder, `manifest.webmanifest`, and Supabase SQL files. No database migration is required.
