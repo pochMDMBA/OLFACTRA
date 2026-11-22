@@ -1,13 +1,11 @@
-# OLFACULATOR v23 · Combination Layout Refinement
+# OLFACULATOR v24 · Left Scroll & Collection Card Refinement
 
 ## Changes
-- Saved combinations now show Fragrance A and Fragrance B side by side in equal left/right columns on desktop and mobile.
-- Removed separate borders and capsule outlines from individual fragrance names.
-- Kept one subtle vertical separator between the two fragrance columns.
-- Preserved each fragrance's colour swatches and saved colour data.
-- Extended the ornamental rule beneath the centered combination title across the full balanced title width.
-- Preserved the existing tier effects, collection actions, account configuration, PWA assets and database files.
-- Advanced the service-worker cache to v23.
+- Restored the desktop Note Relationships panel's own vertical scrollbar while preserving its fixed position, translucent surface and rounded shell. Tablet and mobile keep natural page scrolling.
+- Made My Collection fragrance cards and My Combinations cards more compact with consistent spacing and quieter surfaces.
+- Kept Fragrance A on the left and Fragrance B on the right in every saved-combination card, including narrow mobile screens.
+- Removed all individual border/capsule styling around fragrance names. The single centre divider remains, and saved note-colour swatches are retained beneath each fragrance name.
+- Retained combination title ornament, score, tier effects, rename/delete/load actions, Supabase integration and PWA assets.
 
 ## Deployment
-Replace the repository root `index.html` and `service-worker.js` with the versions in this project. Keep the `icons` folder, `manifest.webmanifest`, and Supabase SQL files. No database migration is required.
+Replace the repository root `index.html` and `service-worker.js` with these versions. Keep the `icons` folder, `manifest.webmanifest`, `supabase-schema.sql`, and `supabase-permissions-fix.sql`. No database migration is required. The service-worker cache is v24.
