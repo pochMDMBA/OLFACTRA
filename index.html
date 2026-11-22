@@ -1389,7 +1389,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
   .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-row b{font-size:9px!important;}
 }
 
-/* Keep Load from Library and Reset Fragrance paired at every workspace width. */
+/* Keep Load from My Collection and Reset Fragrance paired at every workspace width. */
 .profile-action-pair{display:inline-flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0;}
 .profile-actions .profile-action-pair button{flex:0 0 auto;}
 .fragrance-panel .reset-profile-btn{border-color:color-mix(in srgb,var(--theme-primary) 42%,var(--line));}
@@ -1406,7 +1406,7 @@ body[data-theme="arctic"] .note input:checked+span{background:#20556a;border-col
 .saved-fragrance-footer .delete-saved{font-size:9px;min-height:29px;padding:5px 10px;border-radius:7px;background:transparent;border:1px solid color-mix(in srgb,var(--bad) 60%,var(--line));color:var(--bad);}
 .saved-fragrance-footer .delete-saved:hover{background:color-mix(in srgb,var(--bad) 10%,transparent);}
 
-/* Save-combination window follows the same dialog language as My Shelf and About. */
+/* Save-combination window follows the same dialog language as My Collection and About. */
 .save-combination-dialog{width:min(510px,100%);max-height:min(82vh,620px);}
 .save-combination-label{display:block;margin:0 0 7px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;}
 .save-combination-name{box-sizing:border-box;width:100%;min-height:43px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;outline:none;}
@@ -2146,6 +2146,135 @@ button{-webkit-tap-highlight-color:transparent;}
 }
 </style>
 
+<style id="olfaculator-fragrance-atmosphere-and-tier-letter-repair">
+/* Restore the live note-family atmosphere on Fragrance A and B.
+   Their selected-note gradients are written inline by applyFragranceAtmosphere().
+   This base surface is intentionally non-important so it never masks those layers. */
+.fragrance-panel{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 96%,var(--bg) 4%),var(--card));
+  background-repeat:no-repeat;
+  background-size:cover;
+  transition:background-image .42s ease,border-color .42s ease,box-shadow .42s ease;
+}
+
+/* Make the saved tier display read like the large tier treatment in Live Compatibility. */
+.saved-combination-tier-display{
+  min-height:94px!important;
+  padding:9px 15px!important;
+  gap:15px!important;
+  border-radius:15px!important;
+  isolation:isolate;
+}
+.saved-combination-tier-letter{
+  font-size:78px!important;
+  line-height:.82!important;
+  letter-spacing:-.09em!important;
+  min-width:58px;
+  text-align:center;
+  font-weight:800!important;
+  color:var(--tier-letter,#e8e8e8);
+  -webkit-text-stroke:.35px rgba(255,255,255,.12);
+  paint-order:stroke fill;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.68)) drop-shadow(0 0 12px var(--tier-glow,transparent));
+  background-size:230% 100%;
+  background-position:145% 0;
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:savedTierLetterLustre 4.8s ease-in-out infinite;
+}
+.saved-combination-tier-score strong{
+  font-size:36px!important;
+  line-height:.98!important;
+  text-shadow:0 2px 5px rgba(0,0,0,.52),0 0 13px var(--tier-glow,transparent)!important;
+}
+.saved-combination-tier-score small{
+  letter-spacing:.15em!important;
+  font-size:9px!important;
+  font-weight:950!important;
+}
+
+/* S-tier: champagne, pale gold and rich antique-gold reflective letter. */
+.saved-combination.tier-s .saved-combination-tier-letter{
+  background-image:linear-gradient(105deg,#805817 0%,#d6ad4d 16%,#fff0b6 30%,#fffbe7 39%,#c18b2b 52%,#f9df91 67%,#93641d 83%,#fff1b9 100%);
+  background-size:260% 100%;
+  animation:savedTierGoldLetter 3.8s ease-in-out infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.72)) drop-shadow(0 0 8px rgba(255,211,105,.72)) drop-shadow(0 0 19px rgba(239,176,53,.42));
+  -webkit-text-stroke:.45px rgba(255,239,183,.36);
+}
+.saved-combination.tier-s .saved-combination-tier-score strong{
+  color:#fff0c0!important;
+  text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 10px rgba(255,214,119,.58),0 0 20px rgba(226,165,55,.32)!important;
+}
+
+/* A-tier: bright rhodium and cool silver reflections. */
+.saved-combination.tier-a .saved-combination-tier-letter{
+  background-image:linear-gradient(105deg,#687783 0%,#c6d3de 18%,#fff 33%,#e9f2f8 43%,#8f9fac 56%,#eef5fb 72%,#667782 88%,#fff 100%);
+  background-size:245% 100%;
+  animation:savedTierSilverLetter 4.4s ease-in-out infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.72)) drop-shadow(0 0 9px rgba(218,234,248,.66)) drop-shadow(0 0 17px rgba(160,187,207,.32));
+  -webkit-text-stroke:.45px rgba(242,248,255,.42);
+}
+.saved-combination.tier-a .saved-combination-tier-score strong{
+  color:#f3f8fc!important;
+  text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 11px rgba(218,234,248,.54)!important;
+}
+
+/* B-tier: warm copper, bronze and burnished-metal highlights. */
+.saved-combination.tier-b .saved-combination-tier-letter{
+  background-image:linear-gradient(105deg,#704328 0%,#b87548 17%,#f3c69d 33%,#ffe1bd 43%,#a9653c 57%,#dfaa7e 72%,#754327 88%,#f0c399 100%);
+  background-size:245% 100%;
+  animation:savedTierBronzeLetter 5s ease-in-out infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.72)) drop-shadow(0 0 8px rgba(219,151,102,.62)) drop-shadow(0 0 17px rgba(157,89,48,.34));
+  -webkit-text-stroke:.45px rgba(248,202,166,.32);
+}
+.saved-combination.tier-b .saved-combination-tier-score strong{
+  color:#f4cba9!important;
+  text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 11px rgba(218,151,101,.42)!important;
+}
+
+/* C-tier: neutral brushed graphite. Keep the letter clear and unanimated. */
+.saved-combination.tier-c .saved-combination-tier-letter{
+  background-image:linear-gradient(115deg,#737d84 0%,#c6cdd2 38%,#edf0f2 52%,#929ba2 72%,#cbd1d5 100%);
+  background-position:50% 0;
+  animation:none!important;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.7)) drop-shadow(0 0 7px rgba(177,188,197,.22));
+  -webkit-text-stroke:.25px rgba(255,255,255,.14);
+}
+.saved-combination.tier-c .saved-combination-tier-score strong{color:#dce1e4!important;}
+
+/* F-tier: distressed, discordant finish while preserving legibility. */
+.saved-combination.tier-f .saved-combination-tier-letter{
+  background-image:repeating-linear-gradient(112deg,#854f46 0 7px,#b77a65 7px 12px,#656342 12px 17px,#9a554d 17px 23px);
+  background-size:220% 100%;
+  animation:savedTierFriction 2.2s steps(3,end) infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.82)) drop-shadow(0 0 8px rgba(155,74,66,.36));
+  -webkit-text-stroke:.5px rgba(224,158,135,.34);
+}
+.saved-combination.tier-f .saved-combination-tier-score strong{color:#e0ad9b!important;}
+
+@keyframes savedTierLetterLustre{0%,100%{filter:drop-shadow(0 2px 3px rgba(0,0,0,.68)) drop-shadow(0 0 10px var(--tier-glow,transparent));}50%{filter:drop-shadow(0 2px 3px rgba(0,0,0,.68)) drop-shadow(0 0 15px var(--tier-glow,transparent));}}
+@keyframes savedTierGoldLetter{0%,14%{background-position:145% 0;}72%,100%{background-position:-145% 0;}}
+@keyframes savedTierSilverLetter{0%,16%{background-position:145% 0;}78%,100%{background-position:-145% 0;}}
+@keyframes savedTierBronzeLetter{0%,18%{background-position:145% 0;}80%,100%{background-position:-145% 0;}}
+@keyframes savedTierFriction{0%,100%{background-position:140% 0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.82)) drop-shadow(0 0 6px rgba(155,74,66,.24));}50%{background-position:-120% 0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.82)) drop-shadow(0 0 11px rgba(155,74,66,.42));}}
+
+@media(max-width:1280px){
+  .saved-combination-tier-letter{font-size:70px!important;min-width:53px;}
+}
+@media(max-width:520px){
+  .saved-combination-tier-display{min-height:82px!important;padding:8px 10px!important;gap:11px!important;}
+  .saved-combination-tier-letter{font-size:62px!important;min-width:47px;}
+  .saved-combination-tier-score strong{font-size:30px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+  .saved-combination-tier-letter,
+  .saved-combination.tier-s .saved-combination-tier-letter,
+  .saved-combination.tier-a .saved-combination-tier-letter,
+  .saved-combination.tier-b .saved-combination-tier-letter,
+  .saved-combination.tier-f .saved-combination-tier-letter{animation:none!important;}
+}
+</style>
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -2166,7 +2295,7 @@ button{-webkit-tap-highlight-color:transparent;}
     <div class="auth-separator"><span>or</span></div>
     <button type="button" class="google-button" onclick="signInWithGoogle()"><span class="google-g">G</span> Continue with Google</button>
     <div id="authFeedback" class="auth-feedback" aria-live="polite"></div>
-    <div class="auth-local"><button type="button" onclick="continueBrowsing()">Continue browsing without an account</button><p>Your current profiles and live score remain available. Saving to a personal library requires a free account.</p></div>
+    <div class="auth-local"><button type="button" onclick="continueBrowsing()">Continue browsing without an account</button><p>Your current profiles and live score remain available. Saving to your personal collection requires a free account.</p></div>
   </div>
 </div>
 <div class="about-screen" id="aboutScreen" hidden role="dialog" aria-modal="true" aria-labelledby="aboutTitle" onclick="if(event.target===this)closeAboutPanel()">
@@ -2208,8 +2337,8 @@ button{-webkit-tap-highlight-color:transparent;}
       </button>
       <div class="mobile-nav-panel" id="mobileNavPanel">
         <div class="workspace-nav-left">
-          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Shelf" aria-label="My Shelf" onclick="openLibraryPanel()">
-            <svg class="nav-button-icon shelf-bookshelf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20.5h18M4.5 20V4.5M19.5 20V4.5"/><rect x="6.3" y="8" width="3.3" height="11.5" rx=".65"/><rect x="10.5" y="5.7" width="3.3" height="13.8" rx=".65"/><rect x="14.8" y="9.2" width="2.7" height="10.3" rx=".65"/><path d="M7.2 10.5h1.5M11.4 8.2h1.5M15.5 11h1.2"/></svg><span class="nav-label">My Shelf</span>
+          <button type="button" class="workspace-nav-button" id="libraryButton" data-tooltip="My Collection" aria-label="My Collection" onclick="openLibraryPanel()">
+            <svg class="nav-button-icon collection-grid-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.25" y="3.25" width="7.5" height="7.5" rx="1.6"/><rect x="13.25" y="3.25" width="7.5" height="7.5" rx="1.6"/><rect x="3.25" y="13.25" width="7.5" height="7.5" rx="1.6"/><rect x="13.25" y="13.25" width="7.5" height="7.5" rx="1.6"/><path d="M5.6 5.8h2.7M15.6 5.8h2.7M5.6 15.8h2.7M15.6 15.8h2.7"/></svg><span class="nav-label">My Collection</span>
           </button>
           <button type="button" class="workspace-nav-button secondary" id="combinationsButton" data-tooltip="My Combinations" aria-label="My Combinations" onclick="openCombinationsPanel()">
             <svg class="nav-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5-8 4.5-8-4.5z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg><span class="nav-label">My Combinations</span>
@@ -2249,10 +2378,10 @@ button{-webkit-tap-highlight-color:transparent;}
     <div class="collection-dialog-head">
       <div>
         <div class="eyebrow">YOUR COLLECTION</div>
-        <h2 id="libraryDialogTitle">My Fragrance Library</h2>
+        <h2 id="libraryDialogTitle">My Collection</h2>
         <p class="library-subtitle" id="libraryDialogSubtitle">Drag a fragrance onto Fragrance A or B, or use its load button.</p>
       </div>
-      <button type="button" class="collection-close" aria-label="Close library" title="Close" onclick="closeCollectionPanels()"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
+      <button type="button" class="collection-close" aria-label="Close collection" title="Close" onclick="closeCollectionPanels()"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
     </div>
     <div class="library-tools collection-tools">
       <input id="librarySearch" type="search" placeholder="Search your fragrances…" aria-label="Search saved fragrances" oninput="renderFragranceLibrary()">
@@ -2323,7 +2452,7 @@ button{-webkit-tap-highlight-color:transparent;}
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="aLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('aLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('a',document.getElementById('aLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="aCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('a')">Copy</button></div></div>
 </div>
-<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Shelf</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('a')">Reset Fragrance A</button></div></div>
+<label class="small" for="aName">Fragrance name</label><input class="fragrance-name" id="aName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('a')">Save to My Collection</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('a')">Load from My Collection</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('a')">Reset Fragrance A</button></div></div>
 <div id="aChars"></div><div id="aNotes"></div>
 </section>
 
@@ -2333,7 +2462,7 @@ button{-webkit-tap-highlight-color:transparent;}
   <div class="code-group"><label class="small">Load Saved Code</label><div class="code-row load-code-row"><div class="load-code-input-wrap"><input id="bLoadCode" type="text" placeholder="Profile code" autocomplete="off" spellcheck="false" onfocus="this.select()" onclick="this.select()" onmouseup="return false"><button type="button" class="clear-load-code" aria-label="Clear saved code" title="Clear code" onclick="clearLoadCode('bLoadCode')">×</button></div><button type="button" class="secondary" onclick="loadCode('b',document.getElementById('bLoadCode').value)">Load</button></div></div>
   <div class="code-group"><label class="small">Current Fragrance Code</label><div class="code-row"><input id="bCode" type="text" readonly><button type="button" class="secondary" onclick="copyCode('b')">Copy</button></div></div>
 </div>
-<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Shelf</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from Library</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('b')">Reset Fragrance B</button></div></div>
+<label class="small" for="bName">Fragrance name</label><input class="fragrance-name" id="bName" type="text" autocomplete="off" placeholder="Enter fragrance name"><div class="profile-actions"><button type="button" class="save-fragrance-btn" onclick="saveCurrentFragrance('b')">Save to My Collection</button><div class="profile-action-pair"><button type="button" class="secondary load-library-btn" onclick="openLibraryPanel('b')">Load from My Collection</button><button type="button" class="secondary reset-profile-btn" onclick="resetFragrance('b')">Reset Fragrance B</button></div></div>
 <div id="bChars"></div><div id="bNotes"></div>
 </section>
 
@@ -2433,7 +2562,8 @@ function renderCharacteristics(container,prefix){
 }
 
 function renderNotes(container,prefix){
-  document.getElementById(container).innerHTML=`<h3 style="margin-top:22px">Notes <span class="smallnote">(maximum 3 per fragrance)</span> <span class="smallnote" id="${prefix}NoteCount">Pick 3 notes for best accuracy</span></h3>
+  document.getElementById(container).innerHTML=`<h3 style="margin-top:22px">Notes <span class="smallnote">(up to 3 per fragrance)</span> <span class="smallnote note-count-prompt" id="${prefix}NoteCount">Choose 3 dominant notes</span></h3>
+  <p class="dominant-notes-hint">Choose the 3 notes you perceive most strongly. A note breakdown is optional.</p>
   <div class="note-search"><input id="${prefix}NoteSearch" type="text" placeholder="Search notes..." oninput="filterNotes('${prefix}',this.value)"><div class="note-search-hint">Search by note name or family.</div></div>
   <div class="selected-notes"><div class="selected-notes-title">Ranked note strength</div><div class="smallnote">Rank 1 = strongest contribution · Rank 2 = moderate · Rank 3 = lightest. Drag to reorder.</div><div id="${prefix}RankedNotes"></div></div>`+
   `<details class="note-family-disclosure" id="${prefix}NoteFamilies" ${window.matchMedia && window.matchMedia('(max-width:760px)').matches ? '' : 'open'}>
@@ -2826,7 +2956,7 @@ function resetFragrance(prefix){
 
 function updateNoteReminder(prefix){
   syncNoteOrder(prefix);const count=noteOrder[prefix].length,msg=document.getElementById(prefix+'NoteCount');if(!msg)return;
-  const r=3-count;msg.textContent=r===3?'Pick 3 notes for best accuracy':r===2?'Pick 2 more notes for best accuracy':r===1?'Pick 1 more note for best accuracy':'3/3 notes selected';
+  const r=3-count;msg.textContent=r===3?'Choose 3 dominant notes':r===2?'Choose 2 more dominant notes':r===1?'Choose 1 more dominant note':'3 notes selected';
 }
 function filterNotes(prefix,query){
   const q=String(query||'').trim().toLowerCase(),root=document.getElementById(prefix+'Notes');if(!root)return;
@@ -3393,6 +3523,8 @@ function updateNoteAtmosphere(A,B,tier){
     live.style.setProperty('--tier-color-a',rgbA.join(','));
     live.style.setProperty('--tier-color-b',rgbB.join(','));
     live.classList.toggle('s-tier-active',tier==='S');
+    ['A','B','C','F'].forEach(t=>live.classList.toggle(`${t.toLowerCase()}-tier-active`,tier===t));
+    live.dataset.tier=String(tier||'F').toLowerCase();
   }
 }
 
@@ -3631,7 +3763,7 @@ function closeCollectionPanels(){
 }
 function openLibraryPanel(target){
   const intent=target==='a'?'open-library-a':target==='b'?'open-library-b':'open-library';
-  if(!requireAccount('Your personal fragrance library is available after you sign in. Create a free account to save, search, and reuse named fragrances.',()=>openLibraryPanel(target),intent))return;
+  if(!requireAccount('Your personal collection is available after you sign in. Create a free account to save, search, and reuse named fragrances.',()=>openLibraryPanel(target),intent))return;
   olfactraLibraryLoadTarget=target==='a'||target==='b'?target:null;
   const subtitle=document.getElementById('libraryDialogSubtitle');
   if(subtitle)subtitle.textContent=olfactraLibraryLoadTarget?`Choose a saved fragrance for Fragrance ${olfactraLibraryLoadTarget.toUpperCase()}, or drag its name onto the matching profile.`:'Drag a fragrance onto Fragrance A or B, or use its load button.';
@@ -3730,7 +3862,7 @@ async function activateCloudSession(session){
 async function refreshFragranceLibrary(){
   if(!olfactraSession||!olfactraSupabase){olfactraLibrary=[];renderFragranceLibrary();return;}
   const {data,error}=await olfactraSupabase.from('fragrances').select('id,name,profile,created_at,updated_at').order('name',{ascending:true});
-  if(error){showToast('Could not load cloud library: '+error.message,'bad');return;}
+  if(error){showToast('Could not load cloud collection: '+error.message,'bad');return;}
   olfactraLibrary=(data||[]).map(row=>({...row,profile:row.profile||{chars:{},notes:[]}}));
   renderFragranceLibrary();
 }
@@ -3753,7 +3885,7 @@ function profileForSave(prefix){
   return {name,profile:{chars:{...p.chars},notes:[...p.notes],colors}};
 }
 async function saveCurrentFragrance(prefix){
-  if(!requireAccount('Saving fragrances requires a free OLFACULATOR account. Sign in or create one to keep this fragrance in your personal library.',()=>saveCurrentFragrance(prefix),'save-fragrance:'+prefix))return;
+  if(!requireAccount('Saving fragrances requires a free OLFACULATOR account. Sign in or create one to keep this fragrance in your personal collection.',()=>saveCurrentFragrance(prefix),'save-fragrance:'+prefix))return;
   const {name,profile}=profileForSave(prefix);
   if(!name){showToast('Enter a fragrance name before saving it.','bad');document.getElementById(prefix+'Name').focus();return;}
   if(!profile.notes.length&&!Object.keys(profile.chars).length){showToast('Add at least one characteristic or note before saving.','bad');return;}
@@ -3765,14 +3897,14 @@ async function saveCurrentFragrance(prefix){
   if(error){showToast('Save failed: '+error.message,'bad');return;}
   const idx=olfactraLibrary.findIndex(x=>x.id===data.id);if(idx>=0)olfactraLibrary[idx]=data;else olfactraLibrary.push(data);
   renderFragranceLibrary();
-  showToast(existing?`Updated “${name}” in your library.`:`Saved “${name}” to your library.`,'good');
+  showToast(existing?`Updated “${name}” in your collection.`:`Saved “${name}” to your collection.`,'good');
 }
 function renderFragranceLibrary(){
   const host=document.getElementById('libraryGrid');if(!host)return;
-  if(!olfactraSession){host.innerHTML='<div class="library-gate">Your personal fragrance library is private to your account. Sign in to save, search, rename, and reuse fragrances. You can still build profiles and calculate scores as a guest.<br><button type="button" onclick="showAuthScreen(\'Saving fragrances requires a free OLFACULATOR account. Sign in or create one to keep your collection.\')">Sign in to access your library</button></div>';return;}
+  if(!olfactraSession){host.innerHTML='<div class="library-gate">Your personal collection is private to your account. Sign in to save, search, rename, and reuse fragrances. You can still build profiles and calculate scores as a guest.<br><button type="button" onclick="showAuthScreen(\'Saving fragrances requires a free OLFACULATOR account. Sign in or create one to keep your collection.\')">Sign in to access your collection</button></div>';return;}
   const q=norm(document.getElementById('librarySearch')?.value||'');
   const items=olfactraLibrary.filter(item=>!q||norm(item.name+' '+(item.profile?.notes||[]).join(' ')+' '+Object.values(item.profile?.chars||{}).join(' ')).includes(q));
-  if(!items.length){host.innerHTML='<div class="library-empty">Your library is empty. Build a profile below and choose <b>Save to My Shelf</b>.</div>';return;}
+  if(!items.length){host.innerHTML='<div class="library-empty">Your collection is empty. Build a profile below and choose <b>Save to My Collection</b>.</div>';return;}
   host.innerHTML=items.map(item=>{
     const notes=Array.isArray(item.profile?.notes)?item.profile.notes:[];
     const chars=item.profile?.chars||{};
@@ -3811,11 +3943,17 @@ function renderSavedCombinations(){
   });
   host.innerHTML=ranked.map(item=>{
     const a=item.fragrance_a?.name||'Fragrance A';const b=item.fragrance_b?.name||'Fragrance B';
-    return `<article class="saved-combination">
+    const rawTier=String(item.tier||'F').trim().toUpperCase();
+    const tier=['S','A','B','C','F'].includes(rawTier)?rawTier:'F';
+    const score=Math.max(0,Math.min(100,Number(item.score)||0));
+    return `<article class="saved-combination tier-${tier.toLowerCase()}" data-tier="${tier.toLowerCase()}">
       <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete combination" onclick="deleteSavedCombination('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
       <div class="saved-combination-title">${esc(item.name)}</div>
       <div class="saved-combination-meta">${esc(a)} + ${esc(b)}</div>
-      <div class="saved-combination-score">${Number(item.score)||0}/100 · ${esc(item.tier||'F')}-tier</div>
+      <div class="saved-combination-tier-display" aria-label="${tier}-tier, ${score} out of 100">
+        <span class="saved-combination-tier-letter">${tier}</span>
+        <span class="saved-combination-tier-score"><strong>${score}</strong><span class="saved-combination-tier-total">/100</span><small>${tier}-TIER</small></span>
+      </div>
       <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load Pair</button></div>
     </article>`;
   }).join('');
@@ -4012,7 +4150,7 @@ async function confirmThemeAction(){
   }
 }
 function renameLibraryFragrance(id){
-  if(!olfactraSession){showAuthScreen('Sign in is required to manage your saved fragrance library.');return;}
+  if(!olfactraSession){showAuthScreen('Sign in is required to manage your saved fragrance collection.');return;}
   const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
   openThemeActionDialog({
     eyebrow:'EDIT YOUR COLLECTION',
@@ -4025,7 +4163,7 @@ function renameLibraryFragrance(id){
     onConfirm:async raw=>{
       const name=titleCaseFragranceName(raw||'');
       if(!name){showToast('A fragrance name cannot be empty.','bad');return false;}
-      if(olfactraLibrary.some(x=>x.id!==id&&norm(x.name)===norm(name))){showToast('A fragrance with that name already exists in your library.','bad');return false;}
+      if(olfactraLibrary.some(x=>x.id!==id&&norm(x.name)===norm(name))){showToast('A fragrance with that name already exists in your collection.','bad');return false;}
       const previousName=item.name,previousUpdatedAt=item.updated_at;
       item.name=name;item.updated_at=new Date().toISOString();
       const ok=await persistLibraryRecord(item);
@@ -4038,9 +4176,9 @@ function deleteLibraryFragrance(id){
   if(!olfactraSession)return;
   const item=olfactraLibrary.find(x=>x.id===id);if(!item)return;
   openThemeActionDialog({
-    eyebrow:'My Shelf',
+    eyebrow:'My Collection',
     title:'Delete fragrance?',
-    message:`“${item.name}” will be permanently removed from your fragrance library. This will not change any fragrance already loaded into the calculator.`,
+    message:`“${item.name}” will be permanently removed from your fragrance collection. This will not change any fragrance already loaded into the calculator.`,
     confirmLabel:'Delete fragrance',
     danger:true,
     onConfirm:async()=>{
@@ -4458,7 +4596,10 @@ body[data-theme="original"]{
   border-radius:17px!important;
   border-color:var(--line)!important;
 }
-.fragrance-panel,.interaction-sticky,.library-card,.saved-fragrance,.saved-combination{
+/* Keep the fragrance workspaces out of this forced neutral surface rule.
+   Their ranked-note atmosphere is applied as an inline multi-layer background.
+   Applying !important here masks that live gradient and leaves both windows flat. */
+.interaction-sticky,.library-card,.saved-fragrance,.saved-combination{
   background:linear-gradient(145deg,color-mix(in srgb,var(--card) 97%,white 3%),var(--card))!important;
   box-shadow:0 10px 28px rgba(0,0,0,.20)!important;
 }
@@ -4480,7 +4621,7 @@ body[data-theme="original"]{
   letter-spacing:.012em!important;
 }
 
-/* The Shelf button uses a rack icon while preserving the existing action binding. */
+/* The Collection button uses a rack icon while preserving the existing action binding. */
 #libraryButton .nav-button-icon{width:19px!important;height:19px!important;}
 #libraryButton .nav-button-icon path{stroke-linecap:round!important;stroke-linejoin:round!important;}
 </style>
@@ -4916,7 +5057,7 @@ body[data-theme="original"]{
    OLFACULATOR finishing layer
    - visibly animated metallic reflection for S-tier
    - natural-height score panel, never stretched to the Theme dock
-   - crisp Shelf vector, readable Load Pair action and balanced surfaces
+   - crisp Collection vector, readable Load Pair action and balanced surfaces
    ================================================================ */
 
 /* The fixed desktop rail should wrap its content. It must not stretch down
@@ -5073,13 +5214,13 @@ body[data-theme="original"]{
   .score-sticky.s-tier-active::after{opacity:.28!important;background-position:50% 0,50% 0!important;}
 }
 
-/* A clearer bookshelf symbol: upright book spines visibly resting on a shelf. */
-#libraryButton .shelf-bookshelf-icon{width:20px!important;height:20px!important;overflow:visible;}
-#libraryButton .shelf-bookshelf-icon path,
-#libraryButton .shelf-bookshelf-icon rect{
+/* A clearer collection icon: upright book spines visibly resting on a shelf. */
+#libraryButton .collection-grid-icon{width:20px!important;height:20px!important;overflow:visible;}
+#libraryButton .collection-grid-icon path,
+#libraryButton .collection-grid-icon rect{
   stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important;
 }
-#libraryButton .shelf-bookshelf-icon rect{fill:none!important;}
+#libraryButton .collection-grid-icon rect{fill:none!important;}
 
 /* Consistent button lettering and controls, including the saved-pair action. */
 .combination-actions button{font-variant:normal!important;text-transform:none!important;letter-spacing:.01em!important;}
@@ -5103,6 +5244,227 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
   .olfactra-right-rail>.score-sticky{height:auto!important;max-height:none!important;align-self:stretch!important;flex:0 0 auto!important;}
 }
 </style>
+
+
+<style id="olfaculator-full-tier-collection-system">
+/* Refined tier treatments: distinct materials, consistent typography and clean rounded edges. */
+.dominant-notes-hint{margin:-5px 0 10px;color:var(--muted);font-size:10px;line-height:1.45;}
+.note-count-prompt{font-weight:800;color:var(--accent);}
+
+/* The Note Relationships rail shares the quiet graphite surface of the unranked score card. */
+#noteDatabasePanel.interaction-sticky{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 96%,var(--theme-primary) 4%),color-mix(in srgb,var(--bg2) 96%,var(--theme-secondary) 4%))!important;
+  border:1px solid color-mix(in srgb,var(--line) 84%,var(--theme-primary) 16%)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--card2) 96%,var(--theme-primary) 4%),color-mix(in srgb,var(--card) 96%,var(--theme-secondary) 4%))!important;
+}
+
+/* Larger, legible saved-combination tier display. */
+.saved-combination{isolation:isolate;overflow:hidden;}
+.saved-combination>*{position:relative;z-index:1;}
+.saved-combination>.saved-card-delete{z-index:5!important;}
+.saved-combination-tier-display{
+  display:flex;align-items:center;gap:12px;min-height:76px;margin-top:11px;padding:8px 12px;
+  border:1px solid rgba(255,255,255,.10);border-radius:13px;
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(0,0,0,.17));
+  overflow:hidden;position:relative;
+}
+.saved-combination-tier-letter{
+  display:block;flex:0 0 auto;font:700 58px/.88 Georgia,'Times New Roman',serif;letter-spacing:-.08em;
+  color:var(--tier-letter,#e8e8e8);text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 14px var(--tier-glow,transparent);
+}
+.saved-combination-tier-score{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 5px;min-width:0;color:var(--tier-ink,#e7e8e8);}
+.saved-combination-tier-score strong{font-size:30px;line-height:1;font-weight:900;letter-spacing:-.045em;text-shadow:0 2px 5px rgba(0,0,0,.45),0 0 10px var(--tier-glow,transparent);}
+.saved-combination-tier-total{font-size:12px;font-weight:800;opacity:.78;}
+.saved-combination-tier-score small{flex-basis:100%;font-size:9px;letter-spacing:.13em;font-weight:900;opacity:.78;}
+
+/* S: champagne gold winner metal, with a bright polished sweep and generous warm edge bloom. */
+.saved-combination.tier-s{
+  --tier-letter:#fff0b8;--tier-ink:#ffefc0;--tier-glow:rgba(255,211,105,.48);
+  border:1px solid rgba(255,222,145,.88)!important;
+  background:linear-gradient(145deg,rgba(53,41,20,.98),rgba(19,20,18,.99) 52%,rgba(65,48,18,.98))!important;
+  box-shadow:0 0 0 1px rgba(255,230,165,.22),0 0 15px rgba(255,203,86,.55),0 0 34px rgba(204,145,40,.31),0 10px 28px rgba(0,0,0,.36)!important;
+  animation:collectionGoldBreath 3.2s ease-in-out infinite;
+}
+.saved-combination.tier-s .saved-combination-tier-display{
+  border-color:rgba(255,225,155,.48);
+  background:linear-gradient(112deg,rgba(110,78,28,.40),rgba(22,22,18,.78) 48%,rgba(113,82,32,.31));
+}
+.saved-combination.tier-s::after,.saved-combination.tier-a::after,.saved-combination.tier-b::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(108deg,transparent 28%,rgba(255,255,255,.02) 39%,rgba(255,255,255,.36) 49%,rgba(255,255,255,.08) 55%,transparent 68%);
+  background-size:260% 100%;background-position:145% 0;opacity:0;
+  animation:collectionMetalSweep 5.2s cubic-bezier(.45,0,.25,1) infinite;
+}
+.saved-combination.tier-s::before,.saved-combination.tier-a::before,.saved-combination.tier-b::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(120deg,rgba(255,255,255,.10),transparent 30%,rgba(255,255,255,.045) 52%,transparent 74%);
+  opacity:.55;mix-blend-mode:screen;
+}
+@keyframes collectionGoldBreath{0%,100%{box-shadow:0 0 0 1px rgba(255,230,165,.18),0 0 12px rgba(255,203,86,.42),0 0 28px rgba(204,145,40,.24),0 10px 28px rgba(0,0,0,.36)}50%{box-shadow:0 0 0 1.5px rgba(255,243,195,.42),0 0 20px rgba(255,218,112,.72),0 0 42px rgba(204,145,40,.39),0 10px 28px rgba(0,0,0,.36)}}
+@keyframes collectionMetalSweep{0%,18%{background-position:145% 0;opacity:0}30%{opacity:.85}72%{background-position:-145% 0;opacity:.78}84%,100%{background-position:-145% 0;opacity:0}}
+
+/* A: cool silver / rhodium with a clean white travelling highlight. */
+.score-sticky.a-tier-active,.saved-combination.tier-a{
+  --tier-letter:#f4f8fc;--tier-ink:#edf3f8;--tier-glow:rgba(207,224,240,.38);
+  border:1px solid rgba(215,228,240,.82)!important;
+  background:linear-gradient(145deg,rgba(49,58,66,.98),rgba(20,25,30,.99) 50%,rgba(61,69,76,.98))!important;
+  box-shadow:0 0 0 1px rgba(225,238,249,.18),0 0 14px rgba(204,222,238,.34),0 0 30px rgba(150,174,195,.18),0 12px 30px rgba(0,0,0,.40)!important;
+  animation:collectionSilverBreath 3.8s ease-in-out infinite;
+}
+.score-sticky.a-tier-active::before,.saved-combination.tier-a::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(132deg,rgba(255,255,255,.18),transparent 26%,rgba(225,237,248,.10) 49%,transparent 73%);
+  opacity:.74;
+}
+.score-sticky.a-tier-active::after,.saved-combination.tier-a::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(108deg,transparent 33%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.82) 49%,rgba(220,235,248,.24) 54%,transparent 67%);
+  background-size:250% 100%;background-position:145% 0;
+  animation:collectionMetalSweep 4.9s cubic-bezier(.45,0,.25,1) infinite;
+}
+.score-sticky.a-tier-active>*{position:relative;z-index:1;}
+.score-sticky.a-tier-active h2,.score-sticky.a-tier-active .tier,.score-sticky.a-tier-active #tier{color:#f5f8fc!important;text-shadow:0 1px 2px #1c2833,0 0 12px rgba(221,237,250,.30)!important;}
+.score-sticky.a-tier-active .big,.score-sticky.a-tier-active #score{color:#fff!important;text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 18px rgba(216,232,246,.38)!important;}
+.score-sticky.a-tier-active .bar{background:rgba(9,13,17,.7)!important;}
+.score-sticky.a-tier-active .bar>div{background:linear-gradient(90deg,#687989,#c8d6e2 35%,#fff 52%,#aabac8 72%,#e8f0f6)!important;box-shadow:0 0 10px rgba(216,232,246,.55)!important;}
+.score-sticky.a-tier-active .metric{background:linear-gradient(145deg,rgba(54,64,72,.95),rgba(21,26,31,.97))!important;border-color:rgba(216,230,242,.28)!important;}
+@keyframes collectionSilverBreath{0%,100%{box-shadow:0 0 0 1px rgba(225,238,249,.13),0 0 10px rgba(204,222,238,.25),0 0 23px rgba(150,174,195,.12),0 12px 30px rgba(0,0,0,.40)}50%{box-shadow:0 0 0 1.5px rgba(245,250,255,.34),0 0 19px rgba(225,239,250,.53),0 0 38px rgba(150,174,195,.23),0 12px 30px rgba(0,0,0,.40)}}
+.saved-combination.tier-a .saved-combination-tier-display{border-color:rgba(220,235,248,.38);background:linear-gradient(120deg,rgba(117,135,150,.30),rgba(19,25,30,.80) 52%,rgba(185,201,215,.20));}
+
+/* B: antique bronze / copper with a slower warm metal reflection. */
+.score-sticky.b-tier-active,.saved-combination.tier-b{
+  --tier-letter:#f1c39a;--tier-ink:#f0c39e;--tier-glow:rgba(209,139,83,.34);
+  border:1px solid rgba(197,132,82,.82)!important;
+  background:linear-gradient(145deg,rgba(65,42,28,.98),rgba(25,22,20,.99) 52%,rgba(75,48,29,.98))!important;
+  box-shadow:0 0 0 1px rgba(224,165,115,.16),0 0 13px rgba(190,119,65,.34),0 0 28px rgba(139,78,39,.18),0 12px 30px rgba(0,0,0,.40)!important;
+  animation:collectionBronzeBreath 4s ease-in-out infinite;
+}
+.score-sticky.b-tier-active::before,.saved-combination.tier-b::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:repeating-linear-gradient(116deg,rgba(255,232,204,.045) 0 1px,transparent 1px 7px),linear-gradient(135deg,rgba(241,183,130,.15),transparent 34%,rgba(189,112,57,.10) 68%,transparent);
+  opacity:.75;
+}
+.score-sticky.b-tier-active::after,.saved-combination.tier-b::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(108deg,transparent 33%,rgba(255,232,207,.04) 40%,rgba(255,220,183,.72) 49%,rgba(210,143,95,.30) 54%,transparent 67%);
+  background-size:250% 100%;background-position:145% 0;
+  animation:collectionMetalSweep 5.4s cubic-bezier(.45,0,.25,1) infinite;
+}
+.score-sticky.b-tier-active>*{position:relative;z-index:1;}
+.score-sticky.b-tier-active h2,.score-sticky.b-tier-active .tier,.score-sticky.b-tier-active #tier{color:#f4c79f!important;text-shadow:0 1px 2px #352013,0 0 12px rgba(224,160,107,.30)!important;}
+.score-sticky.b-tier-active .big,.score-sticky.b-tier-active #score{color:#ffe0c2!important;text-shadow:0 2px 5px rgba(0,0,0,.62),0 0 16px rgba(224,160,107,.32)!important;}
+.score-sticky.b-tier-active .bar{background:rgba(17,12,9,.72)!important;}
+.score-sticky.b-tier-active .bar>div{background:linear-gradient(90deg,#754324,#bf8051 33%,#f0c49d 52%,#a9653d 78%,#e0aa7d)!important;box-shadow:0 0 9px rgba(215,151,100,.44)!important;}
+.score-sticky.b-tier-active .metric{background:linear-gradient(145deg,rgba(65,44,30,.95),rgba(24,21,19,.97))!important;border-color:rgba(207,145,99,.30)!important;}
+@keyframes collectionBronzeBreath{0%,100%{box-shadow:0 0 0 1px rgba(224,165,115,.12),0 0 9px rgba(190,119,65,.24),0 0 22px rgba(139,78,39,.12),0 12px 30px rgba(0,0,0,.40)}50%{box-shadow:0 0 0 1.5px rgba(246,198,157,.30),0 0 18px rgba(211,142,91,.50),0 0 35px rgba(139,78,39,.22),0 12px 30px rgba(0,0,0,.40)}}
+.saved-combination.tier-b .saved-combination-tier-display{border-color:rgba(213,154,111,.36);background:linear-gradient(120deg,rgba(136,81,48,.32),rgba(22,20,18,.82) 54%,rgba(177,111,70,.20));}
+
+/* C: neutral graphite, deliberately restrained and static. */
+.score-sticky.c-tier-active,.saved-combination.tier-c{
+  --tier-letter:#cbd0d4;--tier-ink:#d1d5d9;--tier-glow:rgba(170,180,190,.12);
+  border:1px solid rgba(151,162,171,.56)!important;
+  background:linear-gradient(145deg,rgba(49,55,59,.97),rgba(25,29,32,.99) 56%,rgba(46,52,56,.97))!important;
+  box-shadow:0 0 0 1px rgba(196,205,212,.08),0 8px 24px rgba(0,0,0,.38)!important;
+}
+.score-sticky.c-tier-active::before,.saved-combination.tier-c::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(125deg,rgba(255,255,255,.06),transparent 38%,rgba(255,255,255,.025) 70%);
+}
+.score-sticky.c-tier-active>*{position:relative;z-index:1;}
+.score-sticky.c-tier-active h2,.score-sticky.c-tier-active .tier,.score-sticky.c-tier-active #tier{color:#d4d9dd!important;}
+.score-sticky.c-tier-active .big,.score-sticky.c-tier-active #score{color:#e4e7e9!important;text-shadow:0 2px 4px rgba(0,0,0,.5)!important;}
+.score-sticky.c-tier-active .bar>div{background:linear-gradient(90deg,#626a70,#aeb7bd,#d1d7db)!important;}
+.score-sticky.c-tier-active .metric{background:linear-gradient(145deg,rgba(53,59,63,.95),rgba(27,31,34,.97))!important;border-color:rgba(160,171,180,.22)!important;}
+.saved-combination.tier-c .saved-combination-tier-display{border-color:rgba(174,184,192,.28);background:linear-gradient(120deg,rgba(83,92,99,.25),rgba(20,24,27,.82) 55%,rgba(110,119,126,.16));}
+
+/* F: intentionally discordant, muddy and distressed, while retaining readable text. */
+.score-sticky.f-tier-active,.saved-combination.tier-f{
+  --tier-letter:#d39a83;--tier-ink:#d7a08c;--tier-glow:rgba(155,74,66,.25);
+  border:2px dashed rgba(139,83,70,.90)!important;
+  background:repeating-linear-gradient(127deg,rgba(113,64,53,.18) 0 8px,rgba(71,75,43,.12) 8px 16px),linear-gradient(145deg,rgba(54,39,34,.99),rgba(27,27,22,.99) 50%,rgba(61,53,31,.99))!important;
+  box-shadow:0 0 0 1px rgba(149,96,70,.16),0 0 13px rgba(132,66,57,.22),0 10px 28px rgba(0,0,0,.43)!important;
+  animation:collectionFriction 1.9s steps(2,end) infinite;
+}
+.score-sticky.f-tier-active::before,.saved-combination.tier-f::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:repeating-linear-gradient(18deg,transparent 0 11px,rgba(163,80,65,.10) 11px 13px,transparent 13px 21px),linear-gradient(95deg,rgba(107,117,59,.13),transparent 36%,rgba(143,69,60,.12));
+  opacity:.9;
+}
+.score-sticky.f-tier-active::after,.saved-combination.tier-f::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(105deg,transparent 20%,rgba(151,67,61,.17) 48%,rgba(169,115,64,.12) 53%,transparent 78%);
+  background-size:210% 100%;animation:collectionFlicker 3.3s ease-in-out infinite;
+}
+.score-sticky.f-tier-active>*{position:relative;z-index:1;}
+.score-sticky.f-tier-active h2,.score-sticky.f-tier-active .tier,.score-sticky.f-tier-active #tier{color:#d7a08c!important;text-shadow:0 1px 2px #321b1b,0 0 8px rgba(165,83,69,.2)!important;}
+.score-sticky.f-tier-active .big,.score-sticky.f-tier-active #score{color:#e1b19e!important;text-shadow:0 2px 4px rgba(0,0,0,.6)!important;}
+.score-sticky.f-tier-active .bar>div{background:repeating-linear-gradient(90deg,#805148 0 12px,#6a713f 12px 21px)!important;}
+.score-sticky.f-tier-active .metric{background:linear-gradient(135deg,rgba(67,46,42,.94),rgba(36,39,27,.96))!important;border-color:rgba(153,91,74,.30)!important;}
+@keyframes collectionFriction{0%,100%{transform:translateX(0);filter:saturate(.82)}25%{transform:translateX(.25px);filter:saturate(1.06)}75%{transform:translateX(-.25px);filter:saturate(.88)}}
+@keyframes collectionFlicker{0%,100%{background-position:140% 0;opacity:.28}50%{background-position:-120% 0;opacity:.72}}
+.saved-combination.tier-f .saved-combination-tier-display{border-color:rgba(153,91,74,.40);background:repeating-linear-gradient(125deg,rgba(115,68,53,.18) 0 8px,rgba(74,78,46,.13) 8px 16px);}
+
+/* Keep all tier animations clipped to smooth rounded geometry. */
+.score-sticky.a-tier-active,.score-sticky.b-tier-active,.score-sticky.c-tier-active,.score-sticky.f-tier-active,
+.saved-combination.tier-s,.saved-combination.tier-a,.saved-combination.tier-b,.saved-combination.tier-c,.saved-combination.tier-f{
+  border-radius:20px!important;isolation:isolate;overflow:hidden;
+}
+.score-sticky.a-tier-active::before,.score-sticky.a-tier-active::after,
+.score-sticky.b-tier-active::before,.score-sticky.b-tier-active::after,
+.score-sticky.c-tier-active::before,.score-sticky.c-tier-active::after,
+.score-sticky.f-tier-active::before,.score-sticky.f-tier-active::after,
+.saved-combination.tier-s::before,.saved-combination.tier-s::after,
+.saved-combination.tier-a::before,.saved-combination.tier-a::after,
+.saved-combination.tier-b::before,.saved-combination.tier-b::after,
+.saved-combination.tier-c::before,.saved-combination.tier-c::after,
+.saved-combination.tier-f::before,.saved-combination.tier-f::after{border-radius:inherit;}
+@media(prefers-reduced-motion:reduce){
+ .score-sticky.a-tier-active,.score-sticky.b-tier-active,.score-sticky.f-tier-active,
+ .score-sticky.a-tier-active::before,.score-sticky.a-tier-active::after,.score-sticky.b-tier-active::before,.score-sticky.b-tier-active::after,.score-sticky.f-tier-active::before,.score-sticky.f-tier-active::after,
+ .saved-combination.tier-s,.saved-combination.tier-a,.saved-combination.tier-b,.saved-combination.tier-f,
+ .saved-combination.tier-s::before,.saved-combination.tier-s::after,.saved-combination.tier-a::before,.saved-combination.tier-a::after,.saved-combination.tier-b::before,.saved-combination.tier-b::after,.saved-combination.tier-f::before,.saved-combination.tier-f::after{animation:none!important;}
+}
+@media(max-width:1280px){.saved-combination-tier-letter{font-size:52px;}}
+@media(max-width:520px){.saved-combination-tier-display{min-height:68px;padding:7px 10px;}.saved-combination-tier-letter{font-size:48px;}.saved-combination-tier-score strong{font-size:26px;}}
+</style>
+
+
+<style id="olfaculator-final-gold-edge-intensification">
+/* Keep the existing metallic sweep and raise the warm halo specifically at the rim. */
+.score-sticky.s-tier-active{
+  border-width:2.2px!important;
+  border-color:transparent!important;
+  filter:drop-shadow(0 0 7px rgba(255,207,91,.34));
+}
+@keyframes olfMetalGlowBreath{
+  0%,100%{
+    box-shadow:0 0 0 1px rgba(255,237,184,.42),
+      0 0 18px rgba(255,211,105,.68),
+      0 0 42px rgba(210,153,49,.43),
+      0 0 72px rgba(184,126,30,.26),
+      0 16px 42px rgba(0,0,0,.48),
+      inset 0 1px 0 rgba(255,255,235,.24),
+      inset 0 -1px 0 rgba(133,91,28,.48);
+  }
+  50%{
+    box-shadow:0 0 0 1.8px rgba(255,248,211,.72),
+      0 0 27px rgba(255,224,139,.98),
+      0 0 58px rgba(220,163,53,.68),
+      0 0 94px rgba(184,126,30,.38),
+      0 16px 42px rgba(0,0,0,.48),
+      inset 0 1px 0 rgba(255,255,245,.40),
+      inset 0 -1px 0 rgba(133,91,28,.62);
+  }
+}
+@media(prefers-reduced-motion:reduce){.score-sticky.s-tier-active{filter:none!important;}}
+</style>
+
+
+
+
 
 </body>
 </html>
