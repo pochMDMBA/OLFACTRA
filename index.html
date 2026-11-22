@@ -2388,93 +2388,39 @@ button{-webkit-tap-highlight-color:transparent;}
   .saved-combination-tier-total{font-size:14px!important;}
 }
 
-/* Note Relationships: refreshed as a cool smoked-glass instrument panel.
-   The heading has a distinct graphite banner; the content below is softer and layered. */
-#noteDatabasePanel.interaction-sticky{
-  position:relative!important;
-  isolation:isolate!important;
-  overflow:hidden!important;
-  border:1px solid rgba(151,174,184,.28)!important;
-  border-radius:20px!important;
-  background:
-    linear-gradient(148deg,rgba(48,59,64,.82) 0%,rgba(29,37,41,.88) 48%,rgba(19,25,29,.91) 100%)!important;
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.26),
-    inset 0 1px 0 rgba(240,248,252,.10),
-    inset 0 -1px 0 rgba(0,0,0,.18)!important;
-  -webkit-backdrop-filter:blur(16px) saturate(120%)!important;
-  backdrop-filter:blur(16px) saturate(120%)!important;
-}
-#noteDatabasePanel .note-database-disclosure{background:transparent!important;}
-#noteDatabasePanel .note-database-disclosure>summary{
-  position:relative!important;
-  min-height:66px!important;
-  padding:13px 17px!important;
-  gap:12px!important;
-  border:0!important;
-  border-radius:19px 19px 0 0!important;
-  background:
-    linear-gradient(112deg,rgba(75,91,98,.72),rgba(47,59,65,.80) 56%,rgba(34,44,49,.86))!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(210,225,231,.12)!important;
-}
-#noteDatabasePanel .note-database-disclosure>summary::after{
-  content:"";
-  position:absolute;
-  left:16px;right:16px;bottom:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(191,209,218,.22),transparent);
-  pointer-events:none;
-}
-#noteDatabasePanel .note-db-summary-title{
-  color:#edf2f4!important;
-  font-size:13px!important;
-  font-weight:900!important;
-  letter-spacing:.075em!important;
-  line-height:1.25!important;
-}
-#noteDatabasePanel .note-db-summary-hint{
-  color:#b7c3c9!important;
-  font-size:10px!important;
-  font-weight:650!important;
-  letter-spacing:.015em!important;
-}
-#noteDatabasePanel .note-db-chevron{
-  color:#c0cbd0!important;
-  stroke:#c0cbd0!important;
-  opacity:.9!important;
-  transition:transform .2s ease,opacity .2s ease!important;
-}
-#noteDatabasePanel .note-database-content{
-  padding:12px 13px 14px!important;
-  background:linear-gradient(180deg,rgba(16,22,26,.20),rgba(11,16,19,.10))!important;
-}
-#noteDatabasePanel .theory-controls{
-  padding:10px 11px!important;
-  border:1px solid rgba(166,187,196,.20)!important;
-  border-radius:12px!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(7,12,15,.18))!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
-}
-#noteDatabasePanel .theory-toggle,
-#noteDatabasePanel .common-key{color:#b9c5ca!important;}
-#noteDatabasePanel .theory-toggle input{accent-color:#8fa9b4!important;}
-#noteDatabasePanel #noteInteractionSticky .interaction-row,
-#noteDatabasePanel #noteInteractionSticky .theory-note,
-#noteDatabasePanel #noteInteractionSticky .theory-summary{
-  border-color:rgba(166,187,196,.17)!important;
-  background:rgba(13,19,23,.32)!important;
-}
-#noteDatabasePanel #noteInteractionSticky .interaction-reason{background:rgba(9,14,17,.25)!important;border-color:rgba(166,187,196,.14)!important;}
-@media(max-width:760px){
-  #noteDatabasePanel.interaction-sticky{border-radius:18px!important;}
-  #noteDatabasePanel .note-database-disclosure>summary{min-height:62px!important;padding:11px 13px!important;border-radius:17px 17px 0 0!important;}
-  #noteDatabasePanel .note-database-content{padding:10px 10px 12px!important;}
-}
+/* Note Relationships: retain the established panel geometry and theme styling. */
+
 @media(prefers-reduced-motion:reduce){
   .collection-dialog,.auth-card,.about-card,.theme-action-dialog{scroll-behavior:auto!important;}
   .saved-combination-tier-letter{animation:none!important;}
 }
 </style>
 
+
+<style id="olfaculator-note-panel-glass-layout-v17">
+/* A single translucent surface across the entire Note Relationships window.
+   No positioning, dimensions, disclosure spacing or header geometry is changed here. */
+#noteDatabasePanel.interaction-sticky{
+  background:color-mix(in srgb,var(--card) 64%,transparent)!important;
+  border-color:color-mix(in srgb,var(--line) 78%,transparent)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  -webkit-backdrop-filter:blur(15px) saturate(120%)!important;
+  backdrop-filter:blur(15px) saturate(120%)!important;
+}
+#noteDatabasePanel .note-database-disclosure{background:transparent!important;}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:color-mix(in srgb,var(--card2) 58%,transparent)!important;
+  -webkit-backdrop-filter:blur(12px) saturate(118%)!important;
+  backdrop-filter:blur(12px) saturate(118%)!important;
+}
+#noteDatabasePanel .note-database-content{background:color-mix(in srgb,var(--card) 42%,transparent)!important;}
+
+/* Nudge the tier letter inward from the far-right edge for better balance. */
+.saved-combination-tier-display{padding-right:24px!important;}
+@media(max-width:520px){
+  .saved-combination-tier-display{padding-right:19px!important;}
+}
+</style>
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -4517,10 +4463,12 @@ bootOlfactraAccounts();
   if(!panel||!header||!main)return;
   const marker=document.createComment(' OLFACULATOR desktop Note Relationships anchor ');
   if(panel.parentNode)panel.parentNode.insertBefore(marker,panel);
-  const viewport=window.matchMedia('(max-width:760px)');
+  /* At tablet and mobile widths the panel sits after the workspace, so its
+     disclosure height can never shift Fragrance A/B while opening or closing. */
+  const viewport=window.matchMedia('(max-width:1280px)');
   function placePanel(){
     if(viewport.matches){
-      if(panel.parentNode!==main)main.appendChild(panel);
+      if(panel.parentNode!==main||panel!==main.lastElementChild)main.appendChild(panel);
     }else if(marker.parentNode){
       if(marker.nextSibling!==panel)marker.parentNode.insertBefore(panel,marker.nextSibling);
     }
@@ -5455,15 +5403,7 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
 .dominant-notes-hint{margin:-5px 0 10px;color:var(--muted);font-size:10px;line-height:1.45;}
 .note-count-prompt{font-weight:800;color:var(--accent);}
 
-/* The Note Relationships rail shares the quiet graphite surface of the unranked score card. */
-#noteDatabasePanel.interaction-sticky{
-  background:linear-gradient(145deg,color-mix(in srgb,var(--card) 96%,var(--theme-primary) 4%),color-mix(in srgb,var(--bg2) 96%,var(--theme-secondary) 4%))!important;
-  border:1px solid color-mix(in srgb,var(--line) 84%,var(--theme-primary) 16%)!important;
-  box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)!important;
-}
-#noteDatabasePanel .note-database-disclosure>summary{
-  background:linear-gradient(145deg,color-mix(in srgb,var(--card2) 96%,var(--theme-primary) 4%),color-mix(in srgb,var(--card) 96%,var(--theme-secondary) 4%))!important;
-}
+/* Note Relationships translucency is applied in the final responsive glass layer. */
 
 /* Larger, legible saved-combination tier display. */
 .saved-combination{isolation:isolate;overflow:hidden;}
