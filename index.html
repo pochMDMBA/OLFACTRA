@@ -2743,12 +2743,7 @@ button{-webkit-tap-highlight-color:transparent;}
   </div>
 </header>
 <section class="card interaction-sticky" id="noteDatabasePanel">
-  <details class="note-database-disclosure" id="noteDatabaseDisclosure">
-    <summary aria-label="Expand Note Relationships">
-      <span class="note-db-summary-title">NOTE RELATIONSHIPS</span>
-      <span class="note-db-summary-hint">Explore note relationships</span>
-      <svg class="note-db-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg>
-    </summary>
+  <div class="note-database-disclosure" id="noteDatabaseDisclosure">
     <div class="note-database-content">
       <div class="theory-controls">
         <label class="theory-toggle" style="flex:1"><span>Minimum matches to show: <b id="minMatchValue">1</b></span><div class="theory-slider-wrap"><input id="minMatchSlider" type="range" min="1" max="1" value="1" step="1" oninput="manualMinMatchChange()"><div id="minMatchLabels" class="theory-slider-labels"><span class="active">1</span></div></div></label>
@@ -2756,7 +2751,7 @@ button{-webkit-tap-highlight-color:transparent;}
       </div>
       <div id="noteInteractionSticky"><div class="muted">Select notes to see their full theoretical synergy and penalty map.</div></div>
     </div>
-  </details>
+  </div>
 </section>
 <main>
 <div class="collection-screen" id="libraryScreen" hidden onclick="if(event.target===this)closeCollectionPanels()">
@@ -6347,6 +6342,90 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
   -webkit-text-stroke:.22px rgba(4,9,12,.64)!important;
   text-shadow:0 1px 2px rgba(4,9,12,.72),0 0 4px rgba(4,9,12,.28)!important;
   font-weight:900!important;letter-spacing:.012em!important;
+}
+</style>
+
+
+<style id="olfaculator-v21-note-relationships-and-combination-title-fix">
+/* v21: remove the legacy in-chip tooltip layer from view. The hover handler
+   clones each source tooltip into document.body and adds is-floating-visible;
+   only that floating clone is allowed to render. This prevents the old copy
+   appearing near the upper-left of the relationship window at the same time. */
+.theory-summary-tooltip:not(.is-floating-visible){
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.theory-summary-note:hover>.theory-summary-tooltip:not(.is-floating-visible),
+.theory-chip.has-tooltip:hover>.theory-summary-tooltip:not(.is-floating-visible),
+.theory-note-toggle.has-tooltip-note:hover>.theory-summary-tooltip:not(.is-floating-visible){
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+}
+
+/* v21: the old Note Relationships title strip is removed. The panel starts
+   directly with Minimum matches to show, within the same rounded glass shell. */
+#noteDatabasePanel.interaction-sticky{
+  padding:0!important;
+  overflow:hidden!important;
+}
+#noteDatabasePanel .note-database-disclosure{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:inherit!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+#noteDatabasePanel .note-database-content{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:12px 12px 13px!important;
+  background:transparent!important;
+  background-image:none!important;
+  overflow-x:hidden!important;
+}
+#noteDatabasePanel .theory-controls,
+#noteDatabasePanel #noteInteractionSticky,
+#noteDatabasePanel .theory-summary,
+#noteDatabasePanel .theory-note-collapsed{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+@media(max-width:760px){
+  #noteDatabasePanel .note-database-content{padding:10px 10px 12px!important;}
+}
+
+/* Center saved combination names in the full card width, with balanced room
+   reserved on both sides for the upper-right delete control. */
+.saved-combination-title{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  margin:0 0 10px!important;
+  padding:0 36px!important;
+  text-align:center!important;
+  overflow-wrap:anywhere!important;
+}
+.saved-combination-title em{
+  display:inline!important;
+  text-align:center!important;
+}
+@media(max-width:520px){
+  .saved-combination-title{padding-left:34px!important;padding-right:34px!important;margin-bottom:8px!important;}
 }
 </style>
 

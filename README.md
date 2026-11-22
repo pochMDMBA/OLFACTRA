@@ -1,14 +1,11 @@
-# OLFACULATOR v20 — Collection Rename, Note Tooltip & Panel Repair
+# OLFACULATOR v21 — Note Relationships & Combination Title Fix
 
 ## Updates
-- Combination names are quoted and italicized after saving.
-- Added a Rename action to each saved combination, using the existing themed action dialog and updating Supabase `saved_combinations` safely for the signed-in user.
-- Saved fragrance-name labels in each combination use a translucent glass treatment.
-- Fixed relationship hover details by cloning tooltip nodes before portaling them to `document.body`. The original tooltip remains in the note chip, so it continues to work after repeated hover in/out cycles.
-- Added a collapsed “Other notes · no recorded relationship” group to selected-note breakdowns. Notes without a defined high/conditional/penalty pairing (including notes such as Chestnut and Tonka bean when applicable) remain discoverable and explain their no-record status on hover.
-- Reworked the Note Relationships window sizing and header/body surfaces so the summary uses exactly the panel width and cannot protrude past its rounded right edge.
-- Preserved the existing visual themes and applied high-contrast ivory lettering with a subtle dark edge to Load Pair, Save This Combination, Load A, Load B and related primary collection actions.
-- Advanced the PWA cache name to v20.
+- Removed the Note Relationships title/banner so the first visible control is “Minimum matches to show”. The panel keeps its existing bounded, translucent glass surface and layout.
+- Fixed duplicate relationship hover details. Hidden in-place source tooltip nodes remain in the note markup for cloning, while only the single pointer-following tooltip clone rendered in `document.body` is visible.
+- Centered saved combination names across the full card width, with balanced clearance for the delete control.
+- Preserved collection rename, quoted/italic combination names, tier treatments, saved fragrance color swatches, Supabase configuration, mobile navigation, manifest and icon assets.
+- Advanced the service-worker cache name to v21.
 
 ## Deployment
-Replace the repository's root `index.html` and `service-worker.js` with these files. Keep the `icons/` directory, `manifest.webmanifest`, and both Supabase SQL files. No database migration is required.
+Replace the repository root `index.html` and `service-worker.js` with the versions in this archive. Keep the `icons/` directory, `manifest.webmanifest`, and both Supabase SQL files. No database migration is required.
