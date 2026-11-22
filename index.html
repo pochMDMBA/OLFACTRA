@@ -3549,10 +3549,10 @@ function renderTheoreticalNoteDatabase(){
       if(score<0){type='risk';icon='✕';}
       else if(score>0 && score<50){type='neutral';icon='●';}
       else if(score===0){type='none';icon='';}
-      const contributing=mode==='high'?score>=50:mode==='bad'?score<0:score>0&&score<50;
+      const contributing=(mode==='high'||mode==='selected')?score>=50:mode==='bad'?score<0:mode==='neutral'?score>0&&score<50:false;
       return `<div class="theory-summary-tooltip-row ${contributing?'match':'nonmatch'} ${type}"><span class="theory-summary-tooltip-check">${icon}</span><span class="tooltip-note-text">${esc(src)}</span></div>`;
     }).join('');
-    const title=mode==='bad'?'High-risk breakdown':mode==='neutral'?'Conditional breakdown':'High-match breakdown';
+    const title=mode==='bad'?'High-risk breakdown':mode==='neutral'?'Conditional breakdown':mode==='none'?'No recorded relationship':mode==='selected'?'Selected note breakdown':'High-match breakdown';
     return `<span class="theory-summary-tooltip"><div class="theory-summary-tooltip-title">${title}</div>${rows}</span>`;
   };
   const highHtml=summaryCandidates.length?summaryCandidates.map(x=>{
@@ -3583,7 +3583,7 @@ function renderTheoreticalNoteDatabase(){
 
   const blocks=selected.map(src=>{
     return `<details class="theory-note-collapsed" data-theory-src="${esc(norm(src))}">
-      <summary class="theory-note-toggle"><span class="theory-title"><span>${esc(src)}</span><span class="theory-family">${esc(noteFamily(src)||'Unclassified')}</span></span><span class="theory-note-chevron">›</span></summary>
+      <summary class="theory-note-toggle has-tooltip-note"><span class="theory-title"><span>${esc(src)}</span><span class="theory-family">${esc(noteFamily(src)||'Unclassified')}</span></span><span class="theory-note-chevron">›</span>${tooltipFor(src,'selected')}</summary>
       <div class="theory-note-content"><div class="theory-note-loading">Expand to load this note's full theoretical database.</div></div>
     </details>`;
   }).join('');
@@ -3594,12 +3594,17 @@ function renderTheoreticalNoteDatabase(){
       const src=selected.find(n=>norm(n)===details.dataset.theorySrc);
       if(!src) return;
       const {good,warn,bad}=getCategorized(src);
+      const recorded=new Set([...good,...warn,...bad].map(norm));
+      recorded.add(norm(src));
+      const unrecorded=allNotes.filter(candidate=>!recorded.has(norm(candidate)));
+      const unrecordedHtml=unrecorded.length?`<details class="theory-unrecorded-details"><summary>Other notes · no recorded relationship (${unrecorded.length})</summary><div class="theory-list">${unrecorded.map(candidate=>`<span class="theory-chip unrecorded has-tooltip">${esc(candidate)}${tooltipFor(candidate,'none')}</span>`).join('')}</div></details>`:'';
       const content=details.querySelector('.theory-note-content');
       if(content){
         content.innerHTML=`
           <div class="theory-section"><div class="theory-section-title" style="color:var(--good)">Highly compatible</div>${chips(good,'good','No high-synergy entries in the current database.')}</div>
           <div class="theory-section"><div class="theory-section-title" style="color:var(--warn)">Conditional</div>${chips(warn,'warn','No conditional entries.')}</div>
-          <div class="theory-section"><div class="theory-section-title" style="color:var(--bad)">Penalties / high-risk</div>${chips(bad,'bad','No explicit penalty entries.')}</div>`;
+          <div class="theory-section"><div class="theory-section-title" style="color:var(--bad)">Penalties / high-risk</div>${chips(bad,'bad','No explicit penalty entries.')}</div>
+          ${unrecordedHtml}`;
       }
       details.dataset.loaded='1';
     });
@@ -3635,7 +3640,7 @@ function renderTheoreticalNoteDatabase(){
     };
     box.__hideFloatingTheoryTooltip=hideFloatingTooltip;
     box.addEventListener('mouseover',e=>{
-      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip');
+      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip,.theory-note-toggle.has-tooltip-note');
       if(!note || !box.contains(note)){
         if(activeTooltipAnchor)hideFloatingTooltip();
         return;
@@ -3644,9 +3649,12 @@ function renderTheoreticalNoteDatabase(){
         placeFloatingTooltip(activeTooltip,e.clientX,e.clientY);
         return;
       }
-      const tip=note.querySelector('.theory-summary-tooltip');
-      if(!tip){hideFloatingTooltip();return;}
+      const sourceTip=note.querySelector('.theory-summary-tooltip');
+      if(!sourceTip){hideFloatingTooltip();return;}
       hideFloatingTooltip();
+      // Keep the original tooltip inside its chip. Only the temporary clone is
+      // portaled and removed, so the source note can be hovered repeatedly.
+      const tip=sourceTip.cloneNode(true);
       activeTooltip=tip;
       activeTooltipAnchor=note;
       tip.style.position='fixed';
@@ -3660,7 +3668,7 @@ function renderTheoreticalNoteDatabase(){
       if(activeTooltip)placeFloatingTooltip(activeTooltip,e.clientX,e.clientY);
     });
     box.addEventListener('mouseout',e=>{
-      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip');
+      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip,.theory-note-toggle.has-tooltip-note');
       if(!note || note!==activeTooltipAnchor)return;
       if(e.relatedTarget && note.contains(e.relatedTarget))return;
       hideFloatingTooltip();
@@ -4406,7 +4414,7 @@ function renderSavedCombinations(){
     const score=Math.max(0,Math.min(100,Number(item.score)||0));
     return `<article class="saved-combination tier-${tier.toLowerCase()}" data-tier="${tier.toLowerCase()}">
       <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete combination" onclick="deleteSavedCombination('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
-      <div class="saved-combination-title">${esc(item.name)}</div>
+      <div class="saved-combination-title"><em>“${esc(item.name)}”</em></div>
       <div class="saved-combination-pair">
         ${fragranceSummary(item.fragrance_a,'A')}
         ${fragranceSummary(item.fragrance_b,'B')}
@@ -4415,9 +4423,45 @@ function renderSavedCombinations(){
         <span class="saved-combination-tier-score"><strong>${score}</strong><span class="saved-combination-tier-total">/100</span></span>
         <span class="saved-combination-tier-letter" aria-hidden="true">${tier}</span>
       </div>
-      <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load Pair</button></div>
+      <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load Pair</button><button type="button" class="secondary rename-combination-btn" onclick="renameSavedCombination('${esc(item.id)}')">Rename</button></div>
     </article>`;
   }).join('');
+}
+function renameSavedCombination(id){
+  if(!olfactraSession||!olfactraSupabase){
+    showAuthScreen('Sign in is required to rename saved combinations.');
+    return;
+  }
+  const item=olfactraCombinations.find(x=>x.id===id);
+  if(!item)return;
+  openThemeActionDialog({
+    eyebrow:'EDIT YOUR COLLECTION',
+    title:'Rename combination',
+    message:'Choose a new name for this saved pairing. Both fragrance profiles, their colours and the recorded score will remain unchanged.',
+    inputLabel:'Combination name',
+    inputValue:item.name,
+    inputPlaceholder:'Enter combination name',
+    confirmLabel:'Save name',
+    onConfirm:async raw=>{
+      const name=String(raw||'').trim().replace(/\s+/g,' ');
+      if(!name){showToast('A combination name cannot be empty.','bad');return false;}
+      if(name.length>80){showToast('Combination names must be 80 characters or fewer.','bad');return false;}
+      const updatedAt=new Date().toISOString();
+      const {data,error}=await olfactraSupabase
+        .from('saved_combinations')
+        .update({name,updated_at:updatedAt})
+        .eq('id',id)
+        .eq('user_id',olfactraSession.user.id)
+        .select('id,name,fragrance_a,fragrance_b,score,tier,created_at,updated_at')
+        .single();
+      if(error){showToast('Could not rename combination: '+error.message,'bad');return false;}
+      const index=olfactraCombinations.findIndex(x=>x.id===id);
+      if(index>=0)olfactraCombinations[index]=data;
+      renderSavedCombinations();
+      showToast('Combination renamed.','good');
+      return true;
+    }
+  });
 }
 let pendingCombinationSave=false;
 function openSaveCombinationDialog(defaultName,a,b){
@@ -6186,6 +6230,123 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
   .saved-combination-colors{max-width:68px!important;gap:2px!important;}
   .saved-combination-colors>span{width:14px!important;flex-basis:14px!important;height:6px!important;}
   .saved-combination-tier-display{padding-left:16px!important;padding-right:8px!important;}
+}
+</style>
+
+
+<style id="olfaculator-v20-combination-note-relationship-finish">
+/* NOTE RELATIONSHIPS: one bounded, theme-tinted surface. The disclosure header,
+   body and controls all share the exact same outer width; no negative bleed or
+   oversize summary strip can protrude past the rounded right edge. */
+#noteDatabasePanel.interaction-sticky{
+  box-sizing:border-box!important;
+  width:286px!important;max-width:calc(100vw - 28px)!important;
+  padding:0!important;
+  border:1px solid color-mix(in srgb,var(--line) 82%,var(--theme-primary) 18%)!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  background:color-mix(in srgb,var(--card) 84%,transparent)!important;
+  background-image:none!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.045)!important;
+  -webkit-backdrop-filter:blur(17px) saturate(120%)!important;
+  backdrop-filter:blur(17px) saturate(120%)!important;
+}
+#noteDatabasePanel .note-database-disclosure{
+  display:block!important;box-sizing:border-box!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  margin:0!important;padding:0!important;border:0!important;
+  border-radius:inherit!important;overflow:hidden!important;
+  background:transparent!important;background-image:none!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  display:flex!important;box-sizing:border-box!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  min-height:66px!important;margin:0!important;padding:12px 15px!important;
+  gap:9px!important;border:0!important;border-radius:19px 19px 0 0!important;
+  background:color-mix(in srgb,var(--card2) 70%,transparent)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(14px) saturate(118%)!important;
+  backdrop-filter:blur(14px) saturate(118%)!important;
+  overflow:hidden!important;
+}
+#noteDatabasePanel .note-db-summary-title{flex:1 1 0!important;min-width:0!important;line-height:1.22!important;}
+#noteDatabasePanel .note-db-summary-hint{flex:0 1 116px!important;min-width:0!important;line-height:1.3!important;white-space:normal!important;}
+#noteDatabasePanel .note-db-chevron{flex:0 0 17px!important;margin-left:2px!important;}
+#noteDatabasePanel .note-database-disclosure:not([open])>summary{border-radius:19px!important;}
+#noteDatabasePanel .note-database-content{
+  display:block!important;box-sizing:border-box!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  margin:0!important;padding:11px 12px 13px!important;
+  background:transparent!important;background-image:none!important;
+  overflow-x:hidden!important;
+}
+#noteDatabasePanel .theory-controls,
+#noteDatabasePanel #noteInteractionSticky,
+#noteDatabasePanel .theory-summary,
+#noteDatabasePanel .theory-note-collapsed{
+  box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;
+}
+@media(min-width:1281px){
+  #noteDatabasePanel.interaction-sticky{left:16px!important;width:286px!important;}
+}
+@media(max-width:1280px){
+  #noteDatabasePanel.interaction-sticky{width:auto!important;max-width:none!important;margin-left:20px!important;margin-right:20px!important;}
+}
+@media(max-width:760px){
+  #noteDatabasePanel .note-database-disclosure>summary{min-height:62px!important;padding:11px 13px!important;}
+  #noteDatabasePanel .note-db-summary-hint{flex-basis:94px!important;font-size:8px!important;}
+  #noteDatabasePanel .note-database-content{padding:9px 10px 11px!important;}
+}
+
+/* Keep all fragrance-name labels in My Combinations softly translucent. */
+.saved-combination-fragrance-name{
+  display:inline-flex!important;align-items:center!important;
+  flex:1 1 auto!important;min-width:0!important;
+  padding:5px 8px!important;
+  border:1px solid color-mix(in srgb,var(--line) 72%,transparent)!important;
+  border-radius:8px!important;
+  background:color-mix(in srgb,var(--card) 48%,transparent)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(115%)!important;
+  backdrop-filter:blur(7px) saturate(115%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+.saved-combination-title em{font-style:italic!important;font-weight:850!important;}
+.saved-combination-title{padding-right:4px!important;}
+.combination-actions .rename-combination-btn{flex:0 0 78px!important;}
+@media(max-width:520px){.combination-actions .rename-combination-btn{flex-basis:72px!important;}}
+
+/* Notes with no documented pair rule remain discoverable instead of silently
+   disappearing. Their hover card explicitly says there is no recorded match. */
+.theory-unrecorded-details{
+  margin:8px 0 2px!important;padding:0!important;
+  border:1px solid color-mix(in srgb,var(--line) 90%,transparent)!important;
+  border-radius:9px!important;background:color-mix(in srgb,var(--card2) 42%,transparent)!important;
+  overflow:hidden!important;
+}
+.theory-unrecorded-details>summary{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:8px!important;padding:8px 9px!important;border:0!important;
+  color:var(--muted)!important;background:transparent!important;
+  font-size:9px!important;font-weight:800!important;list-style:none!important;
+}
+.theory-unrecorded-details>summary::-webkit-details-marker{display:none!important;}
+.theory-unrecorded-details[open]>summary{border-bottom:1px solid var(--line)!important;}
+.theory-unrecorded-details>.theory-list{padding:8px!important;max-height:190px!important;overflow:auto!important;}
+.theory-chip.unrecorded{border-style:dashed!important;opacity:.92;}
+.theory-note-toggle.has-tooltip-note{position:relative!important;}
+
+/* High-contrast, premium button lettering: retain the existing theme gradients,
+   but replace black type with clear ivory lettering and a restrained dark edge. */
+.save-combination-btn,
+.fragrance-panel .save-fragrance-btn,
+.fragrance-panel .load-library-btn,
+.saved-fragrance-actions button:not(.secondary),
+.combination-actions button:not(.secondary),
+.save-combination-actions button[type="submit"]{
+  color:#f7f8f8!important;
+  -webkit-text-stroke:.22px rgba(4,9,12,.64)!important;
+  text-shadow:0 1px 2px rgba(4,9,12,.72),0 0 4px rgba(4,9,12,.28)!important;
+  font-weight:900!important;letter-spacing:.012em!important;
 }
 </style>
 

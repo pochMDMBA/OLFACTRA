@@ -1,18 +1,14 @@
-# OLFACULATOR · Tooltip, Collection & Note Panel Polish v19
+# OLFACULATOR v20 — Collection Rename, Note Tooltip & Panel Repair
 
 ## Updates
+- Combination names are quoted and italicized after saving.
+- Added a Rename action to each saved combination, using the existing themed action dialog and updating Supabase `saved_combinations` safely for the signed-in user.
+- Saved fragrance-name labels in each combination use a translucent glass treatment.
+- Fixed relationship hover details by cloning tooltip nodes before portaling them to `document.body`. The original tooltip remains in the note chip, so it continues to work after repeated hover in/out cycles.
+- Added a collapsed “Other notes · no recorded relationship” group to selected-note breakdowns. Notes without a defined high/conditional/penalty pairing (including notes such as Chestnut and Tonka bean when applicable) remain discoverable and explain their no-record status on hover.
+- Reworked the Note Relationships window sizing and header/body surfaces so the summary uses exactly the panel width and cannot protrude past its rounded right edge.
+- Preserved the existing visual themes and applied high-contrast ivory lettering with a subtle dark edge to Load Pair, Save This Combination, Load A, Load B and related primary collection actions.
+- Advanced the PWA cache name to v20.
 
-- Unified the translucent Note Relationships panel tint so ambient page gradients no longer create a brighter blue edge on one side. The panel remains glass-like and theme-aware.
-- Portaled relationship breakdown tooltips to the document layer and positioned them adjacent to the pointer. This avoids fixed-position tooltips being displaced by the scrolling/backdrop-filter panel. Tooltips reposition within the viewport and dismiss on panel scroll or pointer exit.
-- Improved My Combinations cards with larger combination names and two clearly separated fragrance rows. Each fragrance displays up to three stored note-colour swatches, with a backwards-compatible note-colour fallback for earlier records.
-- Shifted the score and tier letter slightly right/inward together while preserving each tier's metallic/neutral/distressed display.
-- Preserved Supabase account storage, saved profiles, PWA icons, manifest, existing scoring and mobile layout.
-
-## Deploy
-
-1. Replace repository root `index.html` and `service-worker.js` with these versions.
-2. Keep the `icons/` directory, `manifest.webmanifest`, `supabase-schema.sql`, and `supabase-permissions-fix.sql`.
-3. Commit and push to GitHub / Vercel.
-4. Hard-refresh the site. For an installed PWA, close and reopen after the v19 service worker activates.
-
-No Supabase SQL migration is required.
+## Deployment
+Replace the repository's root `index.html` and `service-worker.js` with these files. Keep the `icons/` directory, `manifest.webmanifest`, and both Supabase SQL files. No database migration is required.
