@@ -3418,6 +3418,7 @@ let theoryDatabaseCache=null;
 function renderTheoreticalNoteDatabase(){
   const box=document.getElementById('noteInteractionSticky');
   if(!box)return;
+  box.__hideFloatingTheoryTooltip?.();
   const selected=[...new Set([...getSelectedNotes('a'),...getSelectedNotes('b')])];
   if(!selected.length){theoryDatabaseCache=null;box.innerHTML='<div class="muted">Select notes to see their full theoretical synergy and penalty map.</div>';return;}
   // De-duplicate the theoretical roster by normalized note name so duplicate database entries
@@ -3603,23 +3604,69 @@ function renderTheoreticalNoteDatabase(){
       details.dataset.loaded='1';
     });
   });
+  /* Tooltips are portaled to <body> while hovered. This avoids transformed,
+     filtered and scrolling ancestors changing the containing block of a
+     position:fixed tooltip, which previously made details appear elsewhere. */
   if(!box.dataset.summaryTooltipBound){
+    let activeTooltip=null;
+    let activeTooltipAnchor=null;
+    const hideFloatingTooltip=()=>{
+      if(activeTooltip){
+        activeTooltip.classList.remove('is-floating-visible');
+        activeTooltip.remove();
+      }
+      activeTooltip=null;
+      activeTooltipAnchor=null;
+    };
+    const placeFloatingTooltip=(tip,x,y)=>{
+      if(!tip)return;
+      const pad=12,gap=15;
+      const rect=tip.getBoundingClientRect();
+      const width=rect.width||210;
+      const height=rect.height||100;
+      let left=x+gap;
+      if(left+width>window.innerWidth-pad)left=x-width-gap;
+      left=Math.max(pad,Math.min(left,window.innerWidth-width-pad));
+      let top=y+gap;
+      if(top+height>window.innerHeight-pad)top=y-height-gap;
+      top=Math.max(pad,Math.min(top,window.innerHeight-height-pad));
+      tip.style.left=`${left}px`;
+      tip.style.top=`${top}px`;
+    };
+    box.__hideFloatingTheoryTooltip=hideFloatingTooltip;
     box.addEventListener('mouseover',e=>{
       const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip');
-      if(!note || !box.contains(note))return;
+      if(!note || !box.contains(note)){
+        if(activeTooltipAnchor)hideFloatingTooltip();
+        return;
+      }
+      if(note===activeTooltipAnchor && activeTooltip){
+        placeFloatingTooltip(activeTooltip,e.clientX,e.clientY);
+        return;
+      }
       const tip=note.querySelector('.theory-summary-tooltip');
-      if(!tip)return;
-      const r=note.getBoundingClientRect();
-      const w=210, gap=10, pad=12;
-      let left=r.right+gap;
-      if(left+w>window.innerWidth-pad) left=r.left-w-gap;
-      left=Math.max(pad,Math.min(left,window.innerWidth-w-pad));
-      const h=tip.offsetHeight||120;
-      let top=r.top+(r.height/2)-(h/2);
-      top=Math.max(pad,Math.min(top,window.innerHeight-h-pad));
-      tip.style.left=left+'px';
-      tip.style.top=top+'px';
+      if(!tip){hideFloatingTooltip();return;}
+      hideFloatingTooltip();
+      activeTooltip=tip;
+      activeTooltipAnchor=note;
+      tip.style.position='fixed';
+      tip.style.left='12px';
+      tip.style.top='12px';
+      document.body.appendChild(tip);
+      tip.classList.add('is-floating-visible');
+      placeFloatingTooltip(tip,e.clientX,e.clientY);
     });
+    box.addEventListener('mousemove',e=>{
+      if(activeTooltip)placeFloatingTooltip(activeTooltip,e.clientX,e.clientY);
+    });
+    box.addEventListener('mouseout',e=>{
+      const note=e.target.closest('.theory-summary-note,.theory-chip.has-tooltip');
+      if(!note || note!==activeTooltipAnchor)return;
+      if(e.relatedTarget && note.contains(e.relatedTarget))return;
+      hideFloatingTooltip();
+    });
+    window.addEventListener('scroll',hideFloatingTooltip,{passive:true});
+    window.addEventListener('resize',hideFloatingTooltip,{passive:true});
     box.dataset.summaryTooltipBound='1';
   }
 }
@@ -4331,15 +4378,39 @@ function renderSavedCombinations(){
     const dateB=Date.parse(b.updated_at||b.created_at||'')||0;
     return dateB-dateA;
   });
+  const fragranceSummary=(fragrance,slot)=>{
+    const name=fragrance?.name||`Fragrance ${slot}`;
+    const profile=fragrance?.profile||{};
+    const notes=Array.isArray(profile.notes)?profile.notes:[];
+    const colorMap=(profile.colors&&typeof profile.colors==='object'&&!Array.isArray(profile.colors))?profile.colors:{};
+    const swatches=notes.slice(0,3).map(note=>{
+      let color=colorMap[note];
+      if(!color){
+        const found=Object.entries(colorMap).find(([key])=>norm(key)===norm(note));
+        if(found)color=found[1];
+      }
+      if(!/^#[0-9a-f]{6}$/i.test(String(color||'')))color=noteColorHex(note);
+      return `<span style="background-color:${color}" title="${esc(note)}" aria-label="${esc(note)}"></span>`;
+    }).join('');
+    return `<div class="saved-combination-fragrance-row">
+      <span class="saved-combination-slot" aria-label="Fragrance ${slot}">${slot}</span>
+      <div class="saved-combination-fragrance-main">
+        <span class="saved-combination-fragrance-name">${esc(name)}</span>
+        <span class="saved-combination-colors" aria-label="${esc(name)} note colours">${swatches||'<i class="saved-combination-no-colors">No note colours</i>'}</span>
+      </div>
+    </div>`;
+  };
   host.innerHTML=ranked.map(item=>{
-    const a=item.fragrance_a?.name||'Fragrance A';const b=item.fragrance_b?.name||'Fragrance B';
     const rawTier=String(item.tier||'F').trim().toUpperCase();
     const tier=['S','A','B','C','F'].includes(rawTier)?rawTier:'F';
     const score=Math.max(0,Math.min(100,Number(item.score)||0));
     return `<article class="saved-combination tier-${tier.toLowerCase()}" data-tier="${tier.toLowerCase()}">
       <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete combination" onclick="deleteSavedCombination('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
       <div class="saved-combination-title">${esc(item.name)}</div>
-      <div class="saved-combination-meta">${esc(a)} + ${esc(b)}</div>
+      <div class="saved-combination-pair">
+        ${fragranceSummary(item.fragrance_a,'A')}
+        ${fragranceSummary(item.fragrance_b,'B')}
+      </div>
       <div class="saved-combination-tier-display" aria-label="${score} out of 100, ${tier}-tier">
         <span class="saved-combination-tier-score"><strong>${score}</strong><span class="saved-combination-tier-total">/100</span></span>
         <span class="saved-combination-tier-letter" aria-hidden="true">${tier}</span>
@@ -5959,6 +6030,162 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
 @media(max-width:1280px){
   .olfactra-right-rail>.score-sticky{height:auto!important;max-height:none!important;overflow:visible!important;}
   .olfactra-right-rail>.score-sticky>#scoreBreakdown{max-height:none!important;overflow:visible!important;}
+}
+</style>
+
+
+<style id="olfaculator-v19-note-tooltip-collection-refinement">
+/* Keep the full Note Relationships surface translucent but visually uniform.
+   A stronger theme-surface tint prevents the page's ambient blue/teal background
+   from bleeding through the right edge more brightly than the rest of the panel. */
+#noteDatabasePanel.interaction-sticky{
+  background:color-mix(in srgb,var(--card) 88%,transparent)!important;
+  background-image:none!important;
+  border-color:color-mix(in srgb,var(--line) 82%,transparent)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(118%)!important;
+  backdrop-filter:blur(18px) saturate(118%)!important;
+}
+#noteDatabasePanel .note-database-disclosure,
+#noteDatabasePanel .note-database-content{
+  background:transparent!important;
+  background-image:none!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:color-mix(in srgb,var(--card2) 82%,transparent)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  border-color:color-mix(in srgb,var(--line) 74%,transparent)!important;
+}
+#noteDatabasePanel .note-database-disclosure[open]>summary{
+  border-bottom-color:color-mix(in srgb,var(--line) 75%,transparent)!important;
+}
+
+/* Relationship breakdowns are moved into document.body and follow the pointer,
+   so transforms/backdrop filters/scroll containers cannot displace the tooltip. */
+.theory-summary-tooltip.is-floating-visible{
+  position:fixed!important;
+  display:block!important;
+  z-index:10050!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:none!important;
+  width:min(230px,calc(100vw - 24px))!important;
+  max-width:calc(100vw - 24px)!important;
+  max-height:min(260px,calc(100vh - 24px))!important;
+  overflow:auto!important;
+  padding:9px 10px!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary,var(--accent)) 62%,var(--line))!important;
+  border-radius:11px!important;
+  background:color-mix(in srgb,var(--card) 96%,transparent)!important;
+  color:var(--ink)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(125%)!important;
+  backdrop-filter:blur(14px) saturate(125%)!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.48),0 0 14px color-mix(in srgb,var(--theme-primary,var(--accent)) 12%,transparent)!important;
+  font-size:10px!important;
+  line-height:1.4!important;
+}
+.theory-summary-tooltip.is-floating-visible .theory-summary-tooltip-title{
+  color:var(--theme-primary,var(--accent))!important;
+  font-size:10px!important;
+  margin-bottom:6px!important;
+}
+.theory-summary-tooltip.is-floating-visible .theory-summary-tooltip-row{font-size:10px!important;padding:2px 0!important;}
+
+/* More legible saved-combination identity and a clear colour signature for
+   each saved fragrance. The A/B rows use the stored note colours, with note
+   family colours as a backwards-compatible fallback for older records. */
+.saved-combination-title{
+  font-size:16px!important;
+  line-height:1.24!important;
+  font-weight:900!important;
+  letter-spacing:-.012em!important;
+  margin:0 34px 10px 0!important;
+  padding-right:0!important;
+  min-height:0!important;
+}
+.saved-combination-pair{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:7px!important;
+  margin:0 0 11px!important;
+  min-width:0!important;
+}
+.saved-combination-fragrance-row{
+  display:grid!important;
+  grid-template-columns:22px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-width:0!important;
+  padding:7px 9px!important;
+  border:1px solid color-mix(in srgb,var(--line) 88%,var(--theme-primary,var(--accent)) 12%)!important;
+  border-radius:10px!important;
+  background:color-mix(in srgb,var(--card2) 72%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+.saved-combination-slot{
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  width:22px!important;height:22px!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary,var(--accent)) 38%,var(--line))!important;
+  border-radius:7px!important;
+  background:color-mix(in srgb,var(--theme-primary,var(--accent)) 10%,var(--card))!important;
+  color:var(--theme-primary,var(--accent))!important;
+  font-size:10px!important;font-weight:950!important;line-height:1!important;
+}
+.saved-combination-fragrance-main{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:9px!important;
+  min-width:0!important;
+}
+.saved-combination-fragrance-name{
+  min-width:0!important;
+  color:var(--ink)!important;
+  font-size:13px!important;
+  line-height:1.25!important;
+  font-weight:800!important;
+  overflow-wrap:anywhere!important;
+}
+.saved-combination-colors{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:3px!important;
+  flex:0 0 auto!important;
+  min-width:0!important;
+  max-width:82px!important;
+}
+.saved-combination-colors>span{
+  display:block!important;
+  width:17px!important;height:7px!important;
+  flex:0 0 17px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.20),0 1px 3px rgba(0,0,0,.28)!important;
+}
+.saved-combination-no-colors{font-size:8px;color:var(--muted);font-style:normal;white-space:nowrap;}
+/* Shift both the score and tier letter inward/right together for balanced spacing. */
+.saved-combination-tier-display{
+  padding-left:22px!important;
+  padding-right:11px!important;
+}
+@media(max-width:1280px){
+  .saved-combination-title{font-size:15px!important;}
+  .saved-combination-fragrance-name{font-size:12px!important;}
+  .saved-combination-tier-display{padding-left:19px!important;padding-right:10px!important;}
+}
+@media(max-width:520px){
+  .saved-combination-title{font-size:15px!important;margin-bottom:8px!important;}
+  .saved-combination-fragrance-row{padding:7px 8px!important;}
+  .saved-combination-fragrance-main{gap:6px!important;}
+  .saved-combination-fragrance-name{font-size:11px!important;}
+  .saved-combination-colors{max-width:68px!important;gap:2px!important;}
+  .saved-combination-colors>span{width:14px!important;flex-basis:14px!important;height:6px!important;}
+  .saved-combination-tier-display{padding-left:16px!important;padding-right:8px!important;}
 }
 </style>
 
