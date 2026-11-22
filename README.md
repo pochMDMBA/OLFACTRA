@@ -1,19 +1,17 @@
-# OLFACULATOR · Note Family Polish
-
-This update refines the Browse Notes By Family disclosure and the Other / Modern Materials group.
+# OLFACULATOR · Modal & Collection Polish
 
 ## Changes
 
-- Made the Browse Notes By Family panel and note-list body translucent, with a blurred glass-like surface. The summary/header banner remains solid and retains its existing theme styling for contrast.
-- Expanded the full Other / Modern Materials list directly beneath its family heading. Its notes are no longer hidden inside a nested “Others” disclosure. Other fragrance families retain their existing “Others” grouping.
-- Preserved the existing note selection limit, ranking, search/filter behaviour, live scoring, saved colour gradients, tier effects, Supabase authentication and persistence, themes, mobile navigation, and PWA assets.
-- Advanced the service-worker cache to `olfaculator-shell-v15`.
+- Made collection, combinations, save, About, authentication and themed confirmation popups translucent so the underlying workspace remains visible for orientation. The dialog surfaces use a smoked-glass treatment with blur and retain readable contrast.
+- Reworked the My Combinations score strip: the numerical score (for example, `93/100`) is on the left and the large tier letter is on the right. Removed the redundant `S-TIER` label. Existing S/A/B/C/F tier materials, colours and animation classes are retained.
+- Restyled Note Relationships as a cool graphite / steel smoked-glass panel with a distinct header banner, refined disclosure control and softer content surfaces.
+- Preserved account/authentication, saved data, score logic, fragrance gradients, themes, mobile navigation and PWA assets.
 
 ## Deploy
 
-1. Replace the repository root `index.html` and `service-worker.js` with these files.
-2. Keep `manifest.webmanifest`, the complete `icons/` directory, `supabase-schema.sql`, and `supabase-permissions-fix.sql`.
+1. Replace the repository root `index.html` and `service-worker.js` with these versions.
+2. Keep the `icons/` directory, `manifest.webmanifest`, `supabase-schema.sql`, and `supabase-permissions-fix.sql`.
 3. Commit and push to GitHub / Vercel.
-4. Hard-refresh the website. For an installed PWA, close and reopen the app after the new service worker activates.
+4. Hard-refresh the site. For an installed PWA, close and reopen after the service worker activates.
 
 No Supabase SQL migration is required.

@@ -2281,6 +2281,200 @@ button{-webkit-tap-highlight-color:transparent;}
   .saved-combination.tier-f .saved-combination-tier-letter{animation:none!important;}
 }
 </style>
+
+<style id="olfaculator-translucent-dialogs-score-tier-and-note-relationships-v16">
+/* Modal overlays stay light enough to preserve the user's orientation on the page. */
+.collection-screen,
+.about-screen,
+.auth-screen,
+.theme-action-screen{
+  background:
+    radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--theme-primary) 9%,transparent),transparent 58%),
+    rgba(7,11,15,.28)!important;
+  -webkit-backdrop-filter:blur(1.5px) saturate(112%)!important;
+  backdrop-filter:blur(1.5px) saturate(112%)!important;
+}
+/* Keep each popup itself translucent too, with a glass-like smoked surface. */
+.collection-dialog,
+.auth-card,
+.about-card,
+.theme-action-dialog{
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb,var(--card) 82%,transparent),
+      color-mix(in srgb,var(--bg2) 80%,transparent))!important;
+  -webkit-backdrop-filter:blur(22px) saturate(138%)!important;
+  backdrop-filter:blur(22px) saturate(138%)!important;
+  border:1px solid color-mix(in srgb,var(--theme-primary) 30%,rgba(220,232,240,.20))!important;
+  box-shadow:
+    0 26px 84px rgba(0,0,0,.40),
+    0 0 24px color-mix(in srgb,var(--theme-primary) 8%,transparent),
+    inset 0 1px 0 rgba(255,255,255,.075)!important;
+}
+/* Give the dialog content its own very subtle surface separation. */
+.collection-dialog-head,
+.about-card>.eyebrow,
+.auth-card>.auth-brand{
+  position:relative;
+}
+.collection-dialog-head{padding-bottom:10px;border-bottom:1px solid color-mix(in srgb,var(--line) 76%,transparent);}
+.auth-card .auth-tabs,
+.save-combination-summary,
+.theme-action-input-wrap,
+.about-footnote{
+  background-color:color-mix(in srgb,var(--card2) 65%,transparent)!important;
+}
+@supports not ((backdrop-filter:blur(2px))){
+  .collection-screen,.about-screen,.auth-screen,.theme-action-screen{background:rgba(7,11,15,.58)!important;}
+  .collection-dialog,.auth-card,.about-card,.theme-action-dialog{background:var(--card)!important;}
+}
+
+/* My Combinations: match the live Compatibility Score hierarchy.
+   Score sits on the left; the large material-finished tier letter sits on the right. */
+.saved-combination-tier-display{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  min-height:88px!important;
+  padding:8px 15px 8px 16px!important;
+  border-radius:15px!important;
+}
+.saved-combination-tier-score{
+  order:1!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:baseline!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  gap:3px!important;
+  white-space:nowrap!important;
+  margin:0!important;
+}
+.saved-combination-tier-score strong{
+  font-size:38px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  letter-spacing:-.055em!important;
+}
+.saved-combination-tier-total{
+  font-size:17px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  opacity:.82!important;
+}
+.saved-combination-tier-score small{display:none!important;}
+.saved-combination-tier-letter{
+  order:2!important;
+  flex:0 0 auto!important;
+  min-width:62px!important;
+  margin-left:auto!important;
+  text-align:right!important;
+  font-size:82px!important;
+  line-height:.82!important;
+  letter-spacing:-.09em!important;
+}
+@media(max-width:1280px){
+  .saved-combination-tier-letter{font-size:76px!important;min-width:58px!important;}
+  .saved-combination-tier-score strong{font-size:35px!important;}
+}
+@media(max-width:520px){
+  .saved-combination-tier-display{min-height:74px!important;padding:7px 11px!important;gap:8px!important;}
+  .saved-combination-tier-letter{font-size:64px!important;min-width:49px!important;}
+  .saved-combination-tier-score strong{font-size:30px!important;}
+  .saved-combination-tier-total{font-size:14px!important;}
+}
+
+/* Note Relationships: refreshed as a cool smoked-glass instrument panel.
+   The heading has a distinct graphite banner; the content below is softer and layered. */
+#noteDatabasePanel.interaction-sticky{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  border:1px solid rgba(151,174,184,.28)!important;
+  border-radius:20px!important;
+  background:
+    linear-gradient(148deg,rgba(48,59,64,.82) 0%,rgba(29,37,41,.88) 48%,rgba(19,25,29,.91) 100%)!important;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.26),
+    inset 0 1px 0 rgba(240,248,252,.10),
+    inset 0 -1px 0 rgba(0,0,0,.18)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(120%)!important;
+  backdrop-filter:blur(16px) saturate(120%)!important;
+}
+#noteDatabasePanel .note-database-disclosure{background:transparent!important;}
+#noteDatabasePanel .note-database-disclosure>summary{
+  position:relative!important;
+  min-height:66px!important;
+  padding:13px 17px!important;
+  gap:12px!important;
+  border:0!important;
+  border-radius:19px 19px 0 0!important;
+  background:
+    linear-gradient(112deg,rgba(75,91,98,.72),rgba(47,59,65,.80) 56%,rgba(34,44,49,.86))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(210,225,231,.12)!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary::after{
+  content:"";
+  position:absolute;
+  left:16px;right:16px;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(191,209,218,.22),transparent);
+  pointer-events:none;
+}
+#noteDatabasePanel .note-db-summary-title{
+  color:#edf2f4!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  letter-spacing:.075em!important;
+  line-height:1.25!important;
+}
+#noteDatabasePanel .note-db-summary-hint{
+  color:#b7c3c9!important;
+  font-size:10px!important;
+  font-weight:650!important;
+  letter-spacing:.015em!important;
+}
+#noteDatabasePanel .note-db-chevron{
+  color:#c0cbd0!important;
+  stroke:#c0cbd0!important;
+  opacity:.9!important;
+  transition:transform .2s ease,opacity .2s ease!important;
+}
+#noteDatabasePanel .note-database-content{
+  padding:12px 13px 14px!important;
+  background:linear-gradient(180deg,rgba(16,22,26,.20),rgba(11,16,19,.10))!important;
+}
+#noteDatabasePanel .theory-controls{
+  padding:10px 11px!important;
+  border:1px solid rgba(166,187,196,.20)!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(7,12,15,.18))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+#noteDatabasePanel .theory-toggle,
+#noteDatabasePanel .common-key{color:#b9c5ca!important;}
+#noteDatabasePanel .theory-toggle input{accent-color:#8fa9b4!important;}
+#noteDatabasePanel #noteInteractionSticky .interaction-row,
+#noteDatabasePanel #noteInteractionSticky .theory-note,
+#noteDatabasePanel #noteInteractionSticky .theory-summary{
+  border-color:rgba(166,187,196,.17)!important;
+  background:rgba(13,19,23,.32)!important;
+}
+#noteDatabasePanel #noteInteractionSticky .interaction-reason{background:rgba(9,14,17,.25)!important;border-color:rgba(166,187,196,.14)!important;}
+@media(max-width:760px){
+  #noteDatabasePanel.interaction-sticky{border-radius:18px!important;}
+  #noteDatabasePanel .note-database-disclosure>summary{min-height:62px!important;padding:11px 13px!important;border-radius:17px 17px 0 0!important;}
+  #noteDatabasePanel .note-database-content{padding:10px 10px 12px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+  .collection-dialog,.auth-card,.about-card,.theme-action-dialog{scroll-behavior:auto!important;}
+  .saved-combination-tier-letter{animation:none!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -3960,9 +4154,9 @@ function renderSavedCombinations(){
       <button type="button" class="saved-card-delete" aria-label="Delete ${esc(item.name)}" title="Delete combination" onclick="deleteSavedCombination('${esc(item.id)}')"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5L15 15M15 5L5 15"/></svg></button>
       <div class="saved-combination-title">${esc(item.name)}</div>
       <div class="saved-combination-meta">${esc(a)} + ${esc(b)}</div>
-      <div class="saved-combination-tier-display" aria-label="${tier}-tier, ${score} out of 100">
-        <span class="saved-combination-tier-letter">${tier}</span>
-        <span class="saved-combination-tier-score"><strong>${score}</strong><span class="saved-combination-tier-total">/100</span><small>${tier}-TIER</small></span>
+      <div class="saved-combination-tier-display" aria-label="${score} out of 100, ${tier}-tier">
+        <span class="saved-combination-tier-score"><strong>${score}</strong><span class="saved-combination-tier-total">/100</span></span>
+        <span class="saved-combination-tier-letter" aria-hidden="true">${tier}</span>
       </div>
       <div class="combination-actions"><button type="button" onclick="loadSavedCombination('${esc(item.id)}')">Load Pair</button></div>
     </article>`;
