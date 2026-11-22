@@ -2421,6 +2421,246 @@ button{-webkit-tap-highlight-color:transparent;}
   .saved-combination-tier-display{padding-right:19px!important;}
 }
 </style>
+
+<style id="olfaculator-score-panel-glass-scroll-v18">
+/* ================================================================
+   v18 corrective finish
+   1) Keep S/B collection letters fully inside their tier display.
+   2) Make Compatibility fit above the floating Theme dock; only its
+      detailed calculation rows scroll when the breakdown is long.
+   3) Use subtle theme-aware scrollbars for the left rail and score details.
+   4) Apply actual glass translucency to the full Note Relationships panel.
+   ================================================================ */
+
+/* S/B metallic glyphs were clipped by the narrow text box plus the card's
+   overflow clip. Give the letter a measured box and a little breathing room. */
+.saved-combination-tier-display{
+  box-sizing:border-box!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  padding:8px 19px 8px 12px!important;
+  overflow:visible!important;
+}
+.saved-combination-tier-score{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.saved-combination-tier-letter{
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex:0 0 86px!important;
+  width:86px!important;
+  min-width:86px!important;
+  max-width:86px!important;
+  min-height:82px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 7px 4px 1px!important;
+  margin:0!important;
+  overflow:visible!important;
+  text-align:center!important;
+  line-height:1.02!important;
+  letter-spacing:-.025em!important;
+  white-space:nowrap!important;
+}
+@media(max-width:1280px){
+  .saved-combination-tier-letter{
+    flex-basis:78px!important;width:78px!important;min-width:78px!important;max-width:78px!important;
+    min-height:74px!important;padding-right:7px!important;
+  }
+}
+@media(max-width:520px){
+  .saved-combination-tier-display{gap:8px!important;padding:7px 15px 7px 10px!important;}
+  .saved-combination-tier-letter{
+    flex-basis:70px!important;width:70px!important;min-width:70px!important;max-width:70px!important;
+    min-height:66px!important;padding-right:6px!important;font-size:60px!important;
+  }
+  .saved-combination-tier-score strong{font-size:28px!important;}
+}
+
+/* Compatibility Score stays wholly above the Theme dock on desktop.  The
+   score summary and Save action remain fixed in view; just the long itemized
+   calculation becomes an internally scrollable area.  This avoids the old
+   overflow:hidden clipping the Save button or extending under Theme. */
+@media(min-width:1281px){
+  .olfactra-right-rail{
+    box-sizing:border-box!important;
+    position:fixed!important;
+    top:calc(var(--of-masthead-height,126px) + 14px)!important;
+    right:16px!important;left:auto!important;
+    bottom:94px!important;
+    width:296px!important;max-width:296px!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    justify-content:flex-start!important;gap:0!important;
+    overflow:hidden!important;z-index:72!important;
+  }
+  .olfactra-right-rail>.score-sticky{
+    box-sizing:border-box!important;
+    position:relative!important;inset:auto!important;
+    width:100%!important;height:100%!important;max-height:none!important;min-height:0!important;
+    flex:1 1 auto!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    overflow:hidden!important;overflow-y:hidden!important;overflow-x:hidden!important;
+    margin:0!important;padding:12px!important;gap:0!important;
+  }
+  .olfactra-right-rail>.score-sticky>h2,
+  .olfactra-right-rail>.score-sticky>.notice,
+  .olfactra-right-rail>.score-sticky>.scoreline,
+  .olfactra-right-rail>.score-sticky>.bar,
+  .olfactra-right-rail>.score-sticky>.metrics,
+  .olfactra-right-rail>.score-sticky>.save-combination-btn{
+    flex:0 0 auto!important;min-height:0!important;
+  }
+  .olfactra-right-rail>.score-sticky>.notice{display:none!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown{
+    box-sizing:border-box!important;
+    display:block!important;
+    flex:1 1 0!important;
+    min-height:48px!important;
+    max-height:none!important;
+    width:100%!important;min-width:0!important;
+    margin:8px 0 0!important;padding:7px 8px!important;
+    overflow-x:hidden!important;overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    scrollbar-width:thin!important;
+    scrollbar-color:color-mix(in srgb,var(--theme-primary) 72%,var(--muted)) color-mix(in srgb,var(--card2) 88%,transparent)!important;
+  }
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-row{
+    font-size:8.5px!important;line-height:1.17!important;padding:3px 0!important;gap:6px!important;
+  }
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown .score-breakdown-row b{
+    font-size:8.5px!important;white-space:normal!important;text-align:right!important;overflow-wrap:anywhere!important;
+  }
+  .olfactra-right-rail>.score-sticky>.save-combination-btn{
+    display:block!important;position:relative!important;z-index:3!important;
+    width:100%!important;min-height:36px!important;height:auto!important;
+    flex:0 0 auto!important;margin:8px 0 0!important;padding:8px 9px!important;
+    font-size:9.5px!important;line-height:1.2!important;white-space:normal!important;
+  }
+}
+
+/* Translucent, theme-matched scrollbars. Firefox uses scrollbar-color;
+   WebKit browsers receive a slim rounded thumb and soft track. */
+.interaction-sticky,
+.note-database-content,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown,
+.collection-dialog,.auth-card,.about-card,.theme-action-dialog{
+  scrollbar-width:thin!important;
+  scrollbar-color:color-mix(in srgb,var(--theme-primary,var(--accent)) 62%,var(--muted)) color-mix(in srgb,var(--card2) 72%,transparent)!important;
+}
+.interaction-sticky::-webkit-scrollbar,
+.note-database-content::-webkit-scrollbar,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar,
+.collection-dialog::-webkit-scrollbar,.auth-card::-webkit-scrollbar,
+.about-card::-webkit-scrollbar,.theme-action-dialog::-webkit-scrollbar{
+  width:8px!important;height:8px!important;
+}
+.interaction-sticky::-webkit-scrollbar-track,
+.note-database-content::-webkit-scrollbar-track,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar-track,
+.collection-dialog::-webkit-scrollbar-track,.auth-card::-webkit-scrollbar-track,
+.about-card::-webkit-scrollbar-track,.theme-action-dialog::-webkit-scrollbar-track{
+  background:color-mix(in srgb,var(--card2) 68%,transparent)!important;
+  border-radius:999px!important;
+  border:1px solid color-mix(in srgb,var(--line) 55%,transparent)!important;
+}
+.interaction-sticky::-webkit-scrollbar-thumb,
+.note-database-content::-webkit-scrollbar-thumb,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar-thumb,
+.collection-dialog::-webkit-scrollbar-thumb,.auth-card::-webkit-scrollbar-thumb,
+.about-card::-webkit-scrollbar-thumb,.theme-action-dialog::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,
+    color-mix(in srgb,var(--theme-primary,var(--accent)) 70%,white 8%),
+    color-mix(in srgb,var(--theme-secondary,var(--accent2)) 68%,var(--theme-primary,var(--accent))))!important;
+  border-radius:999px!important;
+  border:2px solid color-mix(in srgb,var(--card) 78%,transparent)!important;
+}
+.interaction-sticky::-webkit-scrollbar-thumb:hover,
+.note-database-content::-webkit-scrollbar-thumb:hover,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar-thumb:hover,
+.collection-dialog::-webkit-scrollbar-thumb:hover,.auth-card::-webkit-scrollbar-thumb:hover,
+.about-card::-webkit-scrollbar-thumb:hover,.theme-action-dialog::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,var(--theme-primary,var(--accent)),var(--theme-secondary,var(--accent2)))!important;
+}
+
+/* Final override: the header is glass too, not an opaque band sitting on top
+   of the otherwise translucent Note Relationships window. Keep its geometry. */
+#noteDatabasePanel.interaction-sticky{
+  background:color-mix(in srgb,var(--card) 48%,transparent)!important;
+  border-color:color-mix(in srgb,var(--line) 72%,transparent)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(132%)!important;
+  backdrop-filter:blur(18px) saturate(132%)!important;
+}
+#noteDatabasePanel .note-database-disclosure,
+#noteDatabasePanel .note-database-content{
+  background:transparent!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:color-mix(in srgb,var(--card2) 36%,transparent)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(135%)!important;
+  backdrop-filter:blur(18px) saturate(135%)!important;
+  border-color:color-mix(in srgb,var(--line) 55%,transparent)!important;
+}
+@media(max-width:1280px){
+  /* The tablet/mobile rails remain in document flow; the theme dock does too. */
+  .olfactra-right-rail>.score-sticky{height:auto!important;max-height:none!important;overflow:visible!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown{max-height:none!important;overflow:visible!important;}
+}
+@media(prefers-reduced-motion:reduce){
+  .saved-combination-tier-letter{animation:none!important;}
+}
+</style>
+
+
+<style id="olfaculator-v18-glass-transparency-final">
+/* Make Note Relationships genuinely see-through, header included. */
+#noteDatabasePanel.interaction-sticky{
+  background:rgba(17,21,24,.24)!important;
+  background-image:none!important;
+  border-color:rgba(164,178,188,.18)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(142%)!important;
+  backdrop-filter:blur(22px) saturate(142%)!important;
+}
+#noteDatabasePanel .note-database-disclosure,
+#noteDatabasePanel .note-database-content{
+  background:transparent!important;background-image:none!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:rgba(18,23,27,.14)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(20px) saturate(145%)!important;
+  backdrop-filter:blur(20px) saturate(145%)!important;
+  border-color:rgba(173,187,197,.14)!important;
+}
+#noteDatabasePanel .note-database-disclosure[open]>summary{
+  border-bottom:1px solid rgba(173,187,197,.16)!important;
+}
+#noteDatabasePanel .note-database-content{
+  background:rgba(17,21,24,.08)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(130%)!important;
+  backdrop-filter:blur(16px) saturate(130%)!important;
+}
+/* The S/B letter itself now has more than enough painted area for its full
+   metallic edge and drop-shadow. Preserve a clear gutter on the card side. */
+.saved-combination-tier-letter{
+  overflow:visible!important;
+  text-overflow:clip!important;
+  clip-path:none!important;
+  -webkit-clip-path:none!important;
+  letter-spacing:-.012em!important;
+  text-indent:0!important;
+  padding-right:9px!important;
+  width:90px!important;min-width:90px!important;max-width:90px!important;flex-basis:90px!important;
+}
+@media(max-width:1280px){
+  .saved-combination-tier-letter{width:82px!important;min-width:82px!important;max-width:82px!important;flex-basis:82px!important;padding-right:8px!important;}
+}
+@media(max-width:520px){
+  .saved-combination-tier-letter{width:74px!important;min-width:74px!important;max-width:74px!important;flex-basis:74px!important;padding-right:7px!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -5609,6 +5849,118 @@ input[type=text],input[type=email],input[type=password],input[type=search],texta
 
 
 
+
+
+<style id="olfaculator-v18-terminal-layout-override">
+/* This final stylesheet follows the legacy in-body style blocks so the glass
+   header and score-fit safeguards cannot be overridden by older rules. */
+#noteDatabasePanel.interaction-sticky{
+  background:rgba(17,21,24,.18)!important;
+  background-image:none!important;
+  border-color:rgba(164,178,188,.18)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(142%)!important;
+  backdrop-filter:blur(22px) saturate(142%)!important;
+}
+#noteDatabasePanel .note-database-disclosure,
+#noteDatabasePanel .note-database-content{
+  background:transparent!important;background-image:none!important;
+}
+#noteDatabasePanel .note-database-disclosure>summary{
+  background:rgba(18,23,27,.10)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(20px) saturate(145%)!important;
+  backdrop-filter:blur(20px) saturate(145%)!important;
+  border-color:rgba(173,187,197,.14)!important;
+}
+#noteDatabasePanel .note-database-disclosure[open]>summary{
+  border-bottom:1px solid rgba(173,187,197,.16)!important;
+}
+#noteDatabasePanel .note-database-content{
+  background:rgba(17,21,24,.05)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(130%)!important;
+  backdrop-filter:blur(16px) saturate(130%)!important;
+}
+
+/* Give the Compatibility Score a viewport-aware ceiling so it never drops
+   behind the floating Theme control. Keep summary and Save fixed in the card;
+   long calculation detail scrolls independently with a variable height. */
+@media(min-width:1281px){
+  .olfactra-right-rail{
+    position:fixed!important;top:140px!important;
+    right:16px!important;left:auto!important;bottom:auto!important;
+    width:296px!important;height:fit-content!important;max-height:none!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    justify-content:flex-start!important;gap:0!important;overflow:visible!important;
+  }
+  .olfactra-right-rail>.score-sticky{
+    position:relative!important;inset:auto!important;width:100%!important;
+    height:auto!important;min-height:0!important;
+    max-height:calc(100dvh - var(--of-masthead-height,126px) - 110px)!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    overflow:hidden!important;overflow-y:hidden!important;overflow-x:hidden!important;
+    flex:0 1 auto!important;margin:0!important;
+  }
+  .olfactra-right-rail>.score-sticky>h2,
+  .olfactra-right-rail>.score-sticky>.scoreline,
+  .olfactra-right-rail>.score-sticky>.bar,
+  .olfactra-right-rail>.score-sticky>.metrics,
+  .olfactra-right-rail>.score-sticky>.save-combination-btn{flex:0 0 auto!important;}
+  .olfactra-right-rail>.score-sticky>.notice{display:none!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown{
+    box-sizing:border-box!important;display:block!important;flex:0 1 auto!important;
+    min-height:42px!important;max-height:clamp(42px,calc(100dvh - 470px),260px)!important;
+    overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;
+    scrollbar-width:thin!important;
+    scrollbar-color:rgba(164,178,188,.62) rgba(45,52,57,.40)!important;
+  }
+  .olfactra-right-rail>.score-sticky>.save-combination-btn{
+    display:block!important;position:relative!important;z-index:4!important;
+    flex:0 0 auto!important;width:100%!important;min-height:36px!important;
+    height:auto!important;margin:8px 0 0!important;padding:8px 9px!important;
+    line-height:1.2!important;white-space:normal!important;
+  }
+}
+
+/* Full glass scrollbar treatment. Theme variables are used so the thumb
+   shifts naturally with Original, Ocean, Rosewood, etc. */
+.interaction-sticky,.note-database-content,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown,
+.collection-dialog,.auth-card,.about-card,.theme-action-dialog{
+  scrollbar-width:thin!important;
+  scrollbar-color:color-mix(in srgb,var(--theme-primary,var(--accent)) 65%,var(--muted)) color-mix(in srgb,var(--card2) 65%,transparent)!important;
+}
+.interaction-sticky::-webkit-scrollbar,.note-database-content::-webkit-scrollbar,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar,
+.collection-dialog::-webkit-scrollbar,.auth-card::-webkit-scrollbar,
+.about-card::-webkit-scrollbar,.theme-action-dialog::-webkit-scrollbar{width:8px!important;height:8px!important;}
+.interaction-sticky::-webkit-scrollbar-track,.note-database-content::-webkit-scrollbar-track,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar-track,
+.collection-dialog::-webkit-scrollbar-track,.auth-card::-webkit-scrollbar-track,
+.about-card::-webkit-scrollbar-track,.theme-action-dialog::-webkit-scrollbar-track{
+  background:rgba(30,35,39,.36)!important;border-radius:999px!important;
+}
+.interaction-sticky::-webkit-scrollbar-thumb,.note-database-content::-webkit-scrollbar-thumb,
+.olfactra-right-rail>.score-sticky>#scoreBreakdown::-webkit-scrollbar-thumb,
+.collection-dialog::-webkit-scrollbar-thumb,.auth-card::-webkit-scrollbar-thumb,
+.about-card::-webkit-scrollbar-thumb,.theme-action-dialog::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--theme-primary,var(--accent)) 78%,white 6%),color-mix(in srgb,var(--theme-secondary,var(--accent2)) 78%,var(--theme-primary,var(--accent))))!important;
+  border:2px solid rgba(25,29,32,.75)!important;border-radius:999px!important;
+}
+
+/* Final safeguard against S/B glyphs touching the right-hand clipping edge. */
+.saved-combination-tier-display{padding-right:19px!important;overflow:visible!important;}
+.saved-combination-tier-letter{
+  box-sizing:border-box!important;overflow:visible!important;clip-path:none!important;
+  width:90px!important;min-width:90px!important;max-width:90px!important;flex:0 0 90px!important;
+  padding-right:9px!important;letter-spacing:-.012em!important;line-height:1.02!important;
+}
+@media(max-width:1280px){.saved-combination-tier-letter{width:82px!important;min-width:82px!important;max-width:82px!important;flex-basis:82px!important;}}
+@media(max-width:520px){.saved-combination-tier-letter{width:74px!important;min-width:74px!important;max-width:74px!important;flex-basis:74px!important;}}
+@media(max-width:1280px){
+  .olfactra-right-rail>.score-sticky{height:auto!important;max-height:none!important;overflow:visible!important;}
+  .olfactra-right-rail>.score-sticky>#scoreBreakdown{max-height:none!important;overflow:visible!important;}
+}
+</style>
 
 </body>
 </html>
