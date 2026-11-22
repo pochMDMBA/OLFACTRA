@@ -2119,8 +2119,11 @@ button{-webkit-tap-highlight-color:transparent;}
    User interactions are retained when the viewport is resized or rotated. */
 .note-family-disclosure{
   display:block!important;margin:12px 0 4px!important;padding:0!important;
-  border:1px solid var(--line)!important;border-radius:12px!important;
-  background:color-mix(in srgb,var(--card) 94%,var(--theme-primary) 6%)!important;
+  border:1px solid color-mix(in srgb,var(--line) 72%,transparent)!important;border-radius:12px!important;
+  /* Translucent body: the summary remains a solid, readable header banner. */
+  background:color-mix(in srgb,var(--card) 28%,transparent)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(118%)!important;
+  backdrop-filter:blur(14px) saturate(118%)!important;
   overflow:hidden!important;
 }
 .note-family-disclosure>summary{
@@ -2137,7 +2140,10 @@ button{-webkit-tap-highlight-color:transparent;}
 .note-family-chevron path{fill:none!important;stroke:var(--theme-primary)!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
 .note-family-disclosure[open]>summary{border-bottom:1px solid var(--line)!important;}
 .note-family-disclosure[open] .note-family-chevron{transform:rotate(180deg)!important;}
-.note-family-content{padding:10px 10px 5px!important;min-width:0!important;}
+.note-family-content{
+  padding:10px 10px 5px!important;min-width:0!important;
+  background:color-mix(in srgb,var(--card) 30%,transparent)!important;
+}
 .note-family-content>.family:first-child{margin-top:0!important;}
 @media(max-width:760px){
   .note-family-disclosure{margin-top:9px!important;}
@@ -2569,7 +2575,11 @@ function renderNotes(container,prefix){
   `<details class="note-family-disclosure" id="${prefix}NoteFamilies" ${window.matchMedia && window.matchMedia('(max-width:760px)').matches ? '' : 'open'}>
     <summary><span class="note-family-disclosure-title">Browse Notes By Family</span><svg class="note-family-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 7.5 5.5 5 5.5-5"/></svg></summary>
     <div class="note-family-content">${Object.entries(families).map(([family,notes])=>{
-      const common=commonNotes[family]||[]; const other=notes.filter(n=>!common.includes(n));
+      /* Modern materials are a deliberately curated family: show its complete
+         vocabulary directly, without hiding the remaining entries under Others. */
+      const modernMaterials=family==="Other / Modern Materials";
+      const common=modernMaterials?notes:(commonNotes[family]||[]);
+      const other=modernMaterials?[]:notes.filter(n=>!common.includes(n));
       return `<div class="family" data-family="${esc(family)}"><div class="family-title">${esc(family)}</div><div class="note-grid">${common.map(n=>noteHTML(prefix,n)).join("")}</div>${other.length?`<details><summary>Others (${other.length})</summary><div class="note-grid other-grid">${other.map(n=>noteHTML(prefix,n)).join("")}</div></details>`:""}</div>`;
     }).join('')}</div>
   </details>`;
