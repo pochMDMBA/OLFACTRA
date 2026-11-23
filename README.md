@@ -1,11 +1,15 @@
-# OLFACULATOR v24 · Left Scroll & Collection Card Refinement
+# OLFACULATOR v24r1 · Rebuilt from v23
 
-## Changes
-- Restored the desktop Note Relationships panel's own vertical scrollbar while preserving its fixed position, translucent surface and rounded shell. Tablet and mobile keep natural page scrolling.
-- Made My Collection fragrance cards and My Combinations cards more compact with consistent spacing and quieter surfaces.
-- Kept Fragrance A on the left and Fragrance B on the right in every saved-combination card, including narrow mobile screens.
-- Removed all individual border/capsule styling around fragrance names. The single centre divider remains, and saved note-colour swatches are retained beneath each fragrance name.
-- Retained combination title ornament, score, tier effects, rename/delete/load actions, Supabase integration and PWA assets.
+## Changes in this repair
+- Rebuilt directly from the original v23 project files.
+- Placed the desktop Note Relationships window 16px below the 132px masthead.
+- Restored vertical scrolling on the Note Relationships window itself so its individual note relationship entries can be navigated.
+- Preserved natural document scrolling for tablet and mobile layouts.
+- In My Combinations only, restored Fragrance A and Fragrance B as equal side-by-side left/right columns.
+- Removed the individual themed borders and backgrounds around fragrance entries while retaining each fragrance's note-colour swatches and the single centre divider.
+- Made no changes to My Collection styling or behaviour.
+- Preserved the existing application logic, Supabase configuration, theme system, PWA assets, and database files.
+- Advanced the service-worker cache to `olfaculator-shell-v24r1`.
 
 ## Deployment
-Replace the repository root `index.html` and `service-worker.js` with these versions. Keep the `icons` folder, `manifest.webmanifest`, `supabase-schema.sql`, and `supabase-permissions-fix.sql`. No database migration is required. The service-worker cache is v24.
+Replace the repository root `index.html` and `service-worker.js` with the files in this project. Keep the `icons` folder, `manifest.webmanifest`, and Supabase SQL files. No database migration is required.
